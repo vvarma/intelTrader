@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Repository
 @Entity
-@Table(name="INSTRUMENT",schema = "INTEL_TRADER")
+@Table(name="INSTRUMENT",schema = "TRADER_DB")
 public class Instrument implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

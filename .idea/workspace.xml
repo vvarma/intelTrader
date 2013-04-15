@@ -6,20 +6,55 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/application-context.xml" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364901447692" ignored="false" />
     <file path="$USER_HOME$/.IdeaIC12/system/extResources/a33d7b50_spring-beans-3.1.xsd" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364886328327" ignored="false" />
-    <file path="$USER_HOME$/.IdeaIC12/system/extResources/5f59e9a1_spring-tool-3.0.xsd" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364886328327" ignored="false" />
-    <file path="$USER_HOME$/.IdeaIC12/system/extResources/a32f63cf_spring-beans-3.0.xsd" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364886328327" ignored="false" />
-    <file path="/InstrumentService.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1366027082679" ignored="false" />
-    <file path="/Instrument.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1366029600427" ignored="false" />
+    <file path="$USER_HOME$/.IdeaIC12/system/extResources/5f59e9a1_spring-tool-3.0.xsd" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365411323114" ignored="false" />
+    <file path="$USER_HOME$/.IdeaIC12/system/extResources/a32f63cf_spring-beans-3.0.xsd" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365411323114" ignored="false" />
+    <file path="/InstrumentService.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364926974465" ignored="false" />
+    <file path="/Instrument.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364916443792" ignored="false" />
     <file path="/Price.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364903109027" ignored="false" />
     <file path="/Portfolio.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364894392606" ignored="false" />
     <file path="/Investment.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364894382717" ignored="false" />
     <file path="/Transactions.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364894350309" ignored="false" />
     <file path="/database.properties" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364901524112" ignored="false" />
     <file path="/applicationContext-infrastructure.xml" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364902525323" ignored="false" />
-    <file path="/InstrumentServiceImpl.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1366030571059" ignored="false" />
-    <file path="/IInstrumentDao.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1366008748792" ignored="false" />
-    <file path="/ExtractZipFile.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1366029443429" ignored="false" />
-    <file path="/DownloadZip.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1366030545713" ignored="false" />
+    <file path="/InstrumentServiceImpl.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365954995008" ignored="false" />
+    <file path="/IInstrumentDao.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364923564056" ignored="false" />
+    <file path="/CronUpdater.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364927236829" ignored="false" />
+    <file path="/fragment.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365943980961" ignored="false" />
+    <file path="/PortfolioService.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365019801522" ignored="false" />
+    <file path="/IStrategy.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365229501990" ignored="false" />
+    <file path="/Level.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365229355248" ignored="false" />
+    <file path="/AnalyserService.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365229596709" ignored="false" />
+    <file path="/Strategy.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365252666586" ignored="false" />
+    <file path="/StrategyMACD.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365256076054" ignored="false" />
+    <file path="/FIFOList.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365409482150" ignored="false" />
+    <file path="/Dummy.txt" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1366050396137" ignored="false" />
+    <file path="/persistence.xml" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365955111120" ignored="false" />
+    <file path="/applicationContext.xml" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365427839302" ignored="false" />
+    <file path="/InstrumentDao.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365428079303" ignored="false" />
+    <file path="/InstrumentDaoTest.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365488027443" ignored="false" />
+    <file path="$PROJECT_DIR$/../webSport/.idea/workspace.xml" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365852576105" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/src/main/java/com/vacuumhead/wesplit/rest/BillServiceRest.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365944183363" ignored="false" />
+    <file path="/BillServiceRest.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365944170372" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/src/main/java/com/vacuumhead/wesplit/application/BillApplicationService.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365946578579" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/src/main/java/com/vacuumhead/wesplit/application/IBillApplicationService.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365946183574" ignored="false" />
+    <file path="/IBillApplicationService.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365945136751" ignored="false" />
+    <file path="/BillApplicationService.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365946576181" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/src/main/java/com/vacuumhead/wesplit/dao/IBillDao.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365946564127" ignored="false" />
+    <file path="/IBillDao.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365945280988" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/src/main/java/com/vacuumhead/wesplit/application/IUserServiceApplicationLogic.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365945786415" ignored="false" />
+    <file path="/IUserServiceApplicationLogic.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365945783326" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/src/main/java/com/vacuumhead/wesplit/application/UserServiceApplicationLogic.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365945802403" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/src/main/java/com/vacuumhead/wesplit/tables/Bill.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1366050992949" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/src/main/java/com/vacuumhead/wesplit/tables/Group.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365946508665" ignored="false" />
+    <file path="/Group.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365946459089" ignored="false" />
+    <file path="/Bill.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1366050728652" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/src/main/java/com/vacuumhead/wesplit/application/GroupApplicationService.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365946938580" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/src/main/java/com/vacuumhead/wesplit/application/IGroupApplicationService.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365946938580" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/src/main/java/com/vacuumhead/wesplit/rest/GroupManager.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365946938580" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/src/main/java/com/vacuumhead/wesplit/dao/UserDao.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365946938580" ignored="false" />
+    <file path="/mianTrader.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365949909364" ignored="false" />
+    <file path="/pom.xml" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365950380916" ignored="false" />
+    <file path="$USER_HOME$/workspaceKhajjal/backend/pom.xml" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365950317719" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +69,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -69,6 +103,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -81,83 +116,19 @@
       <file leaf-file-name="Instrument.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Instrument.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="56" selection-start="768" selection-end="768" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#655#662#0" expanded="true" />
-              </folding>
+            <state line="11" column="0" selection-start="195" selection-end="195" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Price.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Price.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="4" selection-start="285" selection-end="285" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InstrumentService.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="InstrumentService.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="53" selection-start="403" selection-end="403" vertical-scroll-proportion="0.0">
+            <state line="24" column="55" selection-start="674" selection-end="674" vertical-scroll-proportion="0.6593592">
               <folding>
-                <element signature="imports" expanded="true" />
+                <marker date="1366052083289" expanded="true" signature="146:596" placeholder="/**...*/" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InstrumentServiceImpl.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="84" column="51" selection-start="2858" selection-end="2858" vertical-scroll-proportion="1.7783313">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DownloadZip.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/util/DownloadZip.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="63" selection-start="2047" selection-end="2047" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExtractZipFile.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/util/ExtractZipFile.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="65" selection-start="513" selection-end="571" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="intel.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/intel.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="10" selection-start="10" selection-end="10" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IInstrumentDao.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/dao/IInstrumentDao.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="30" selection-start="396" selection-end="396" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -169,31 +140,25 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
-  <component name="GradleLocalSettings">
-    <option name="expandStates">
-      <map>
-        <entry key="intelTrader" value="true" />
-      </map>
-    </option>
-  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Transactions.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Investment.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Portfolio.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/META-INF/database.properties" />
-        <option value="$PROJECT_DIR$/src/main/resources/application-context.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/applicationContext-infrastructure.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Price.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/dao/IInstrumentDao.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentService.java" />
-        <option value="$PROJECT_DIR$/intel.properties" />
-        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/util/ExtractZipFile.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/advisor/InstrumentVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/advisor/Strategy.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/advisor/StrategyMACD.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/advisor/FIFOList.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/META-INF/applicationContext-infrastructure.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/applicationContext.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Instrument.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/util/DownloadZip.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/dao/InstrumentDao.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/dao/InstrumentDaoTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/advisor/Advice.java" />
+        <option value="$PROJECT_DIR$/src/main/java/test/mianTrader.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentService.java" />
       </list>
     </option>
   </component>
@@ -204,9 +169,91 @@
       </MavenImportingSettings>
     </option>
   </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intelTrader" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intelTrader" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Plugins" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$PluginsNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="tomcat7" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$PluginNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intelTrader" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Plugins" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$PluginsNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intelTrader" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Lifecycle" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$LifecycleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+    </treeState>
+  </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1280" />
-    <option name="height" value="996" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1292" />
+    <option name="height" value="776" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Android Lint</id>
+          </State>
+          <State>
+            <id>Plugin DevKit</id>
+          </State>
+          <State>
+            <id>XPath</id>
+          </State>
+        </expanded-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -234,6 +281,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -250,24 +298,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="intelTrader" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="intelTrader" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="intelTrader" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -341,11 +371,33 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="inteltrader" />
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="intelTrader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="intelTrader" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="util" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inteltrader" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -439,32 +491,116 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="intelTrader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="intelTrader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inteltrader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="advisor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="OverrideImplement.combined" value="false" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="TODO_SCOPE" value="All" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="options.lastSelected" value="preferences.pluginManager" />
+    <property name="last_opened_file_path" value="$USER_HOME$/workspaceKhajjal/backend" />
+    <property name="GoToClass.includeJavaFiles" value="false" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.inteltrader.entity" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Vinay\workspaceClean\intelTrader\src\main\test" />
+      <recent name="C:\Users\Vinay\workspaceClean\intelTrader\src\main\resources" />
+      <recent name="C:\Users\Vinay\workspaceClean\intelTrader\src\main\resources\META-INF" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.inteltrader.service" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\vvarm1\IdeaProjects\intelTrader\src\main\resources\META-INF" />
       <recent name="C:\Users\vvarm1\IdeaProjects\intelTrader\src\main\resources" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.mianTrader">
+    <configuration default="false" name="mianTrader" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="test.mianTrader" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="intelTrader" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
       <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
+    <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list />
+            </option>
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="workingDirPath" value="" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -549,13 +685,38 @@
       <patterns />
       <method />
     </configuration>
-    <list size="0" />
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Application.mianTrader" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Application.mianTrader" />
+      </list>
+    </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="DETECT_NESTED_COPIES" value="true" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="ac270118-b22b-4fc5-80e5-f5b3a4c65892" name="Default" comment="" />
@@ -564,47 +725,29 @@
     </task>
     <servers />
   </component>
-  <component name="TodoView" selected-index="0">
-    <todo-panel id="selected-file">
-      <are-packages-shown value="false" />
-      <are-modules-shown value="false" />
-      <flatten-packages value="false" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <are-modules-shown value="false" />
-      <flatten-packages value="false" />
-      <is-autoscroll-to-source value="false" />
-    </todo-panel>
-    <todo-panel id="default-changelist">
-      <are-packages-shown value="false" />
-      <are-modules-shown value="false" />
-      <flatten-packages value="false" />
-      <is-autoscroll-to-source value="false" />
-    </todo-panel>
-  </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1280" height="996" extended-state="1" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1292" height="776" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298217" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32983682" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24959481" sideWeight="0.32750583" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24959481" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3406504" sideWeight="0.67291313" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2512235" sideWeight="0.67058825" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23333333" sideWeight="0.67291313" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270869" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="simpleUML" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.3298217" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="27" y="70" width="1225" height="619" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -641,7 +784,7 @@
     <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
-    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="false" />
     <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
     <option name="LIMIT_HISTORY" value="true" />
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
@@ -664,131 +807,169 @@
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Price.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/dao/IInstrumentDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="4" selection-start="285" selection-end="285" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Transactions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="16" selection-start="230" selection-end="230" vertical-scroll-proportion="0.0">
+        <state line="11" column="17" selection-start="243" selection-end="243" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Investment.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/advisor/Strategy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="30" selection-start="266" selection-end="266" vertical-scroll-proportion="0.0">
+        <state line="9" column="22" selection-start="208" selection-end="208" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/advisor/Advice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="50" selection-start="210" selection-end="210" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/advisor/StrategyMACD.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="21" selection-start="207" selection-end="207" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/PortfolioService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="17" selection-start="312" selection-end="312" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Portfolio.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="29" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="71" selection-start="1844" selection-end="1844" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/database.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="54" selection-start="132" selection-end="132" vertical-scroll-proportion="0.061298076" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/applicationContext-infrastructure.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="51" selection-start="2052" selection-end="2052" vertical-scroll-proportion="0.6019536">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application-context.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="31" selection-start="1670" selection-end="1670" vertical-scroll-proportion="0.37362638">
+        <state line="14" column="71" selection-start="343" selection-end="343" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Price.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="4" selection-start="285" selection-end="285" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/dao/IInstrumentDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="30" selection-start="396" selection-end="396" vertical-scroll-proportion="0.0">
+        <state line="12" column="13" selection-start="263" selection-end="263" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/advisor/InstrumentVo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="53" selection-start="403" selection-end="403" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="47" column="13" selection-start="943" selection-end="943" vertical-scroll-proportion="0.9964476">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/intel.properties">
+    <entry file="file://$PROJECT_DIR$/src/main/java/test/mianTrader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="10" selection-start="10" selection-end="10" vertical-scroll-proportion="0.0">
+        <state line="8" column="17" selection-start="167" selection-end="167" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/applicationContext.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="35" selection-start="2222" selection-end="2222" vertical-scroll-proportion="0.68880457">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="52" selection-start="860" selection-end="860" vertical-scroll-proportion="0.37571156">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="53" selection-start="1393" selection-end="1393" vertical-scroll-proportion="0.79137933">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="18" selection-start="434" selection-end="434" vertical-scroll-proportion="0.35517243">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Instrument.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="56" selection-start="768" selection-end="768" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#655#662#0" expanded="true" />
-          </folding>
+        <state line="11" column="0" selection-start="195" selection-end="195" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/util/ExtractZipFile.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="65" selection-start="513" selection-end="571" vertical-scroll-proportion="0.0">
+        <state line="24" column="55" selection-start="674" selection-end="674" vertical-scroll-proportion="0.6593592">
           <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1366052083289" expanded="true" signature="146:596" placeholder="/**...*/" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/util/DownloadZip.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="63" selection-start="2047" selection-end="2047" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="51" selection-start="2858" selection-end="2858" vertical-scroll-proportion="1.7783313">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+  </component>
+  <component name="simpleUML.UMLToolWindowPlugin">
+    <General>
+      <option name="birdViewUpdateDelay" value="2000" />
+      <option name="defaultFileLocation" value="file://$PROJECT_DIR$/.." />
+      <option name="knownFile0" value="file://$PROJECT_DIR$/../overview.suml" />
+    </General>
+    <Classdiagram>
+      <option name="diagramTitleFont" value="SansSerif,1,12" />
+      <option name="diagramFont" value="SansSerif,0,10" />
+      <option name="defaultFieldsExpanded" value="false" />
+      <option name="defaultContructorsExpanded" value="false" />
+      <option name="defaultMethodsExpanded" value="false" />
+      <option name="showParameters" value="true" />
+      <option name="showTooltip" value="true" />
+      <option name="showReturnValues" value="true" />
+      <option name="longModifier" value="true" />
+      <option name="implementsBehaviour" value="1" />
+      <option name="extendsBehaviour" value="1" />
+      <option name="compartmentBehaviour" value="1" />
+      <option name="interfaceBackgroundColor" value="-6494306" />
+      <option name="abstractClassBackgroundColor" value="-1580132" />
+      <option name="classBackgroundColor" value="-6508057" />
+      <option name="diagramBackgroundColor" value="-1" />
+      <option name="useAntialiasedConnectors" value="true" />
+      <option name="quickSourceLinkColor" value="-16776961" />
+      <option name="quickDiagramLinkColor" value="-8454144" />
+      <option name="drawDecorations" value="false" />
+      <option name="hideFieldList" value="" />
+      <option name="showFieldList" value="" />
+      <option name="hideConstructorList" value="" />
+      <option name="showConstructorList" value="" />
+      <option name="hideMethodList" value="" />
+      <option name="showMethodList" value="" />
+      <option name="minimumFigureSize" value="0,0" />
+    </Classdiagram>
+    <Dependencydiagram>
+      <option name="diagramTitleFont" value="SansSerif,1,12" />
+      <option name="diagramFont" value="SansSerif,0,10" />
+      <option name="diagramBackgroundColor" value="-1" />
+      <option name="useAntialiasedConnectors" value="true" />
+      <option name="packageNameCompressionLevel" value="0" />
+    </Dependencydiagram>
+    <Packagediagram>
+      <option name="diagramTitleFont" value="SansSerif,0,12" />
+      <option name="diagramFont" value="SansSerif,0,10" />
+      <option name="packageBackgroundColor" value="-4144960" />
+      <option name="diagramBackgroundColor" value="-1" />
+      <option name="useAntialiasedConnectors" value="true" />
+      <option name="packageNameCompressionLevel" value="2" />
+    </Packagediagram>
   </component>
 </project>
 
