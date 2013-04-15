@@ -8,7 +8,7 @@
     <file path="$USER_HOME$/.IdeaIC12/system/extResources/a33d7b50_spring-beans-3.1.xsd" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364886328327" ignored="false" />
     <file path="$USER_HOME$/.IdeaIC12/system/extResources/5f59e9a1_spring-tool-3.0.xsd" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365411323114" ignored="false" />
     <file path="$USER_HOME$/.IdeaIC12/system/extResources/a32f63cf_spring-beans-3.0.xsd" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365411323114" ignored="false" />
-    <file path="/InstrumentService.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364926974465" ignored="false" />
+    <file path="/InstrumentService.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1366052937717" ignored="false" />
     <file path="/Instrument.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364916443792" ignored="false" />
     <file path="/Price.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364903109027" ignored="false" />
     <file path="/Portfolio.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364894392606" ignored="false" />
@@ -16,7 +16,7 @@
     <file path="/Transactions.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364894350309" ignored="false" />
     <file path="/database.properties" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364901524112" ignored="false" />
     <file path="/applicationContext-infrastructure.xml" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364902525323" ignored="false" />
-    <file path="/InstrumentServiceImpl.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365954995008" ignored="false" />
+    <file path="/InstrumentServiceImpl.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1366052784039" ignored="false" />
     <file path="/IInstrumentDao.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364923564056" ignored="false" />
     <file path="/CronUpdater.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1364927236829" ignored="false" />
     <file path="/fragment.java" changelist="ac270118-b22b-4fc5-80e5-f5b3a4c65892" time="1365943980961" ignored="false" />
@@ -113,21 +113,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Instrument.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Instrument.java">
+      <file leaf-file-name="InstrumentService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="195" selection-end="195" vertical-scroll-proportion="0.0">
+            <state line="20" column="49" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InstrumentService.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentService.java">
+      <file leaf-file-name="InstrumentServiceImpl.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="55" selection-start="674" selection-end="674" vertical-scroll-proportion="0.6593592">
+            <state line="89" column="45" selection-start="2997" selection-end="2997" vertical-scroll-proportion="0.33275864">
               <folding>
-                <marker date="1366052083289" expanded="true" signature="146:596" placeholder="/**...*/" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -156,9 +156,9 @@
         <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/advisor/Advice.java" />
         <option value="$PROJECT_DIR$/src/main/java/test/mianTrader.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentServiceImpl.java" />
       </list>
     </option>
   </component>
@@ -726,8 +726,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1292" height="776" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1292" height="776" extended-state="1" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -741,7 +741,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24959481" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3406504" sideWeight="0.67291313" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23333333" sideWeight="0.67291313" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23333333" sideWeight="0.67291313" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270869" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -896,25 +896,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="18" selection-start="434" selection-end="434" vertical-scroll-proportion="0.35517243">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/entity/Instrument.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="195" selection-end="195" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="11" column="0" selection-start="195" selection-end="195" vertical-scroll-proportion="0.02866779">
+          <folding>
+            <element signature="e#652#659#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="55" selection-start="674" selection-end="674" vertical-scroll-proportion="0.6593592">
+        <state line="20" column="49" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/inteltrader/service/InstrumentServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="89" column="45" selection-start="2997" selection-end="2997" vertical-scroll-proportion="0.33275864">
           <folding>
-            <marker date="1366052083289" expanded="true" signature="146:596" placeholder="/**...*/" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
