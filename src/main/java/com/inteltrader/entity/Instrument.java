@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public class Instrument implements Serializable {
     private long instrumentId=1;
     private String symbolName;
     @OneToMany
-    private List<Price> priceList;
+    private List<Price> priceList=new ArrayList<Price>();
 
 
     public void setInstrumentId(long instrumentId) {
