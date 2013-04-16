@@ -16,14 +16,25 @@ public class Price {
     private long priceId;
     private Calendar timeStamp;
     private Double closePrice,openPrice,lowPrice,highPrice,lastClosePrice;
+    private long totalTradedQuantity;
 
-    public Price(Calendar timeStamp, Double closePrice, Double openPrice, Double lowPrice, Double highPrice, Double lastClosePrice) {
+
+    public Price(Calendar timeStamp, Double closePrice, Double openPrice, Double lowPrice, Double highPrice, Double lastClosePrice, long totalTradedQuantity) {
         this.timeStamp = timeStamp;
         this.closePrice = closePrice;
         this.openPrice = openPrice;
         this.lowPrice = lowPrice;
         this.highPrice = highPrice;
         this.lastClosePrice = lastClosePrice;
+        this.totalTradedQuantity = totalTradedQuantity;
+    }
+
+    public long getTotalTradedQuantity() {
+        return totalTradedQuantity;
+    }
+
+    public void setTotalTradedQuantity(long totalTradedQuantity) {
+        this.totalTradedQuantity = totalTradedQuantity;
     }
 
     public long getPriceId() {
@@ -83,5 +94,20 @@ public class Price {
     }
 
     public Price() {
+    }
+
+
+    @Override
+    public String toString() {
+        return "Price{" +
+                "priceId=" + priceId +
+                ", timeStamp=" + timeStamp +
+                ", closePrice=" + closePrice +
+                ", openPrice=" + openPrice +
+                ", lowPrice=" + lowPrice +
+                ", highPrice=" + highPrice +
+                ", lastClosePrice=" + lastClosePrice +
+                ", totalTradedQuantity=" + totalTradedQuantity +
+                '}';
     }
 }

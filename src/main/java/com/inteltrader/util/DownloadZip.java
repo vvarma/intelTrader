@@ -45,7 +45,7 @@ public class DownloadZip {
             byte[] buffer = new byte[153600];
             int totalBytesRead = 0;
             int bytesRead = 0;
-
+               System.out.println("Reading ZIP file 150KB blocks at a time.\n");
            // Logger.info("Reading ZIP file 150KB blocks at a time.\n");
 
             while ((bytesRead = reader.read(buffer)) > 0)

@@ -3,12 +3,17 @@ package com.inteltrader.service;
 import com.inteltrader.dao.IInstrumentDao;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
+import com.inteltrader.util.RestCodes;
 import com.inteltrader.util.DownloadZip;
 import com.inteltrader.util.ExtractZipFile;
+import com.inteltrader.util.ReadPriceCsv;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -23,15 +28,21 @@ import java.util.Properties;
  * To change this template use File | Settings | File Templates.
  */
 public class InstrumentServiceImpl implements InstrumentService {
+    @PersistenceUnit
+    EntityManagerFactory entityManagerFactory;
+
+    @Autowired
     private IInstrumentDao instrumentDao;
     private Properties properties=new Properties();
 
     @Override
     public Instrument retrieveInstrument(String symbolName) {
-        Instrument instrument=instrumentDao.retrieveInstrument(symbolName);
+        EntityManager entityManager=entityManagerFactory.createEntityManager();
+        Instrument instrument=instrumentDao.retrieveInstrument(entityManager,symbolName);
         if(instrument==null){
             Calendar startDate=new GregorianCalendar();
             startDate.add(Calendar.YEAR,-2);
+           // startDate.roll(Calendar.YEAR,-2);
 
         }
          return instrument;
@@ -48,16 +59,26 @@ public class InstrumentServiceImpl implements InstrumentService {
     }
 
     @Override
-    public void createInstrument(String symbolName, Calendar startDate) {
+    public RestCodes createInstrument(String symbolName, Calendar startDate) {
+        EntityManager entityManager=entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
 
-        Calendar endDate=startDate;
-        endDate.add(Calendar.YEAR,-2);
+        Calendar endDate=(Calendar)startDate.clone();
+        endDate.add(Calendar.YEAR,2);
+       // endDate.roll(Calendar.YEAR,2);
+        System.out.println(startDate);
+        System.out.println(endDate);
         try{
             Instrument instrument=getSingleInstrumentGivenDateAndName(startDate,endDate,symbolName);
-            instrumentDao.createInstrument(instrument);
+            System.out.println(instrument);
+            instrumentDao.createInstrument(entityManager,instrument);
+            return RestCodes.SUCCESS;
         }   catch (IOException e){
             e.printStackTrace();
             e.printStackTrace();
+            return RestCodes.FAILURE;
+        }finally {
+            entityManager.getTransaction().commit();
         }
 
 
@@ -68,22 +89,23 @@ public class InstrumentServiceImpl implements InstrumentService {
        Instrument instrument=new Instrument(symbol);
         for (Calendar i = startDate; i.before(endDate); i.add(Calendar.DATE, 1)) {
             String fileName = properties.getProperty("DATA_PATH");
-
+            System.out.println("in for loop");
             if (isWeekDay(i)) {
                 String genFileName = createFilenamGivenDate(i);
                 File file = new File(fileName + genFileName);
                 if (file.exists()) {
+                    System.out.println(genFileName + " exists!");
                    // Logger.trace(genFileName + " exists!");
                     fileName = fileName + genFileName;
                 } else {
+                    System.out.println("downloader called.. ");
                   //  Logger.trace("downloader called.. ");
                     fileName = fileName
                             + createUrlDownloadAndExtractFileGivenDate(i);
                 }
 
 
-                Price instrPrice = new Price(ReadPriceCsv.readPrice(
-                        fileName, symbol), i.getTime());
+                Price instrPrice = ReadPriceCsv.readPrice(fileName, symbol, i);
                 instrument.getPriceList().add(instrPrice);
             }
 
@@ -148,5 +170,29 @@ public class InstrumentServiceImpl implements InstrumentService {
 
     public InstrumentServiceImpl() throws IOException{
         properties.load(new FileInputStream("intel.properties"));
+    }
+
+    public EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
+    }
+
+    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+    }
+
+    public IInstrumentDao getInstrumentDao() {
+        return instrumentDao;
+    }
+
+    public void setInstrumentDao(IInstrumentDao instrumentDao) {
+        this.instrumentDao = instrumentDao;
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
     }
 }

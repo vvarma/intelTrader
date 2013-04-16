@@ -2,6 +2,7 @@ package com.inteltrader.entity;
 
 
 
+import org.hibernate.annotations.IndexColumn;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -18,13 +19,19 @@ import java.util.List;
  */
 @Repository
 @Entity
-@Table(name="INSTRUMENT",schema = "INTEL_TRADER")
+@Table(name="INSTRUMENT",schema = "TRADER_DB")
 public class Instrument implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "INSTRUMNET_ID")
     private long instrumentId=1;
     private String symbolName;
-    @OneToMany
+    @ElementCollection(targetClass=com.inteltrader.entity.Price.class)
+    @JoinTable(
+            name="INSTRUMENT_PRICE",
+            schema="TRADER_DB",
+            joinColumns=@JoinColumn(name="INSTRUMNET_ID")
+    )
     private List<Price> priceList=new ArrayList<Price>();
 
 
@@ -56,5 +63,14 @@ public class Instrument implements Serializable {
 
     public Instrument(String symbolName) {
         this.symbolName = symbolName;
+    }
+
+    @Override
+    public String toString() {
+        return "Instrument{" +
+                "instrumentId=" + instrumentId +
+                ", symbolName='" + symbolName + '\'' +
+                ", priceList=" + priceList +
+                '}';
     }
 }
