@@ -54,7 +54,12 @@ public class InstrumentServiceImpl implements InstrumentService {
     }
 
     @Override
-    public void updateInstrument(Instrument instrument) {
+    public void updateInstruments() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void deleteInstrument(Instrument instrument) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
