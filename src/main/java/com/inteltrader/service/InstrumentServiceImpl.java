@@ -49,11 +49,6 @@ public class InstrumentServiceImpl implements InstrumentService {
     }
 
     @Override
-    public Instrument retrieveInstrument(Long instrumentId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public void updateInstruments() {
         //To change body of implemented methods use File | Settings | File Templates.
     }

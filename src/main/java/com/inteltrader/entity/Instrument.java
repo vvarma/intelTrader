@@ -20,11 +20,10 @@ import java.util.List;
 @Repository
 @Entity
 @Table(name="INSTRUMENT",schema = "TRADER_DB")
+
 public class Instrument implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "INSTRUMNET_ID")
-    private long instrumentId=1;
+    @Column(name = "SYMBOL_NAME")
     private String symbolName;
     @ElementCollection(targetClass=com.inteltrader.entity.Price.class)
     @JoinTable(
@@ -35,9 +34,6 @@ public class Instrument implements Serializable {
     private List<Price> priceList=new ArrayList<Price>();
 
 
-    public void setInstrumentId(long instrumentId) {
-        this.instrumentId = instrumentId;
-    }
 
     public void setPriceList(List<Price> priceList) {
         this.priceList = priceList;
@@ -46,9 +42,7 @@ public class Instrument implements Serializable {
     public void setSymbolName(String symbolName) {
         this.symbolName = symbolName;
     }
-    public long getInstrumentId() {
-        return instrumentId;
-    }
+
 
     public String getSymbolName() {
         return symbolName;
@@ -68,8 +62,7 @@ public class Instrument implements Serializable {
     @Override
     public String toString() {
         return "Instrument{" +
-                "instrumentId=" + instrumentId +
-                ", symbolName='" + symbolName + '\'' +
+               ", symbolName='" + symbolName + '\'' +
                 ", priceList=" + priceList +
                 '}';
     }

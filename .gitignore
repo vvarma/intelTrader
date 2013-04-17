@@ -1,2 +1,5 @@
 /src/main/webapp/data/
 *.class
+.idea/
+*.iml
+lib/
