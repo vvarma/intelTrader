@@ -1,8 +1,6 @@
 package com.inteltrader.entity;
 
 
-
-import org.hibernate.annotations.IndexColumn;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;

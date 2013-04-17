@@ -1,6 +1,8 @@
 package com.inteltrader.entity;
 
 
+
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -22,12 +24,7 @@ public class Portfolio  implements Serializable {
     @Id
     @Column(name="PORTFOLIO_NAME")
     private String portfolioName;
-    @ElementCollection(targetClass = com.inteltrader.entity.Investment.class)
-    @JoinTable(
-            name="PORTFOLIO_INVESTMENT",
-            schema="TRADER_DB",
-            joinColumns=@JoinColumn(name="PORTFOLIO_NAME")
-    )
+    @OneToMany(mappedBy = "associatedPortfolio")
     private List<Investment> investmentList=new ArrayList<Investment>();
 
     public Portfolio(String portfolioName) {

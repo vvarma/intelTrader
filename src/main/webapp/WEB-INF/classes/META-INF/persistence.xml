@@ -9,6 +9,7 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>com.inteltrader.entity.Instrument</class>
         <class>com.inteltrader.entity.Portfolio</class>
+        <class>com.inteltrader.entity.Investment</class>
         <properties>
             <property name="hibernate.connection.driver_class"
                       value="com.mysql.jdbc.Driver"/>

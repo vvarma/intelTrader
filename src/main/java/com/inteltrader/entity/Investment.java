@@ -1,5 +1,7 @@
 package com.inteltrader.entity;
 
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,15 +14,20 @@ import java.util.List;
  * Time: 2:43 PM
  * To change this template use File | Settings | File Templates.
  */
-@Embeddable
+@Repository
+@Entity
+@Table(name = "INVESTMENT",schema = "TRADER_DB")
 public class Investment implements Serializable {
-    @EmbeddedId
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "INVESTMENT_ID")
-    private int investmentId;
+    private long investmentId=1l;
     @Column(name = "INVESTMENT_SYMBOL")
     private String symbolName;
     private Integer quantity;
     private Double currentPrice;
+    @ManyToOne
+    private Portfolio associatedPortfolio;
     @ElementCollection(targetClass = com.inteltrader.entity.Transactions.class)
     @JoinTable(
             name="INVESTMENT_TRANSACTION",
@@ -79,11 +86,19 @@ public class Investment implements Serializable {
         this.transactionsList = transactionsList;
     }
 
-    public int getInvestmentId() {
+    public long getInvestmentId() {
         return investmentId;
     }
 
-    public void setInvestmentId(int investmentId) {
+    public void setInvestmentId(long investmentId) {
         this.investmentId = investmentId;
+    }
+
+    public Portfolio getAssociatedPortfolio() {
+        return associatedPortfolio;
+    }
+
+    public void setAssociatedPortfolio(Portfolio associatedPortfolio) {
+        this.associatedPortfolio = associatedPortfolio;
     }
 }
