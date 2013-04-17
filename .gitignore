@@ -1,4 +1,4 @@
-/src/main/webapp/data/
+/src/main/webapp/WEB_INF/data/
 *.class
 .idea/
 *.iml
