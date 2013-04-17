@@ -1,5 +1,6 @@
-/src/main/webapp/WEB_INF/data/
+/src/main/webapp/WEB_INF/data/*
 *.class
-.idea/
+.idea/*
 *.iml
-lib/
+lib/*
+target/*
