@@ -2,6 +2,7 @@ package com.inteltrader.service;
 
 import com.inteltrader.entity.Investment;
 import com.inteltrader.entity.Portfolio;
+import com.inteltrader.util.RestCodes;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public interface PortfolioService {
     void updatePortfolio();
-    void createPortfolio(String portfolioName);
+    RestCodes createPortfolio(String portfolioName);
     void addToPortfolio(Investment investment);
     List<Investment> retrieveInvestments(Portfolio portfolio);
     Double calculatePnL(Portfolio portfolio);

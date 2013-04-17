@@ -29,7 +29,7 @@ public class Instrument implements Serializable {
     @JoinTable(
             name="INSTRUMENT_PRICE",
             schema="TRADER_DB",
-            joinColumns=@JoinColumn(name="INSTRUMNET_ID")
+            joinColumns=@JoinColumn(name="SYMBOL_NAME")
     )
     private List<Price> priceList=new ArrayList<Price>();
 

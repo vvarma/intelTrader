@@ -18,13 +18,9 @@ public class InstrumentDao implements IInstrumentDao {
     }
 
     @Override
-    public Instrument retrieveInstrument(EntityManager entityManager, Long instrumentId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public Instrument retrieveInstrument(EntityManager entityManager, String symbolName) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        Instrument instrument=entityManager.find(Instrument.class,symbolName);
+        return instrument;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

@@ -42,7 +42,9 @@ public class InstrumentServiceImpl implements InstrumentService {
         if(instrument==null){
             Calendar startDate=new GregorianCalendar();
             startDate.add(Calendar.YEAR,-2);
-           // startDate.roll(Calendar.YEAR,-2);
+            if(createInstrument(symbolName,startDate)==RestCodes.SUCCESS){
+                instrument=instrumentDao.retrieveInstrument(entityManager,symbolName);
+            }
 
         }
          return instrument;
@@ -73,7 +75,11 @@ public class InstrumentServiceImpl implements InstrumentService {
             System.out.println(instrument);
             instrumentDao.createInstrument(entityManager,instrument);
             return RestCodes.SUCCESS;
-        }   catch (IOException e){
+        }  catch (IOException e){
+            e.printStackTrace();
+            e.printStackTrace();
+            return RestCodes.FAILURE;
+        }catch (RuntimeException e){
             e.printStackTrace();
             e.printStackTrace();
             return RestCodes.FAILURE;

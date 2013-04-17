@@ -1,5 +1,7 @@
 package com.inteltrader.rest;
 
+import com.google.gson.Gson;
+import com.inteltrader.entity.Instrument;
 import com.inteltrader.service.InstrumentService;
 import com.inteltrader.util.RestCodes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class InstrumentServiceRest {
     @RequestMapping(value = "/create/{symbol}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> checkExistUser(@PathVariable("symbol") String symbolName, HttpServletRequest request) {
+    ResponseEntity<String> createInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) {
 
         Calendar strtDate=new GregorianCalendar();
         strtDate.add(Calendar.YEAR,-2);
@@ -41,5 +43,14 @@ public class InstrumentServiceRest {
         return new ResponseEntity<String>(responseCode.toString(),
                 new HttpHeaders(), HttpStatus.OK);
 
+    }
+    @RequestMapping(value = "/load/{symbol}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseEntity<String> loadInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request){
+        Instrument instrument = instrumentService.retrieveInstrument(symbolName);
+
+        return new ResponseEntity<String>(new Gson().toJson(instrument),
+                new HttpHeaders(), HttpStatus.OK);
     }
 }

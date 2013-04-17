@@ -28,9 +28,13 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <!-- DAO LAYER -->
     <beans:bean id="instrumentDao" class="com.inteltrader.dao.InstrumentDao">
     </beans:bean>
+    <beans:bean id="portfolioDao" class="com.inteltrader.dao.PortfolioDao">
+    </beans:bean>
 
  <!-- Application Service Layer -->
     <beans:bean id="instrumentService" class="com.inteltrader.service.InstrumentServiceImpl">
+    </beans:bean>
+    <beans:bean id="portfolioService" class="com.inteltrader.service.PortfolioServiceImpl">
     </beans:bean>
 
     <!-- ENTITY MANAGER... BEANIFY ENTITY MANAGER FACTORY -->

@@ -13,7 +13,6 @@ import javax.persistence.EntityManager;
  */
 public interface IInstrumentDao {
     void createInstrument(EntityManager entityManager,Instrument instrument);
-    Instrument retrieveInstrument(EntityManager entityManager,Long instrumentId);
     Instrument retrieveInstrument(EntityManager entityManager,String symbolName);
     void updateInstrument(EntityManager entityManager,Instrument instrument);
     void deleteInstrument(EntityManager entityManager,Instrument instrument);
