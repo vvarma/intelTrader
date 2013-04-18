@@ -25,11 +25,11 @@ public class InstrumentDao implements IInstrumentDao {
 
     @Override
     public void updateInstrument(EntityManager entityManager, Instrument instrument) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        entityManager.merge(instrument);
     }
 
     @Override
     public void deleteInstrument(EntityManager entityManager, Instrument instrument) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        entityManager.remove(instrument);
     }
 }

@@ -26,7 +26,7 @@ public class Investment implements Serializable {
     private String symbolName;
     private Integer quantity;
     private Double currentPrice;
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Portfolio associatedPortfolio;
     @ElementCollection(targetClass = com.inteltrader.entity.Transactions.class)
     @JoinTable(
@@ -100,5 +100,15 @@ public class Investment implements Serializable {
 
     public void setAssociatedPortfolio(Portfolio associatedPortfolio) {
         this.associatedPortfolio = associatedPortfolio;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

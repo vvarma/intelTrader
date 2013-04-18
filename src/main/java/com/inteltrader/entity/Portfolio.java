@@ -24,14 +24,16 @@ public class Portfolio  implements Serializable {
     @Id
     @Column(name="PORTFOLIO_NAME")
     private String portfolioName;
-    @OneToMany(mappedBy = "associatedPortfolio")
-    private List<Investment> investmentList=new ArrayList<Investment>();
+    @OneToMany(mappedBy = "associatedPortfolio",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<Investment> investmentList;
 
     public Portfolio(String portfolioName) {
         this.portfolioName = portfolioName;
+        investmentList=new ArrayList<Investment>();
     }
 
     public Portfolio() {
+        investmentList=new ArrayList<Investment>();
     }
 
     public String getPortfolioName() {
@@ -47,7 +49,9 @@ public class Portfolio  implements Serializable {
     }
 
     public void setInvestmentList(List<Investment> investmentList) {
-        this.investmentList = investmentList;
+
+            this.investmentList = investmentList;
+
     }
 
     @Override

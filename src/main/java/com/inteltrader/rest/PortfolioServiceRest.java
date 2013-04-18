@@ -31,9 +31,20 @@ public class PortfolioServiceRest {
     @RequestMapping(value = "/create/{portfolioName}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> createInstrument(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request) {
+    ResponseEntity<String> createPortfolio(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request) {
 
         RestCodes responseCode = portfolioService.createPortfolio(portfolioName);
+
+        return new ResponseEntity<String>(responseCode.toString(),
+                new HttpHeaders(), HttpStatus.OK);
+
+    }
+    @RequestMapping(value = "/addInvestment/{portfolioName}/{symbolName}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseEntity<String> addInvestment(@PathVariable("portfolioName") String portfolioName,@PathVariable("symbolName") String symbolName, HttpServletRequest request) {
+
+        RestCodes responseCode = portfolioService.addToPortfolio(portfolioName,symbolName);
 
         return new ResponseEntity<String>(responseCode.toString(),
                 new HttpHeaders(), HttpStatus.OK);

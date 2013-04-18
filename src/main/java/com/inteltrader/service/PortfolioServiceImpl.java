@@ -26,8 +26,9 @@ public class PortfolioServiceImpl implements PortfolioService {
     private IPortfolioDao portfolioDao;
 
     @Override
-    public void updatePortfolio() {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public RestCodes updatePortfolio(String portfolioName) {
+        return RestCodes.SUCCESS;
+
     }
 
     @Override
@@ -48,17 +49,34 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public void addToPortfolio(Investment investment) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public RestCodes addToPortfolio(String portfolioName,String symbolName) {
+        EntityManager entityManager=entityManagerFactory.createEntityManager();
+        Investment investment=new Investment(symbolName);
+        entityManager.getTransaction().begin();
+        try{
+            Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
+            System.out.println(portfolio);
+            portfolio.getInvestmentList().add(investment);
+            investment.setAssociatedPortfolio(portfolio);
+            System.out.println(portfolio);
+            portfolioDao.updatePortfolio(entityManager,portfolio);
+            entityManager.getTransaction().commit();
+            return RestCodes.SUCCESS;
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            return RestCodes.FAILURE;
+        }
+     }
+
+    @Override
+    public Portfolio retrievePortfolio(String portfolioName) {
+        EntityManager entityManager=entityManagerFactory.createEntityManager();
+        Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
+        return portfolio;
     }
 
     @Override
-    public List<Investment> retrieveInvestments(Portfolio portfolio) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public Double calculatePnL(Portfolio portfolio) {
+    public Double calculatePnL(String portfolioName) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

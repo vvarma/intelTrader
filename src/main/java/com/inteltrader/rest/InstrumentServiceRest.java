@@ -53,4 +53,13 @@ public class InstrumentServiceRest {
         return new ResponseEntity<String>(new Gson().toJson(instrument),
                 new HttpHeaders(), HttpStatus.OK);
     }
+    @RequestMapping(value = "/update/{portfolioName}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseEntity<String> updateInstruments(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request){
+        RestCodes responseCode = instrumentService.updateInstruments(portfolioName);
+
+        return new ResponseEntity<String>(responseCode.toString(),
+                new HttpHeaders(), HttpStatus.OK);
+    }
 }

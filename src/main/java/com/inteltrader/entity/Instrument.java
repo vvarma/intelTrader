@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -63,5 +64,8 @@ public class Instrument implements Serializable {
                ", symbolName='" + symbolName + '\'' +
                 ", priceList=" + priceList +
                 '}';
+    }
+    public Price getCurrentPrice(){
+        return priceList.get(priceList.size()-1);
     }
 }

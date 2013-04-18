@@ -2,6 +2,8 @@ package com.inteltrader.service;
 
 import com.inteltrader.dao.IInstrumentDao;
 import com.inteltrader.entity.Instrument;
+import com.inteltrader.entity.Investment;
+import com.inteltrader.entity.Portfolio;
 import com.inteltrader.entity.Price;
 import com.inteltrader.util.RestCodes;
 import com.inteltrader.util.DownloadZip;
@@ -15,10 +17,7 @@ import javax.persistence.PersistenceUnit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,6 +33,8 @@ public class InstrumentServiceImpl implements InstrumentService {
     @Autowired
     private IInstrumentDao instrumentDao;
     private Properties properties=new Properties();
+    @Autowired
+    private PortfolioService portfolioService;
 
     @Override
     public Instrument retrieveInstrument(String symbolName) {
@@ -51,13 +52,54 @@ public class InstrumentServiceImpl implements InstrumentService {
     }
 
     @Override
-    public void updateInstruments() {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public RestCodes updateInstruments(String portfolioName){
+        EntityManager entityManager=entityManagerFactory.createEntityManager();
+        try{
+            List<String> symbolNameList=new ArrayList<String>();
+            Portfolio portfolio=portfolioService.retrievePortfolio(portfolioName);
+            for(Investment investment:portfolio.getInvestmentList()){
+                symbolNameList.add(investment.getSymbolName());
+            }
+            for(String symbolName:symbolNameList){
+                Instrument instrument=instrumentDao.retrieveInstrument(entityManager,symbolName);
+                Calendar startDate=instrument.getCurrentPrice().getTimeStamp();
+                Calendar endDate=new GregorianCalendar();
+                for (Calendar calendar=startDate;calendar.before(endDate);calendar.add(Calendar.DATE,1)){
+                    String fileName = properties.getProperty("DATA_PATH");
+                    System.out.println("in for loop");
+                    if (isWeekDay(calendar)) {
+                        String genFileName = createFilenamGivenDate(calendar);
+                        File file = new File(fileName + genFileName);
+                        if (file.exists()) {
+                            System.out.println(genFileName + " exists!");
+                            fileName = fileName + genFileName;
+                        } else {
+                            System.out.println("downloader called.. ");
+                            fileName = fileName
+                                    + createUrlDownloadAndExtractFileGivenDate(calendar);
+                        }
+                         Price instrPrice = ReadPriceCsv.readPrice(fileName, symbolName, (Calendar)calendar.clone());
+                        instrument.getPriceList().add(instrPrice);
+                    }
+                }
+                entityManager.getTransaction().begin();
+                try {
+                    instrumentDao.updateInstrument(entityManager,instrument);
+                }catch (RuntimeException e){
+                    e.printStackTrace();
+                    return RestCodes.FAILURE;
+                }
+            }
+            return RestCodes.SUCCESS;
+        }catch (IOException e){
+            e.printStackTrace();
+            return RestCodes.FAILURE;
+        }
     }
 
     @Override
-    public void deleteInstrument(Instrument instrument) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public RestCodes deleteInstrument(Instrument instrument) {
+        return RestCodes.FAILURE;
     }
 
     @Override
@@ -67,6 +109,7 @@ public class InstrumentServiceImpl implements InstrumentService {
 
         Calendar endDate=(Calendar)startDate.clone();
         endDate.add(Calendar.YEAR,2);
+        endDate.add(Calendar.MONTH,-2);
        // endDate.roll(Calendar.YEAR,2);
         System.out.println(startDate);
         System.out.println(endDate);
@@ -111,7 +154,7 @@ public class InstrumentServiceImpl implements InstrumentService {
                 }
 
 
-                Price instrPrice = ReadPriceCsv.readPrice(fileName, symbol, i);
+                Price instrPrice = ReadPriceCsv.readPrice(fileName, symbol, (Calendar)i.clone());
                 instrument.getPriceList().add(instrPrice);
             }
 
@@ -200,5 +243,13 @@ public class InstrumentServiceImpl implements InstrumentService {
 
     public void setProperties(Properties properties) {
         this.properties = properties;
+    }
+
+    public PortfolioService getPortfolioService() {
+        return portfolioService;
+    }
+
+    public void setPortfolioService(PortfolioService portfolioService) {
+        this.portfolioService = portfolioService;
     }
 }

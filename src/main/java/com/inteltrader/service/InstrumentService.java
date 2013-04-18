@@ -15,8 +15,8 @@ public interface InstrumentService {
 
     Instrument retrieveInstrument(String symbolName);
     RestCodes createInstrument(String symbolName,Calendar startDate);
-    void updateInstruments();
-    void deleteInstrument(Instrument instrument);
+    RestCodes updateInstruments(String portfolioName);
+    RestCodes deleteInstrument(Instrument instrument);
 
 
 }

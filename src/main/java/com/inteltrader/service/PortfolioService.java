@@ -14,9 +14,9 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface PortfolioService {
-    void updatePortfolio();
+    RestCodes updatePortfolio(String portfolioName);
     RestCodes createPortfolio(String portfolioName);
-    void addToPortfolio(Investment investment);
-    List<Investment> retrieveInvestments(Portfolio portfolio);
-    Double calculatePnL(Portfolio portfolio);
+    RestCodes addToPortfolio(String portfolioName, String symbolName);
+    Portfolio retrievePortfolio(String portfolioName);
+    Double calculatePnL(String portfolioName);
 }
