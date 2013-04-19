@@ -1,5 +1,8 @@
 package com.inteltrader.rest;
 
+import com.google.gson.Gson;
+import com.inteltrader.entity.Instrument;
+import com.inteltrader.entity.Portfolio;
 import com.inteltrader.service.PortfolioService;
 import com.inteltrader.util.RestCodes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +52,14 @@ public class PortfolioServiceRest {
         return new ResponseEntity<String>(responseCode.toString(),
                 new HttpHeaders(), HttpStatus.OK);
 
+    }
+    @RequestMapping(value = "/load/{portfolioName}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseEntity<String> loadInstrument(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request){
+        Portfolio portfolio= portfolioService.retrievePortfolio(portfolioName);
+
+        return new ResponseEntity<String>(new Gson().toJson(portfolio),
+                new HttpHeaders(), HttpStatus.OK);
     }
 }

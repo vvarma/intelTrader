@@ -57,14 +57,18 @@ public class InstrumentServiceImpl implements InstrumentService {
         try{
             List<String> symbolNameList=new ArrayList<String>();
             Portfolio portfolio=portfolioService.retrievePortfolio(portfolioName);
+            System.out.println(portfolio);
             for(Investment investment:portfolio.getInvestmentList()){
+                System.out.println("1!@#");
                 symbolNameList.add(investment.getSymbolName());
             }
             for(String symbolName:symbolNameList){
+                System.out.println("2!@#");
                 Instrument instrument=instrumentDao.retrieveInstrument(entityManager,symbolName);
                 Calendar startDate=instrument.getCurrentPrice().getTimeStamp();
                 Calendar endDate=new GregorianCalendar();
                 for (Calendar calendar=startDate;calendar.before(endDate);calendar.add(Calendar.DATE,1)){
+                    System.out.println("3!@#");
                     String fileName = properties.getProperty("DATA_PATH");
                     System.out.println("in for loop");
                     if (isWeekDay(calendar)) {
@@ -88,6 +92,8 @@ public class InstrumentServiceImpl implements InstrumentService {
                 }catch (RuntimeException e){
                     e.printStackTrace();
                     return RestCodes.FAILURE;
+                }  finally {
+                    entityManager.getTransaction().commit();
                 }
             }
             return RestCodes.SUCCESS;

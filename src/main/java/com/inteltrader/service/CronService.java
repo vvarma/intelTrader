@@ -13,7 +13,6 @@ public class CronService {
     private InstrumentService instrumentService;
     private PortfolioService portfolioService;
     public void CronInstruments(){
-        instrumentService.updateInstruments();
-        portfolioService.updatePortfolio();
+
     }
 }

@@ -24,16 +24,16 @@ public class Portfolio  implements Serializable {
     @Id
     @Column(name="PORTFOLIO_NAME")
     private String portfolioName;
-    @OneToMany(mappedBy = "associatedPortfolio",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<Investment> investmentList;
+    @OneToMany(mappedBy = "associatedPortfolio",cascade = CascadeType.ALL,fetch = FetchType.EAGER,targetEntity = com.inteltrader.entity.Investment.class)
+    private List<Investment> investmentList=new ArrayList<Investment>();
 
     public Portfolio(String portfolioName) {
         this.portfolioName = portfolioName;
-        investmentList=new ArrayList<Investment>();
+
     }
 
     public Portfolio() {
-        investmentList=new ArrayList<Investment>();
+
     }
 
     public String getPortfolioName() {
@@ -61,4 +61,6 @@ public class Portfolio  implements Serializable {
                 ", investmentList=" + investmentList +
                 '}';
     }
+
+
 }

@@ -21,21 +21,22 @@ public class Investment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "INVESTMENT_ID")
-    private long investmentId=1l;
+    private int investmentId=1;
     @Column(name = "INVESTMENT_SYMBOL")
     private String symbolName;
     private Integer quantity;
     private Double currentPrice;
-    @ManyToOne (cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne (cascade = CascadeType.ALL,fetch = FetchType.EAGER,targetEntity = com.inteltrader.entity.Portfolio.class)
+    @JoinColumn(name = "INVESTMENT_PORTFOLIO", nullable=false, updatable=false)
     private Portfolio associatedPortfolio;
-    @ElementCollection(targetClass = com.inteltrader.entity.Transactions.class)
+   /* @ElementCollection(targetClass = com.inteltrader.entity.Transactions.class)
     @JoinTable(
             name="INVESTMENT_TRANSACTION",
             schema="TRADER_DB",
             joinColumns=@JoinColumn(name="INVESTMENT_ID")
     )
     private List<Transactions> transactionsList=new ArrayList<Transactions>();
-
+*/
     public Investment(String symbolName) {
         this.symbolName = symbolName;
     }
@@ -43,7 +44,7 @@ public class Investment implements Serializable {
     public Investment() {
 
     }
-
+/*
     @Override
     public String toString() {
         return "Investment{" +
@@ -52,7 +53,7 @@ public class Investment implements Serializable {
                 ", currentPrice=" + currentPrice +
                 ", transactionsList=" + transactionsList +
                 '}';
-    }
+    }*/
 
     public String getSymbolName() {
         return symbolName;
@@ -78,19 +79,19 @@ public class Investment implements Serializable {
         this.currentPrice = currentPrice;
     }
 
-    public List<Transactions> getTransactionsList() {
+   /* public List<Transactions> getTransactionsList() {
         return transactionsList;
     }
 
     public void setTransactionsList(List<Transactions> transactionsList) {
         this.transactionsList = transactionsList;
-    }
+    }*/
 
-    public long getInvestmentId() {
+    public int getInvestmentId() {
         return investmentId;
     }
 
-    public void setInvestmentId(long investmentId) {
+    public void setInvestmentId(int investmentId) {
         this.investmentId = investmentId;
     }
 
@@ -102,13 +103,5 @@ public class Investment implements Serializable {
         this.associatedPortfolio = associatedPortfolio;
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();    //To change body of overridden methods use File | Settings | File Templates.
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);    //To change body of overridden methods use File | Settings | File Templates.
-    }
 }
