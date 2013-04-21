@@ -24,8 +24,8 @@ public class Investment implements Serializable {
     private int investmentId=1;
     @Column(name = "INVESTMENT_SYMBOL")
     private String symbolName;
-    private Integer quantity;
-    private Double currentPrice;
+    private Integer quantity=0;
+    private Price currentPrice;
     @ManyToOne (cascade = CascadeType.ALL,fetch = FetchType.EAGER,targetEntity = com.inteltrader.entity.Portfolio.class)
     @JoinColumn(name = "INVESTMENT_PORTFOLIO", nullable=false, updatable=false)
     private Portfolio associatedPortfolio;
@@ -69,11 +69,11 @@ public class Investment implements Serializable {
         this.quantity = quantity;
     }
 
-    public Double getCurrentPrice() {
+    public Price getCurrentPrice() {
         return currentPrice;
     }
 
-    public void setCurrentPrice(Double currentPrice) {
+    public void setCurrentPrice(Price currentPrice) {
         this.currentPrice = currentPrice;
     }
 

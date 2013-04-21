@@ -10,5 +10,5 @@ import com.inteltrader.advisor.Advice;
  * To change this template use File | Settings | File Templates.
  */
 public interface AnalyserService {
-    Advice getAnalysis();
+    Advice getAnalysis(String symbolName);
 }

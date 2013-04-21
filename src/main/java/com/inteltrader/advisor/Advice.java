@@ -8,4 +8,5 @@ package com.inteltrader.advisor;
  * To change this template use File | Settings | File Templates.
  */
 public enum Advice {
+    BUY,SELL,HOLD;
 }

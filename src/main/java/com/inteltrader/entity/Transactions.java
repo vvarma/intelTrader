@@ -15,9 +15,14 @@ public class Transactions implements Serializable {
 
     private Long transactionId;
     private Integer quantity;
-    private Double transactionPrice;
+    private Price transactionPrice;
 
     public Transactions() {
+    }
+
+    public Transactions(Integer quantity, Price transactionPrice) {
+        this.quantity = quantity;
+        this.transactionPrice = transactionPrice;
     }
 
     public Long getTransactionId() {
@@ -36,11 +41,11 @@ public class Transactions implements Serializable {
         this.quantity = quantity;
     }
 
-    public Double getTransactionPrice() {
+    public Price getTransactionPrice() {
         return transactionPrice;
     }
 
-    public void setTransactionPrice(Double transactionPrice) {
+    public void setTransactionPrice(Price transactionPrice) {
         this.transactionPrice = transactionPrice;
     }
 
