@@ -29,14 +29,13 @@ public class Investment implements Serializable {
     @ManyToOne (cascade = CascadeType.ALL,fetch = FetchType.EAGER,targetEntity = com.inteltrader.entity.Portfolio.class)
     @JoinColumn(name = "INVESTMENT_PORTFOLIO", nullable=false, updatable=false)
     private Portfolio associatedPortfolio;
-   /* @ElementCollection(targetClass = com.inteltrader.entity.Transactions.class)
+    @ElementCollection(targetClass = com.inteltrader.entity.Transactions.class)
     @JoinTable(
             name="INVESTMENT_TRANSACTION",
             schema="TRADER_DB",
             joinColumns=@JoinColumn(name="INVESTMENT_ID")
     )
     private List<Transactions> transactionsList=new ArrayList<Transactions>();
-*/
     public Investment(String symbolName) {
         this.symbolName = symbolName;
     }
@@ -44,7 +43,6 @@ public class Investment implements Serializable {
     public Investment() {
 
     }
-/*
     @Override
     public String toString() {
         return "Investment{" +
@@ -53,7 +51,7 @@ public class Investment implements Serializable {
                 ", currentPrice=" + currentPrice +
                 ", transactionsList=" + transactionsList +
                 '}';
-    }*/
+    }
 
     public String getSymbolName() {
         return symbolName;
@@ -79,13 +77,13 @@ public class Investment implements Serializable {
         this.currentPrice = currentPrice;
     }
 
-   /* public List<Transactions> getTransactionsList() {
+    public List<Transactions> getTransactionsList() {
         return transactionsList;
     }
 
     public void setTransactionsList(List<Transactions> transactionsList) {
         this.transactionsList = transactionsList;
-    }*/
+    }
 
     public int getInvestmentId() {
         return investmentId;
@@ -102,6 +100,16 @@ public class Investment implements Serializable {
     public void setAssociatedPortfolio(Portfolio associatedPortfolio) {
         this.associatedPortfolio = associatedPortfolio;
     }
+/*
 
+    @Override
+    public String toString() {
+        return "Investment{" +
+                "investmentId=" + investmentId +
+                ", symbolName='" + symbolName + '\'' +
+                ", quantity=" + quantity +
+                ", currentPrice=" + currentPrice +
+                '}';
 
+    }*/
 }

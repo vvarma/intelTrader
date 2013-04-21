@@ -1,7 +1,6 @@
 package com.inteltrader.rest;
 
 import com.google.gson.Gson;
-import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Portfolio;
 import com.inteltrader.service.PortfolioService;
 import com.inteltrader.util.RestCodes;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
  * Created with IntelliJ IDEA.

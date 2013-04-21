@@ -59,7 +59,7 @@ public class PortfolioServiceImpl implements PortfolioService {
             portfolio.getInvestmentList().add(investment);
             investment.setAssociatedPortfolio(portfolio);
             System.out.println(portfolio);
-            portfolioDao.updatePortfolio(entityManager,portfolio);
+            //portfolioDao.updatePortfolio(entityManager,portfolio);
             entityManager.getTransaction().commit();
             return RestCodes.SUCCESS;
         }catch (RuntimeException e){
@@ -72,6 +72,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     public Portfolio retrievePortfolio(String portfolioName) {
         EntityManager entityManager=entityManagerFactory.createEntityManager();
         Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
+        //System.out.println(portfolio);
         return portfolio;
     }
 

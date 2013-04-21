@@ -1,4 +1,6 @@
 *.csv
+*.zip
+*.log
 *.class
 .idea/*
 *.iml

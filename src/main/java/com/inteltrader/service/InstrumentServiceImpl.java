@@ -53,15 +53,16 @@ public class InstrumentServiceImpl implements InstrumentService {
 
     @Override
     public RestCodes updateInstruments(String portfolioName){
+        List<String> symbolNameList=new ArrayList<String>();
+        Portfolio portfolio=portfolioService.retrievePortfolio(portfolioName);
+        //System.out.println(portfolio);
         EntityManager entityManager=entityManagerFactory.createEntityManager();
         try{
-            List<String> symbolNameList=new ArrayList<String>();
-            Portfolio portfolio=portfolioService.retrievePortfolio(portfolioName);
-            System.out.println(portfolio);
             for(Investment investment:portfolio.getInvestmentList()){
                 System.out.println("1!@#");
                 symbolNameList.add(investment.getSymbolName());
             }
+            System.out.println(symbolNameList);
             for(String symbolName:symbolNameList){
                 System.out.println("2!@#");
                 Instrument instrument=instrumentDao.retrieveInstrument(entityManager,symbolName);
