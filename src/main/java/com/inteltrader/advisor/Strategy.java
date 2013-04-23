@@ -18,4 +18,5 @@ public abstract class Strategy implements Strategies {
     public void setInstrumentVo(InstrumentVo instrumentVo) {
         this.instrumentVo = instrumentVo;
     }
+
 }

@@ -2,11 +2,9 @@ package com.inteltrader.advisor;
 
 
 
+import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
-import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -17,7 +15,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-public class InstrumentVo implements Serializable {
+public class InstrumentVo {
 
     private String symbolName;
     private List<Price> priceList;
@@ -38,10 +36,10 @@ public class InstrumentVo implements Serializable {
         return priceList;
     }
 
-    public InstrumentVo() {
+    public InstrumentVo(Instrument instrument  ) {
+        priceList=instrument.getPriceList();
+        symbolName=instrument.getSymbolName();
     }
 
-    public InstrumentVo(String symbolName) {
-        this.symbolName = symbolName;
-    }
+
 }

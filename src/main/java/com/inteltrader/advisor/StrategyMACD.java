@@ -12,4 +12,5 @@ public class StrategyMACD extends Strategy {
     public Advice getStrategicAdvice() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
 }
