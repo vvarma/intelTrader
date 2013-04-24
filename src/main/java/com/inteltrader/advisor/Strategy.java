@@ -1,5 +1,7 @@
 package com.inteltrader.advisor;
 
+import com.inteltrader.entity.Instrument;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Vinay
@@ -17,5 +19,10 @@ public abstract class Strategy implements Strategies {
 
     public void setInstrumentVo(InstrumentVo instrumentVo) {
         this.instrumentVo = instrumentVo;
+    }
+
+    protected Strategy(Instrument instrument) {
+        instrumentVo.setPriceList(instrument.getPriceList());
+        instrumentVo.setSymbolName(instrument.getSymbolName());
     }
 }

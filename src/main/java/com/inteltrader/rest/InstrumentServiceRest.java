@@ -1,6 +1,7 @@
 package com.inteltrader.rest;
 
 import com.google.gson.Gson;
+import com.inteltrader.advisor.StrategyGoldenCross;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.service.InstrumentService;
 import com.inteltrader.util.RestCodes;
@@ -31,6 +32,28 @@ public class InstrumentServiceRest {
     @Autowired
     private InstrumentService instrumentService;
 
+
+    @RequestMapping(value = "/test/{symbol}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseEntity<String> testStrategyInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) {
+
+        Calendar strtDate=new GregorianCalendar();
+        strtDate.add(Calendar.YEAR,-2);
+        Instrument instrument = instrumentService.retrieveInstrument(symbolName);
+        try{
+            StrategyGoldenCross cross=new StrategyGoldenCross(instrument);
+            cross.getStrategicAdvice();
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+
+
+        return new ResponseEntity<String>("yo",
+                new HttpHeaders(), HttpStatus.OK);
+
+    }
     @RequestMapping(value = "/create/{symbol}", method = RequestMethod.GET)
     public
     @ResponseBody
