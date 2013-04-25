@@ -34,9 +34,9 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>org.some.group</groupId>
+            <groupId>org.ta.default</groupId>
             <artifactId>ta-lib</artifactId>
-            <version>1.0</version>
+            <version>0.4.0</version>
         </dependency>
 
         <dependency>

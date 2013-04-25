@@ -22,7 +22,8 @@ public abstract class Strategy implements Strategies {
     }
 
     protected Strategy(Instrument instrument) {
+        instrumentVo=new InstrumentVo(instrument.getSymbolName());
         instrumentVo.setPriceList(instrument.getPriceList());
-        instrumentVo.setSymbolName(instrument.getSymbolName());
+
     }
 }

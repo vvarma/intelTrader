@@ -41,6 +41,7 @@ public class InstrumentServiceRest {
         Calendar strtDate=new GregorianCalendar();
         strtDate.add(Calendar.YEAR,-2);
         Instrument instrument = instrumentService.retrieveInstrument(symbolName);
+        System.out.println(instrument);
         try{
             StrategyGoldenCross cross=new StrategyGoldenCross(instrument);
             cross.getStrategicAdvice();

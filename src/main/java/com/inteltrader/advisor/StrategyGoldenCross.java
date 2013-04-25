@@ -2,6 +2,9 @@ package com.inteltrader.advisor;
 
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
+import com.tictactec.ta.lib.Core;
+import com.tictactec.ta.lib.MInteger;
+import com.tictactec.ta.lib.RetCode;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,7 +29,7 @@ public class StrategyGoldenCross extends Strategy {
     @Override
     public Advice getStrategicAdvice() {
 
-        int startIndex=0;
+        int startIndex=50;
         int endIndex=getInstrumentVo().getPriceList().size()-1;
         double [] shortOutResult=new double[endIndex+1];
         double [] closePriceInput=new double[endIndex+1];
@@ -40,16 +43,18 @@ public class StrategyGoldenCross extends Strategy {
         }
         RetCode retCode=core.sma    (startIndex,endIndex,closePriceInput,shortPeriod,
                 strtOutIndex,outNb,shortOutResult);
+        for (int i=0;i<=endIndex;i++){
+            System.out.println("res"+i+"    "+ shortOutResult[i]+"  "+closePriceInput[i]+"     "+getInstrumentVo().getPriceList().get(i).getClosePrice());
+        }
 
-        System.out.println("res"+ Arrays.asList(shortOutResult));
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public StrategyGoldenCross(Instrument instrument) throws IOException {
         super(instrument);
         properties.load(new FileInputStream("intel.properties"));
-        shortPeriod=Integer.getInteger(properties.getProperty("GoldenCross_SHORT_PERIOD"));
-        longPeriod=Integer.getInteger(properties.getProperty("GoldenCross_LONG_PERIOD"));
+        shortPeriod=Integer.valueOf(properties.getProperty("GoldenCross_SHORT_PERIOD"));
+        longPeriod=Integer.valueOf(properties.getProperty("GoldenCross_LONG_PERIOD"));
     }
 
 }
