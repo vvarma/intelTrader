@@ -26,26 +26,32 @@ public class StrategyGoldenCross extends Strategy {
     private Properties properties=new Properties();
     private Core core=new Core();
 
-    @Override
-    public Advice getStrategicAdvice() {
-
-        int startIndex=50;
+    private List<Double> calcSma(int period,int noOutEle){
+        List<Double> resultList=new ArrayList<Double>();
         int endIndex=getInstrumentVo().getPriceList().size()-1;
+        int startIndex=endIndex-noOutEle;
         double [] shortOutResult=new double[endIndex+1];
         double [] closePriceInput=new double[endIndex+1];
         MInteger strtOutIndex=new MInteger();
         strtOutIndex.value=startIndex;
         MInteger outNb=new MInteger();
-        outNb.value=endIndex-startIndex;
+        outNb.value=noOutEle;
         for (int index=0;index<=endIndex;index++){
             closePriceInput[index]=getInstrumentVo().getPriceList().get(index).getClosePrice();
 
         }
-        RetCode retCode=core.sma    (startIndex,endIndex,closePriceInput,shortPeriod,
+        RetCode retCode=core.sma    (startIndex,endIndex,closePriceInput,period,
                 strtOutIndex,outNb,shortOutResult);
-        for (int i=0;i<=endIndex;i++){
-            System.out.println("res"+i+"    "+ shortOutResult[i]+"  "+closePriceInput[i]+"     "+getInstrumentVo().getPriceList().get(i).getClosePrice());
+        for (int i=0;i<=endIndex-period;i++){
+           resultList.add(shortOutResult[i]);
         }
+        return resultList;
+    }
+    @Override
+    public Advice getStrategicAdvice() {
+
+        System.out.println(calcSma(shortPeriod,300));
+
 
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
