@@ -29,7 +29,7 @@ public class StrategyGoldenCross extends Strategy {
     private List<Double> calcSma(int period,int noOutEle){
         List<Double> resultList=new ArrayList<Double>();
         int endIndex=getInstrumentVo().getPriceList().size()-1;
-        int startIndex=endIndex-noOutEle;
+        int startIndex=endIndex-noOutEle+1;
         double [] shortOutResult=new double[endIndex+1];
         double [] closePriceInput=new double[endIndex+1];
         MInteger strtOutIndex=new MInteger();
@@ -49,10 +49,13 @@ public class StrategyGoldenCross extends Strategy {
     }
     @Override
     public Advice getStrategicAdvice() {
+        List<Double> shortSmaList=calcSma(shortPeriod,300).subList(0,300);
+        List<Double> longSmaList=calcSma(longPeriod,300).subList(0,300);
+        System.out.println(shortSmaList);
+        System.out.println(longSmaList);
+        for (int i=0;i<300;i++){
 
-        System.out.println(calcSma(shortPeriod,300));
-
-
+        }
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
