@@ -26,11 +26,11 @@ public class StrategyGoldenCross extends Strategy {
     private Properties properties=new Properties();
     private Core core=new Core();
 
-    private List<Double> calcSma(int period,int noOutEle){
-        List<Double> resultList=new ArrayList<Double>();
+    private RetCode calcSma(int period,int noOutEle,List<Double> resultList){
+
         int endIndex=getInstrumentVo().getPriceList().size()-1;
         int startIndex=endIndex-noOutEle+1;
-        double [] shortOutResult=new double[endIndex+1];
+        double [] outResult=new double[endIndex+1];
         double [] closePriceInput=new double[endIndex+1];
         MInteger strtOutIndex=new MInteger();
         strtOutIndex.value=startIndex;
@@ -41,22 +41,30 @@ public class StrategyGoldenCross extends Strategy {
 
         }
         RetCode retCode=core.sma    (startIndex,endIndex,closePriceInput,period,
-                strtOutIndex,outNb,shortOutResult);
+                strtOutIndex,outNb,outResult);
         for (int i=0;i<=endIndex-period;i++){
-           resultList.add(shortOutResult[i]);
+           resultList.add(outResult[i]);
         }
-        return resultList;
+        return retCode;
     }
     @Override
     public Advice getStrategicAdvice() {
-        List<Double> shortSmaList=calcSma(shortPeriod,300).subList(0,300);
-        List<Double> longSmaList=calcSma(longPeriod,300).subList(0,300);
+        List<Double> shortSmaList=new ArrayList<Double>();
+        List<Double> longSmaList=new ArrayList<Double>();
+        calcSma(shortPeriod,14,shortSmaList);
+        calcSma(longPeriod,14,longSmaList);
+        shortSmaList=shortSmaList.subList(0,14);
+        longSmaList=longSmaList.subList(0,14);
         System.out.println(shortSmaList);
         System.out.println(longSmaList);
-        for (int i=0;i<300;i++){
-
+        Advice advice=Advice.HOLD;
+        for (int i=0;i<14;i++){
+            if(shortSmaList.get(i)>longSmaList.get(i))
+                advice=Advice.BUY;
+            else if (shortSmaList.get(i)<longSmaList.get(i))
+                advice=Advice.SELL;
         }
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return advice;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public StrategyGoldenCross(Instrument instrument) throws IOException {
