@@ -1,7 +1,6 @@
 package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
-import com.inteltrader.advisor.Advisor;
 
 /**
  * Created with IntelliJ IDEA.
