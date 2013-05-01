@@ -1,6 +1,7 @@
 package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
+import com.inteltrader.advisor.Advisor;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,8 +11,17 @@ import com.inteltrader.advisor.Advice;
  * To change this template use File | Settings | File Templates.
  */
 public class AnalyserServiceImpl implements AnalyserService {
+    private Advisor advisor;
     @Override
     public Advice getAnalysis(String symbolName) {
-        return Advice.BUY;  //To change body of implemented methods use File | Settings | File Templates.
+        return advisor.getAdvice();
+    }
+
+    public Advisor getAdvisor() {
+        return advisor;
+    }
+
+    public void setAdvisor(Advisor advisor) {
+        this.advisor = advisor;
     }
 }
