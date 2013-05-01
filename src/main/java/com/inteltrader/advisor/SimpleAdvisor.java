@@ -14,7 +14,7 @@ import java.util.Map;
  * Time: 6:39 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SimpleAdvisor {
+public class SimpleAdvisor implements Advisor{
     private Map<String,Strategy> strategyMap;
     @Override
     public Advice getAdvice() {
