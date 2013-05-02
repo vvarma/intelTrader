@@ -2,10 +2,7 @@ package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.dao.IPortfolioDao;
-import com.inteltrader.entity.Instrument;
-import com.inteltrader.entity.Investment;
-import com.inteltrader.entity.Portfolio;
-import com.inteltrader.entity.Price;
+import com.inteltrader.entity.*;
 import com.inteltrader.util.RestCodes;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -67,7 +64,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     }
 
-    @Override
+     @Override
     public RestCodes addToPortfolio(String portfolioName,String symbolName) {
         try{
             Instrument instrument=instrumentService.retrieveInstrument(symbolName);
@@ -80,6 +77,7 @@ public class PortfolioServiceImpl implements PortfolioService {
             portfolio.getInvestmentList().add(investment);
             investment.setAssociatedPortfolio(portfolio);
             System.out.println(portfolio);
+            investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName()),investment);
             //portfolioDao.updatePortfolio(entityManager,portfolio);
             entityManager.getTransaction().commit();
             return RestCodes.SUCCESS;
@@ -93,13 +91,20 @@ public class PortfolioServiceImpl implements PortfolioService {
     public Portfolio retrievePortfolio(String portfolioName) {
         EntityManager entityManager=entityManagerFactory.createEntityManager();
         Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
-        //System.out.println(portfolio);
-        return portfolio;
+       return portfolio;
     }
 
     @Override
     public Double calculatePnL(String portfolioName) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        EntityManager entityManager=entityManagerFactory.createEntityManager();
+        Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
+        Double pnl=0.0;
+        for(Investment investment:portfolio.getInvestmentList()){
+            for(Transactions transactions: investment.getTransactionsList()){
+                pnl+=transactions.getQuantity()*transactions.getTransactionPrice().getClosePrice();
+            }
+        }
+        return pnl;
     }
 
     private Price getCurrentInstrumentPrice(String symbolName){

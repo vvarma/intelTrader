@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.inteltrader.advisor.StrategyGoldenCross;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.service.InstrumentService;
+import com.inteltrader.util.Global;
 import com.inteltrader.util.RestCodes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -38,7 +39,7 @@ public class InstrumentServiceRest {
     @ResponseBody
     ResponseEntity<String> testStrategyInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) {
 
-        Calendar strtDate=new GregorianCalendar();
+        Calendar strtDate=(GregorianCalendar)Global.getCalendar().clone();
         strtDate.add(Calendar.YEAR,-2);
         Instrument instrument = instrumentService.retrieveInstrument(symbolName);
         System.out.println(instrument);
@@ -60,7 +61,7 @@ public class InstrumentServiceRest {
     @ResponseBody
     ResponseEntity<String> createInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) {
 
-        Calendar strtDate=new GregorianCalendar();
+        Calendar strtDate=(GregorianCalendar) Global.getCalendar().clone();
         strtDate.add(Calendar.YEAR,-2);
         RestCodes responseCode = instrumentService.createInstrument(symbolName,strtDate);
 

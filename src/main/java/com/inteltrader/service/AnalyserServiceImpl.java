@@ -2,6 +2,11 @@ package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.Advisor;
+import com.inteltrader.advisor.SimpleAdvisor;
+import com.inteltrader.entity.Instrument;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,17 +16,27 @@ import com.inteltrader.advisor.Advisor;
  * To change this template use File | Settings | File Templates.
  */
 public class AnalyserServiceImpl implements AnalyserService {
+    @Autowired
+    InstrumentService instrumentService;
     private Advisor advisor;
     @Override
     public Advice getAnalysis(String symbolName) {
-        return advisor.getAdvice();
+        Instrument instrument=instrumentService.retrieveInstrument(symbolName);
+        try{
+            advisor= SimpleAdvisor.buildAdvisor(instrument,"MACD");
+            return advisor.getAdvice();
+        } catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
-    public Advisor getAdvisor() {
-        return advisor;
+    public InstrumentService getInstrumentService() {
+        return instrumentService;
     }
 
-    public void setAdvisor(Advisor advisor) {
-        this.advisor = advisor;
+    public void setInstrumentService(InstrumentService instrumentService) {
+        this.instrumentService = instrumentService;
     }
 }

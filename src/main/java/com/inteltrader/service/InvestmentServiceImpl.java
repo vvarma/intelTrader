@@ -23,7 +23,9 @@ public class InvestmentServiceImpl implements InvestmentService {
     private Properties properties=new Properties();
     @Override
     public void makeInvestment(Advice advice, Investment investment) {
-        int tradeQuantity=Integer.getInteger(properties.getProperty("TRADE_QUANTITY"));
+        int tradeQuantity=Integer.parseInt(properties.getProperty("TRADE_QUANTITY"));
+        System.out.println(advice.toString());
+        System.out.println(this.getClass().toString());
         switch (advice){
             case BUY:
                 investment.setQuantity(investment.getQuantity()+tradeQuantity );

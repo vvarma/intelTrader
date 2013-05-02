@@ -25,6 +25,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <beans:property name="suffix" value=".jsp"/>
     </beans:bean>
 
+    <!--Analyser-->
+    <beans:bean id="analyser" class="com.inteltrader.advisor.SimpleAdvisor">
+    </beans:bean>
     <!-- DAO LAYER -->
     <beans:bean id="instrumentDao" class="com.inteltrader.dao.InstrumentDao">
     </beans:bean>

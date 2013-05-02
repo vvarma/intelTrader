@@ -40,11 +40,22 @@ public class PortfolioServiceRest {
 
     }
     @RequestMapping(value = "/addInvestment/{portfolioName}/{symbolName}", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    ResponseEntity<String> addInvestment(@PathVariable("portfolioName") String portfolioName,@PathVariable("symbolName") String symbolName, HttpServletRequest request) {
+     public
+     @ResponseBody
+     ResponseEntity<String> addInvestment(@PathVariable("portfolioName") String portfolioName,@PathVariable("symbolName") String symbolName, HttpServletRequest request) {
 
         RestCodes responseCode = portfolioService.addToPortfolio(portfolioName,symbolName);
+
+        return new ResponseEntity<String>(responseCode.toString(),
+                new HttpHeaders(), HttpStatus.OK);
+
+    }
+    @RequestMapping(value = "/updatePortfolio/{portfolioName}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseEntity<String> updatePortfolio(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request) {
+
+        RestCodes responseCode = portfolioService.updatePortfolio(portfolioName);
 
         return new ResponseEntity<String>(responseCode.toString(),
                 new HttpHeaders(), HttpStatus.OK);
@@ -57,6 +68,15 @@ public class PortfolioServiceRest {
         Portfolio portfolio= portfolioService.retrievePortfolio(portfolioName);
 
         return new ResponseEntity<String>(new Gson().toJson(portfolio),
+                new HttpHeaders(), HttpStatus.OK);
+    }
+    @RequestMapping(value = "/pnl/{portfolioName}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseEntity<String> getPortfolioPnL(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request){
+        Double pnl= portfolioService.calculatePnL(portfolioName);
+
+        return new ResponseEntity<String>(new Gson().toJson(pnl),
                 new HttpHeaders(), HttpStatus.OK);
     }
 }

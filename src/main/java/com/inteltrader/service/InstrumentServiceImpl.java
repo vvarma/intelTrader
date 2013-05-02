@@ -5,10 +5,7 @@ import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Investment;
 import com.inteltrader.entity.Portfolio;
 import com.inteltrader.entity.Price;
-import com.inteltrader.util.RestCodes;
-import com.inteltrader.util.DownloadZip;
-import com.inteltrader.util.ExtractZipFile;
-import com.inteltrader.util.ReadPriceCsv;
+import com.inteltrader.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -41,7 +38,7 @@ public class InstrumentServiceImpl implements InstrumentService {
         EntityManager entityManager=entityManagerFactory.createEntityManager();
         Instrument instrument=instrumentDao.retrieveInstrument(entityManager,symbolName);
         if(instrument==null){
-            Calendar startDate=new GregorianCalendar();
+            Calendar startDate=(GregorianCalendar) Global.getCalendar().clone();
             startDate.add(Calendar.YEAR,-2);
             if(createInstrument(symbolName,startDate)==RestCodes.SUCCESS){
                 instrument=instrumentDao.retrieveInstrument(entityManager,symbolName);
@@ -55,21 +52,17 @@ public class InstrumentServiceImpl implements InstrumentService {
     public RestCodes updateInstruments(String portfolioName){
         List<String> symbolNameList=new ArrayList<String>();
         Portfolio portfolio=portfolioService.retrievePortfolio(portfolioName);
-        //System.out.println(portfolio);
         EntityManager entityManager=entityManagerFactory.createEntityManager();
         try{
             for(Investment investment:portfolio.getInvestmentList()){
-                System.out.println("1!@#");
-                symbolNameList.add(investment.getSymbolName());
+               symbolNameList.add(investment.getSymbolName());
             }
             System.out.println(symbolNameList);
             for(String symbolName:symbolNameList){
-                System.out.println("2!@#");
                 Instrument instrument=instrumentDao.retrieveInstrument(entityManager,symbolName);
                 Calendar startDate=instrument.getCurrentPrice().getTimeStamp();
-                Calendar endDate=new GregorianCalendar();
+                Calendar endDate=(GregorianCalendar)Global.getCalendar().clone();
                 for (Calendar calendar=startDate;calendar.before(endDate);calendar.add(Calendar.DATE,1)){
-                    System.out.println("3!@#");
                     String fileName = properties.getProperty("DATA_PATH");
                     System.out.println("in for loop");
                     if (isWeekDay(calendar)) {

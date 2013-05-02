@@ -3,7 +3,9 @@ package com.inteltrader.advisor;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.util.InvalidAdviceException;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +17,7 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class SimpleAdvisor implements Advisor{
-    private Map<String,Strategy> strategyMap;
+    private Map<String,Strategy> strategyMap=new HashMap<String, Strategy>();
     @Override
     public Advice getAdvice() {
         Advice advice=Advice.HOLD;
@@ -68,11 +70,14 @@ public class SimpleAdvisor implements Advisor{
        strategyMap.put(strategyName,strategy);
    }
 
-    public static Advisor buildAdvisor(Instrument instrument,String... s){
+    public static Advisor buildAdvisor(Instrument instrument,String... s) throws IOException {
         SimpleAdvisor advisor=new SimpleAdvisor();
         List<String> paramList=Arrays.asList(s);
         if (paramList.contains("MACD")){
             advisor.addStrategy("MACD",new StrategyMACD(instrument));
+        }
+        if (paramList.contains("RSI")){
+            advisor.addStrategy("RSI",new StrategyRSI(instrument));
         }
         return advisor;
     }
