@@ -34,28 +34,7 @@ public class InstrumentServiceRest {
     private InstrumentService instrumentService;
 
 
-    @RequestMapping(value = "/test/{symbol}", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    ResponseEntity<String> testStrategyInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) {
 
-        Calendar strtDate=(GregorianCalendar)Global.getCalendar().clone();
-        strtDate.add(Calendar.YEAR,-2);
-        Instrument instrument = instrumentService.retrieveInstrument(symbolName);
-        System.out.println(instrument);
-        try{
-            StrategyGoldenCross cross=new StrategyGoldenCross(instrument);
-            cross.getStrategicAdvice();
-        }catch (Exception e){
-            e.printStackTrace();
-
-        }
-
-
-        return new ResponseEntity<String>("yo",
-                new HttpHeaders(), HttpStatus.OK);
-
-    }
     @RequestMapping(value = "/create/{symbol}", method = RequestMethod.GET)
     public
     @ResponseBody
