@@ -1,5 +1,6 @@
-package com.inteltrader.advisor;
+package com.inteltrader.advisor.simpleadvisor;
 
+import com.inteltrader.advisor.InstrumentVo;
 import com.inteltrader.entity.Instrument;
 
 /**

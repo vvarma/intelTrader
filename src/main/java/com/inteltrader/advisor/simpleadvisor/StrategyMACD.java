@@ -1,7 +1,7 @@
-package com.inteltrader.advisor;
+package com.inteltrader.advisor.simpleadvisor;
 
+import com.inteltrader.advisor.Advice;
 import com.inteltrader.entity.Instrument;
-import com.inteltrader.entity.Price;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
@@ -63,6 +63,7 @@ public class StrategyMACD extends Strategy {
             return Advice.BUY;
         else if (macdHistList.get(0)<0)
             return Advice.SELL;
+
         else
             return Advice.HOLD;
 

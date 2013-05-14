@@ -2,7 +2,7 @@ package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.Advisor;
-import com.inteltrader.advisor.SimpleAdvisor;
+import com.inteltrader.advisor.simpleadvisor.SimpleAdvisor;
 import com.inteltrader.entity.Instrument;
 import org.springframework.beans.factory.annotation.Autowired;
 

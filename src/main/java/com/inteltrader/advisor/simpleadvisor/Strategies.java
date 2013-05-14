@@ -1,4 +1,6 @@
-package com.inteltrader.advisor;
+package com.inteltrader.advisor.simpleadvisor;
+
+import com.inteltrader.advisor.Advice;
 
 /**
  * Created with IntelliJ IDEA.

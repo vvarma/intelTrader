@@ -1,12 +1,12 @@
-package com.inteltrader.advisor;
+package com.inteltrader.advisor.simpleadvisor;
 
+import com.inteltrader.advisor.Advice;
 import com.inteltrader.entity.Instrument;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

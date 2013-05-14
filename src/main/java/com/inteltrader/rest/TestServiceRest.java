@@ -1,7 +1,5 @@
 package com.inteltrader.rest;
 
-import com.inteltrader.advisor.StrategyGoldenCross;
-import com.inteltrader.entity.Instrument;
 import com.inteltrader.service.InstrumentService;
 import com.inteltrader.service.PortfolioService;
 import com.inteltrader.util.Global;
@@ -34,6 +32,19 @@ public class TestServiceRest {
     @Autowired
     private PortfolioService portfolioService;
 
+    @RequestMapping(value = "/global/setTime/{dd}/{mm}/{yyyy}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseEntity<String> createPortfolioTest(@PathVariable("dd") String dd,@PathVariable("mm") String mm,@PathVariable("yyyy") String yyyy, HttpServletRequest request) {
+        Calendar cal=new GregorianCalendar();
+        cal.set(Calendar.YEAR, Integer.parseInt(yyyy));
+        cal.set(Calendar.MONTH, Integer.parseInt(mm));
+        cal.set(Calendar.DATE, Integer.parseInt(dd));
+        Global.setCalendar(cal);
+        return new ResponseEntity<String>("yo",
+                new HttpHeaders(), HttpStatus.OK);
+
+    }
     @RequestMapping(value = "/portfolio/create/{portfolioName}", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -47,9 +58,6 @@ public class TestServiceRest {
     public
     @ResponseBody
     ResponseEntity<String> addToPortfolioTest(@PathVariable("portfolioName") String portfolioName,@PathVariable("symbolName") String symbolName, HttpServletRequest request) {
-        Calendar cal=new GregorianCalendar();
-        cal.set(Calendar.YEAR,2008);
-        Global.setCalendar(cal);
         portfolioService.addToPortfolio(portfolioName, symbolName);
         return new ResponseEntity<String>("yo",
                 new HttpHeaders(), HttpStatus.OK);

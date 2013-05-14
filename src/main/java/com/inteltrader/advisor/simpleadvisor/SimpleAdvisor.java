@@ -1,5 +1,7 @@
-package com.inteltrader.advisor;
+package com.inteltrader.advisor.simpleadvisor;
 
+import com.inteltrader.advisor.Advice;
+import com.inteltrader.advisor.Advisor;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.util.InvalidAdviceException;
 
@@ -16,7 +18,7 @@ import java.util.Map;
  * Time: 6:39 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SimpleAdvisor implements Advisor{
+public class SimpleAdvisor implements Advisor {
     private Map<String,Strategy> strategyMap=new HashMap<String, Strategy>();
     @Override
     public Advice getAdvice() {

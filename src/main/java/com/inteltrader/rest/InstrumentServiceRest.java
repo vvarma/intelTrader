@@ -1,7 +1,6 @@
 package com.inteltrader.rest;
 
 import com.google.gson.Gson;
-import com.inteltrader.advisor.StrategyGoldenCross;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.service.InstrumentService;
 import com.inteltrader.util.Global;
