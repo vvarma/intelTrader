@@ -59,7 +59,7 @@ public class CalculatorMACD {
         }
         RetCode retCode = core.macd(startIndex, endIndex, closePriceInput, fastPeriod, slowPeriod, signalPeriod,
                 strtOutIndex, outNb, macdResult, macdSignal, macdHistResult);
-        for (int i=0;i<=endIndex-fastPeriod;i++){
+        for (int i=0;i<=endIndex;i++){
             macdList.add(macdResult[i]);
             macdSignalList.add(macdSignal[i]);
             macdHistList.add(macdHistResult[i]);

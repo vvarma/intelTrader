@@ -27,16 +27,20 @@ public class QLearningAdvisor implements Advisor {
     private Holdings holdings;
     private CalculatorMACD calculatorMACD;
     private CalculatorRSI calculatorRSI;
-    List<Double> macdList = new ArrayList<Double>();
-    List<Double> macdSignalList = new ArrayList<Double>();
-    List<Double> macdHistList = new ArrayList<Double>();
-    List<Double> rsiList = new ArrayList<Double>();
+    List<Double> macdList;
+    List<Double> macdSignalList;
+    List<Double> macdHistList;
+    List<Double> rsiList;
     private InstrumentVo instrumentVo;
     int quantity = 0;
     double price = 0;
 
     @Override
     public Advice getAdvice() {
+        macdHistList=new ArrayList<Double>();
+        macdList=new ArrayList<Double>();
+        macdSignalList=new ArrayList<Double>();
+        rsiList=new ArrayList<Double>();
         calculatorMACD.calcMACD(instrumentVo, macdList, macdSignalList, macdHistList);
         calculatorRSI.calcRSI(instrumentVo, rsiList);
         train(instrumentVo);
@@ -56,7 +60,7 @@ public class QLearningAdvisor implements Advisor {
            //presentState= states.get(states.indexOf(presentState));
            // presentState=states.
         }
-        presentAdvice=presentState.getNonGreedyAdvice();
+        presentAdvice=presentState.getGreedyAdvice();
         quantity=updateQuantity(quantity,presentAdvice);
         return presentAdvice;  //To change body of implemented methods use File | Settings | File Templates.
         }
@@ -90,7 +94,7 @@ public class QLearningAdvisor implements Advisor {
                      }  else{
                         //presentState= states.get(states.indexOf(presentState));
                     }
-                     presentAdvice=presentState.getNonGreedyAdvice();
+                     presentAdvice=presentState.getNonGreedyAdvice(iter);
                     quantity=updateQuantity(quantity,presentAdvice);
                    // System.out.print(" present state :"+presentState.toString()+" present advice :"+presentAdvice.toString()+" "+quantity+" "+price);
 

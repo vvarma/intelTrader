@@ -29,6 +29,7 @@ public class CalculatorRSI {
     }
     public RetCode calcRSI(InstrumentVo instrumentVo,List<Double> resultList){
         noOutEle= instrumentVo.getPriceList().size();
+        System.out.println("noutele rsi :"+noOutEle);
         int endIndex=instrumentVo.getPriceList().size()-1;
         int startIndex=endIndex-noOutEle+1;
         double [] outResult=new double[endIndex+1];
@@ -44,9 +45,11 @@ public class CalculatorRSI {
         RetCode retCode=core.rsi(startIndex, endIndex, closePriceInput, rsiPeriod,
                 strtOutIndex, outNb, outResult);
        // result=outResult[endIndex];
-        for (int i=0;i<=endIndex-rsiPeriod;i++){
+        System.out.println("inside result rsi :"+outResult.length);
+        for (int i=0;i<=endIndex;i++){
             resultList.add(outResult[i]);
         }
+        System.out.println("inside result rsi 2 :"+resultList.size());
          return retCode;
     }
 

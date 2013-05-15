@@ -44,10 +44,14 @@ public class State {
         }
         return maxAdvice;
     }
-    public Advice getNonGreedyAdvice(){
+    public Advice getNonGreedyAdvice(int iter){
         Advice[] arrAdvice={Advice.BUY,Advice.HOLD,Advice.SELL};
-        Random random=new Random();
-        return arrAdvice[random.nextInt(3)];
+        int i= iter/34;
+        Advice ret= arrAdvice[i];
+
+        System.out.println("1232321"+ret.toString()+" "+iter);
+        return ret;
+       // return arrAdvice[random.nextInt(3)];
     }
 
     @Override
