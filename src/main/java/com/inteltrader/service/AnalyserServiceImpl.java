@@ -2,6 +2,7 @@ package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.Advisor;
+import com.inteltrader.advisor.qlearningadvisor.QLearningAdvisor;
 import com.inteltrader.advisor.simpleadvisor.SimpleAdvisor;
 import com.inteltrader.entity.Instrument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,9 @@ public class AnalyserServiceImpl implements AnalyserService {
     public Advice getAnalysis(String symbolName) {
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
         try{
-            advisor= SimpleAdvisor.buildAdvisor(instrument,"MACD");
+            //advisor= SimpleAdvisor.buildAdvisor(instrument,"MACD");
+            if (advisor==null)
+                advisor= new QLearningAdvisor(instrument);
             return advisor.getAdvice();
         } catch (IOException e){
             e.printStackTrace();

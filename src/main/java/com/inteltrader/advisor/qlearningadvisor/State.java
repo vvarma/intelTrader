@@ -71,4 +71,14 @@ public class State {
         result = 31 * result + rsiState.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "State{" +
+                "holdingState=" + holdingState +
+                ", macdState=" + macdState +
+                ", rsiState=" + rsiState +
+                ", actionRewardMap=" + actionRewardMap +
+                '}';
+    }
 }

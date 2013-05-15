@@ -35,7 +35,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     public RestCodes updatePortfolio(String portfolioName) {
         EntityManager entityManager=entityManagerFactory.createEntityManager();
         Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
-        for (Investment investment:portfolio.getInvestmentList()){
+            for (Investment investment:portfolio.getInvestmentList()){
             investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
             investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName()),investment);
 
