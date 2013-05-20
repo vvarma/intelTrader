@@ -52,9 +52,10 @@ public class InstrumentServiceRest {
     @ResponseBody
     ResponseEntity<String> loadInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request){
         Instrument instrument = instrumentService.retrieveInstrument(symbolName);
-
+         HttpHeaders headers=new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin","*");
         return new ResponseEntity<String>(new Gson().toJson(instrument),
-                new HttpHeaders(), HttpStatus.OK);
+                headers, HttpStatus.OK);
     }
     @RequestMapping(value = "/update/{portfolioName}", method = RequestMethod.GET)
     public
