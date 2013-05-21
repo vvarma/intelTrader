@@ -1,6 +1,6 @@
 package com.inteltrader.advisor.simpleadvisor;
 
-import com.inteltrader.advisor.InstrumentVo;
+import com.inteltrader.advisor.InstrumentAo;
 import com.inteltrader.entity.Instrument;
 
 /**
@@ -12,18 +12,18 @@ import com.inteltrader.entity.Instrument;
  */
 public abstract class Strategy implements Strategies {
 
-    private InstrumentVo instrumentVo;
+    private InstrumentAo instrumentVo;
 
-    public InstrumentVo getInstrumentVo() {
+    public InstrumentAo getInstrumentVo() {
         return instrumentVo;
     }
 
-    public void setInstrumentVo(InstrumentVo instrumentVo) {
+    public void setInstrumentVo(InstrumentAo instrumentVo) {
         this.instrumentVo = instrumentVo;
     }
 
     protected Strategy(Instrument instrument) {
-        instrumentVo=new InstrumentVo(instrument.getSymbolName());
+        instrumentVo=new InstrumentAo(instrument.getSymbolName());
         instrumentVo.setPriceList(instrument.getPriceList());
 
     }

@@ -1,6 +1,6 @@
 package com.inteltrader.advisor.tawrapper;
 
-import com.inteltrader.advisor.InstrumentVo;
+import com.inteltrader.advisor.InstrumentAo;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
@@ -40,10 +40,10 @@ public class CalculatorMACD {
         POSITIVE_ABOVE_THRESHOLD, POSITIVE_BELOW_THRESHOLD, NEGETIVE_ABOVE_THRESHOLD, NEGETIVE_BELOW_THRESHOLD,START;
     }
 
-    public RetCode calcMACD(InstrumentVo instrumentVo,List<Double> macdList,List<Double> macdSignalList,List<Double> macdHistList) {
+    public RetCode calcMACD(InstrumentAo instrumentAo,List<Double> macdList,List<Double> macdSignalList,List<Double> macdHistList) {
         System.out.println("43232"+noOutEle);
-        noOutEle= instrumentVo.getPriceList().size();
-        int endIndex = instrumentVo.getPriceList().size() - 1;
+        noOutEle= instrumentAo.getPriceList().size();
+        int endIndex = instrumentAo.getPriceList().size() - 1;
         int startIndex = endIndex - noOutEle + 1;
         double[] macdResult = new double[endIndex + 1];
         double[] macdHistResult = new double[endIndex + 1];
@@ -54,7 +54,7 @@ public class CalculatorMACD {
         MInteger outNb = new MInteger();
         outNb.value = noOutEle;
         for (int index = 0; index <= endIndex; index++) {
-            closePriceInput[index] = instrumentVo.getPriceList().get(index).getClosePrice();
+            closePriceInput[index] = instrumentAo.getPriceList().get(index).getClosePrice();
 
         }
         RetCode retCode = core.macd(startIndex, endIndex, closePriceInput, fastPeriod, slowPeriod, signalPeriod,

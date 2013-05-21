@@ -2,6 +2,7 @@ package com.inteltrader.rest;
 
 import com.google.gson.Gson;
 import com.inteltrader.entity.Instrument;
+import com.inteltrader.entity.view.InstrumentVo;
 import com.inteltrader.service.InstrumentService;
 import com.inteltrader.util.Global;
 import com.inteltrader.util.RestCodes;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -55,6 +57,19 @@ public class InstrumentServiceRest {
          HttpHeaders headers=new HttpHeaders();
         headers.add("Access-Control-Allow-Origin","*");
         return new ResponseEntity<String>(new Gson().toJson(instrument),
+                headers, HttpStatus.OK);
+    }
+    @RequestMapping(value = "/loadWhich/{whichPrice}/{symbol}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseEntity<String> loadInstrumentWhichPrice(@PathVariable("symbol") String symbolName,@PathVariable("whichPrice") String whichPrice, HttpServletRequest request){
+        Instrument instrument = instrumentService.retrieveInstrument(symbolName);
+        InstrumentVo.WhichPrice whichPriceEnum=InstrumentVo.WhichPrice.valueOf(whichPrice.toUpperCase());
+        InstrumentVo instrumentVo=InstrumentVo.buildInstrumentVo(instrument,whichPriceEnum);
+        Integer[][] intArr={{1,2},{2,3},{4,5}};
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin","*");
+        return new ResponseEntity<String>(new Gson().toJson(instrumentVo),
                 headers, HttpStatus.OK);
     }
     @RequestMapping(value = "/update/{portfolioName}", method = RequestMethod.GET)

@@ -1,6 +1,6 @@
 package com.inteltrader.advisor.tawrapper;
 
-import com.inteltrader.advisor.InstrumentVo;
+import com.inteltrader.advisor.InstrumentAo;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
@@ -27,10 +27,10 @@ public class CalculatorRSI {
     public enum RSIState{
         ABOVE_THRESHOLD,BETWEEN_THRESHOLD,BELOW_THRESHOLD,START;
     }
-    public RetCode calcRSI(InstrumentVo instrumentVo,List<Double> resultList){
-        noOutEle= instrumentVo.getPriceList().size();
+    public RetCode calcRSI(InstrumentAo instrumentAo,List<Double> resultList){
+        noOutEle= instrumentAo.getPriceList().size();
         System.out.println("noutele rsi :"+noOutEle);
-        int endIndex=instrumentVo.getPriceList().size()-1;
+        int endIndex= instrumentAo.getPriceList().size()-1;
         int startIndex=endIndex-noOutEle+1;
         double [] outResult=new double[endIndex+1];
         double [] closePriceInput=new double[endIndex+1];
@@ -39,7 +39,7 @@ public class CalculatorRSI {
         MInteger outNb=new MInteger();
         outNb.value=noOutEle;
         for (int index=0;index<=endIndex;index++){
-            closePriceInput[index]=instrumentVo.getPriceList().get(index).getClosePrice();
+            closePriceInput[index]= instrumentAo.getPriceList().get(index).getClosePrice();
 
         }
         RetCode retCode=core.rsi(startIndex, endIndex, closePriceInput, rsiPeriod,

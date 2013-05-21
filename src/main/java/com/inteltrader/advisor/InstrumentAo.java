@@ -17,7 +17,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-public class InstrumentVo implements Serializable {
+public class InstrumentAo implements Serializable {
 
     private String symbolName;
     private List<Price> priceList;
@@ -38,10 +38,10 @@ public class InstrumentVo implements Serializable {
         return priceList;
     }
 
-    public InstrumentVo() {
+    public InstrumentAo() {
     }
 
-    public InstrumentVo(String symbolName) {
+    public InstrumentAo(String symbolName) {
         this.symbolName = symbolName;
     }
 }

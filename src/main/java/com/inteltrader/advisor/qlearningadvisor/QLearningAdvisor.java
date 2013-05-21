@@ -2,7 +2,7 @@ package com.inteltrader.advisor.qlearningadvisor;
 
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.Advisor;
-import com.inteltrader.advisor.InstrumentVo;
+import com.inteltrader.advisor.InstrumentAo;
 import com.inteltrader.advisor.tawrapper.CalculatorMACD;
 import com.inteltrader.advisor.tawrapper.CalculatorRSI;
 import com.inteltrader.entity.Instrument;
@@ -31,7 +31,7 @@ public class QLearningAdvisor implements Advisor {
     List<Double> macdSignalList;
     List<Double> macdHistList;
     List<Double> rsiList;
-    private InstrumentVo instrumentVo;
+    private InstrumentAo instrumentVo;
     int quantity = 0;
     double price = 0;
 
@@ -72,22 +72,22 @@ public class QLearningAdvisor implements Advisor {
             }
         }
 
-    public void train(InstrumentVo instrumentVo) {
+    public void train(InstrumentAo instrumentAo) {
         Advice presentAdvice=Advice.HOLD;
         State presentState = new State(Holdings.HoldingState.NO_HOLDING, CalculatorMACD.MACDState.START, CalculatorRSI.RSIState.START);
         int quantity = 0;
         double price = 0;
         for (int iter = 0; iter < 100; iter++) {
             //System.out.print("Iter "+iter+": ");
-            System.out.print("size pric="+instrumentVo.getPriceList().size()+" m= "+macdHistList.size()+" r="+rsiList.size());
+            System.out.print("size pric="+ instrumentAo.getPriceList().size()+" m= "+macdHistList.size()+" r="+rsiList.size());
             for (int i = 0; i < macdHistList.size(); i++) {
                 //System.out.println();
                 //System.out.print("previous state :"+presentState.toString()+" previous advice :"+presentAdvice.toString());
                 if (macdHistList.get(i) != 0 && rsiList.get(i) != 0) {
-                     presentState.updateReward(presentAdvice, calcReward(quantity,price, instrumentVo.getPriceList().get(i).getClosePrice()));
+                     presentState.updateReward(presentAdvice, calcReward(quantity,price, instrumentAo.getPriceList().get(i).getClosePrice()));
                     //need a builder here
-                    price=instrumentVo.getPriceList().get(i).getClosePrice();
-                    presentState = new State(holdings.getHoldings(quantity, price, instrumentVo.getPriceList().get(i).getClosePrice()),
+                    price= instrumentAo.getPriceList().get(i).getClosePrice();
+                    presentState = new State(holdings.getHoldings(quantity, price, instrumentAo.getPriceList().get(i).getClosePrice()),
                             calculatorMACD.getMACDState(macdHistList.get(i)), calculatorRSI.getRSIState(rsiList.get(i)));
                     if (!states.contains(presentState)){
                          states.add(presentState);
@@ -119,7 +119,7 @@ public class QLearningAdvisor implements Advisor {
 
     public QLearningAdvisor(Instrument instrument) throws IOException {
         System.out.println("constructor called 123432");
-        instrumentVo=new InstrumentVo(instrument.getSymbolName());
+        instrumentVo=new InstrumentAo(instrument.getSymbolName());
         instrumentVo.setPriceList(instrument.getPriceList());
         calculatorRSI = new CalculatorRSI();
         calculatorMACD = new CalculatorMACD();
