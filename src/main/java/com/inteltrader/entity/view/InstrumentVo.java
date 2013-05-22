@@ -10,48 +10,26 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  * User: vvarm1
- * Date: 5/21/13
- * Time: 10:50 AM
+ * Date: 5/22/13
+ * Time: 10:40 AM
  * To change this template use File | Settings | File Templates.
  */
 public class InstrumentVo {
     private String symbolName;
     private Date startDate;
     private Date endDate;
-    private List<Double> priceList;
+    private List<PriceVo> priceList;
 
-    private InstrumentVo(String symbolName, Date startDate, Date endDate, List<Double> priceList) {
-        this.symbolName = symbolName;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.priceList = priceList;
-    }
-    public enum WhichPrice{
-        CLOSE,OPEN;
-    }
-    public static InstrumentVo buildInstrumentVo(Instrument instrument, WhichPrice whichPrice){
-        List<Double> priceList=new ArrayList<Double>();
-        switch (whichPrice){
-             case CLOSE:
-                 for (Price price:instrument.getPriceList()){
-                     priceList.add(price.getClosePrice());
-                 }
-                 break;
-             case OPEN:
-                 for (Price price:instrument.getPriceList()){
-                     priceList.add(price.getOpenPrice());
-                 }
-                 break;
-             default:
-                 for (Price price:instrument.getPriceList()){
-                     priceList.add(price.getClosePrice());
-                 }
-         }
-        Date startDate=instrument.getPriceList().get(0).getTimeStamp().getTime();
+    public InstrumentVo(Instrument instrument) {
+        symbolName=instrument.getSymbolName();
         int index=instrument.getPriceList().size()-1;
-        Date endDate=instrument.getPriceList().get(index).getTimeStamp().getTime();
-        return new InstrumentVo(instrument.getSymbolName(),startDate,endDate,priceList);
-
+        startDate=instrument.getPriceList().get(0).getTimeStamp().getTime();
+        endDate=instrument.getPriceList().get(index).getTimeStamp().getTime();
+        priceList=new ArrayList<PriceVo>();
+        for (Price price:instrument.getPriceList()){
+            Date date=price.getTimeStamp().getTime();
+            priceList.add(new PriceVo(date,price.getClosePrice(),price.getOpenPrice(),price.getLowPrice(),price.getHighPrice(),price.getLastClosePrice(),price.getTotalTradedQuantity()));
+        }
     }
 
     public String getSymbolName() {
@@ -66,7 +44,7 @@ public class InstrumentVo {
         return endDate;
     }
 
-    public List<Double> getPriceList() {
+    public List<PriceVo> getPriceList() {
         return priceList;
     }
 }
