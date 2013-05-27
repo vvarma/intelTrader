@@ -1,6 +1,9 @@
 package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
+import com.inteltrader.advisor.tawrapper.TAWrapper;
+
+import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,4 +14,5 @@ import com.inteltrader.advisor.Advice;
  */
 public interface AnalyserService {
     Advice getAnalysis(String symbolName);
+    TAWrapper getWrapper(String symbolName)throws IOException;
 }

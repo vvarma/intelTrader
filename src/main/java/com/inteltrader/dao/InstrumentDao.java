@@ -3,6 +3,9 @@ package com.inteltrader.dao;
 import com.inteltrader.entity.Instrument;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.criteria.*;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,4 +35,6 @@ public class InstrumentDao implements IInstrumentDao {
     public void deleteInstrument(EntityManager entityManager, Instrument instrument) {
         entityManager.remove(instrument);
     }
+
+
 }

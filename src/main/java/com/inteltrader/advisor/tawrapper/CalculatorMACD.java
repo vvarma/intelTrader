@@ -27,13 +27,18 @@ public class CalculatorMACD {
     double threshold;
     double result;
 
-    public CalculatorMACD() throws IOException {
+    public CalculatorMACD(int noOutEle, double threshold) throws IOException {
         properties.load(new FileInputStream("intel.properties"));
         fastPeriod = Integer.parseInt(properties.getProperty("MACD_FastPeriod"));
         slowPeriod = Integer.parseInt(properties.getProperty("MACD_SlowPeriod"));
         signalPeriod = Integer.parseInt(properties.getProperty("MACD_SignalPeriod"));
-        noOutEle = 1;
-        threshold=1;
+        this.noOutEle = noOutEle;
+        this.threshold = threshold;
+    }
+
+    public CalculatorMACD() throws IOException {
+        this(1,1);
+
     }
 
     public enum MACDState {
@@ -42,7 +47,10 @@ public class CalculatorMACD {
 
     public RetCode calcMACD(InstrumentAo instrumentAo,List<Double> macdList,List<Double> macdSignalList,List<Double> macdHistList) {
         System.out.println("43232"+noOutEle);
-        noOutEle= instrumentAo.getPriceList().size();
+        if(noOutEle==Integer.MAX_VALUE){
+            noOutEle= instrumentAo.getPriceList().size();
+        }
+
         int endIndex = instrumentAo.getPriceList().size() - 1;
         int startIndex = endIndex - noOutEle + 1;
         double[] macdResult = new double[endIndex + 1];
@@ -67,6 +75,7 @@ public class CalculatorMACD {
         //result=macdHistResult[endIndex];
         return retCode;
     }
+
     public MACDState getMACDState(Double result){
        // RetCode retCode=calcMACD(instrumentVo);
       //  if(retCode.equals(RetCode.Success)){

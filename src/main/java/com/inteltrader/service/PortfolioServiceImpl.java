@@ -77,7 +77,7 @@ public class PortfolioServiceImpl implements PortfolioService {
             portfolio.getInvestmentList().add(investment);
             investment.setAssociatedPortfolio(portfolio);
             System.out.println(portfolio);
-            investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName()),investment);
+            //investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName()),investment);
             //portfolioDao.updatePortfolio(entityManager,portfolio);
             entityManager.getTransaction().commit();
             return RestCodes.SUCCESS;

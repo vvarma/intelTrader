@@ -1,11 +1,11 @@
 package com.inteltrader.entity.view;
 
+import com.inteltrader.advisor.tawrapper.MACDWrapper;
+import com.inteltrader.advisor.tawrapper.TAWrapper;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,8 +19,10 @@ public class InstrumentVo {
     private Date startDate;
     private Date endDate;
     private List<PriceVo> priceList;
+    private Map<String,List<Double>> extras;
 
     public InstrumentVo(Instrument instrument) {
+        extras=new HashMap<String, List<Double>>();
         symbolName=instrument.getSymbolName();
         int index=instrument.getPriceList().size()-1;
         startDate=instrument.getPriceList().get(0).getTimeStamp().getTime();
@@ -30,6 +32,25 @@ public class InstrumentVo {
             Date date=price.getTimeStamp().getTime();
             priceList.add(new PriceVo(date,price.getClosePrice(),price.getOpenPrice(),price.getLowPrice(),price.getHighPrice(),price.getLastClosePrice(),price.getTotalTradedQuantity()));
         }
+    }
+
+    public InstrumentVo(TAWrapper wrapper) {
+        extras=new HashMap<String, List<Double>>();
+        symbolName=wrapper.getInstrument().getSymbolName();
+        startDate=wrapper.getInstrument().getPriceList().get(0).getTimeStamp().getTime();
+        int index=wrapper.getInstrument().getPriceList().size()-1;
+        endDate=wrapper.getInstrument().getPriceList().get(index).getTimeStamp().getTime();
+        priceList=new ArrayList<PriceVo>();
+        for (Price price:wrapper.getInstrument().getPriceList()){
+            Date date=price.getTimeStamp().getTime();
+            priceList.add(new PriceVo(date,price.getClosePrice(),price.getOpenPrice(),price.getLowPrice(),price.getHighPrice(),price.getLastClosePrice(),price.getTotalTradedQuantity()));
+        }
+        if (wrapper.getDesc().equals("MACD")){
+            extras.put("MACD",((MACDWrapper)wrapper).getMacdList());
+            extras.put("MACDHist",((MACDWrapper)wrapper).getMacdHistList());
+            extras.put("MACDSignal",((MACDWrapper)wrapper).getMacdSignalList());
+        }
+
     }
 
     public String getSymbolName() {

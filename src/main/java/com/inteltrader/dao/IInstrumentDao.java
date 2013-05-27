@@ -3,6 +3,7 @@ package com.inteltrader.dao;
 import com.inteltrader.entity.Instrument;
 
 import javax.persistence.EntityManager;
+import java.util.Calendar;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,4 +17,5 @@ public interface IInstrumentDao {
     Instrument retrieveInstrument(EntityManager entityManager,String symbolName);
     void updateInstrument(EntityManager entityManager,Instrument instrument);
     void deleteInstrument(EntityManager entityManager,Instrument instrument);
+
 }

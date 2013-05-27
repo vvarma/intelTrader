@@ -55,13 +55,15 @@ public class InstrumentServiceRest {
     ResponseEntity<String> loadInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request){
         Instrument instrument = instrumentService.retrieveInstrument(symbolName);
         InstrumentVo instrumentVo=new InstrumentVo(instrument);
-         HttpHeaders headers=new HttpHeaders();
+        HttpHeaders headers=new HttpHeaders();
         headers.add("Access-Control-Allow-Origin","*");
         return new ResponseEntity<String>(new Gson().toJson(instrumentVo),
                 headers, HttpStatus.OK);
     }
 
-    //not required..
+
+
+    //not required..  handled
     @RequestMapping(value = "/loadWhich/{whichPrice}/{symbol}", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -69,7 +71,6 @@ public class InstrumentServiceRest {
         Instrument instrument = instrumentService.retrieveInstrument(symbolName);
         InstrumentVoSelective.WhichPrice whichPriceEnum= InstrumentVoSelective.WhichPrice.valueOf(whichPrice.toUpperCase());
         InstrumentVoSelective instrumentVoSelective = InstrumentVoSelective.buildInstrumentVo(instrument, whichPriceEnum);
-        Integer[][] intArr={{1,2},{2,3},{4,5}};
         HttpHeaders headers=new HttpHeaders();
         headers.add("Access-Control-Allow-Origin","*");
         return new ResponseEntity<String>(new Gson().toJson(instrumentVoSelective),

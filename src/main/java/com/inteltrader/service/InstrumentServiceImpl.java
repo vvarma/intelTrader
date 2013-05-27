@@ -48,6 +48,8 @@ public class InstrumentServiceImpl implements InstrumentService {
          return instrument;
     }
 
+
+
     @Override
     public RestCodes updateInstruments(String portfolioName){
         List<String> symbolNameList=new ArrayList<String>();
@@ -95,11 +97,6 @@ public class InstrumentServiceImpl implements InstrumentService {
             e.printStackTrace();
             return RestCodes.FAILURE;
         }
-    }
-
-    @Override
-    public RestCodes deleteInstrument(Instrument instrument) {
-        return RestCodes.FAILURE;
     }
 
     @Override
