@@ -22,9 +22,8 @@ public class DownloadZip {
         properties.load(new FileInputStream("intel.properties"));
     }
 
-    public void downloadZip(String urlFormed) {
-        try
-        {
+    public void downloadZip(String urlFormed) throws IOException{
+
 	        /*
 	         * Get a connection to the URL and start up
 	         * a buffered reader.
@@ -60,15 +59,7 @@ public class DownloadZip {
             //Logger.info("Done. " + (new Integer(totalBytesRead).toString()) + " bytes read (" + (new Long(endTime - startTime).toString()) + " millseconds).\n");
             writer.close();
             reader.close();
-        }
-        catch (MalformedURLException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+
 
 
     }

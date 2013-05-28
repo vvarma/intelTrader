@@ -33,7 +33,6 @@ public class MACDWrapper extends TAWrapper {
         if(indexMacd==indexMacdHist&&indexMacd==indexMacdSignal){
             for(int i=0;i<indexMacd;i++){
                 if(macdList.get(i).equals(0.0)&macdList.get(i).equals(macdHistList.get(i))&&macdList.get(i).equals(macdSignalList.get(i))){
-                    System.out.println("#123");
                     macdList.remove(i);
                     macdHistList.remove(i);
                     macdSignalList.remove(i);

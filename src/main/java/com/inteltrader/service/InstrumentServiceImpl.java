@@ -13,6 +13,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -70,16 +71,21 @@ public class InstrumentServiceImpl implements InstrumentService {
                     if (isWeekDay(calendar)) {
                         String genFileName = createFilenamGivenDate(calendar);
                         File file = new File(fileName + genFileName);
-                        if (file.exists()) {
-                            System.out.println(genFileName + " exists!");
-                            fileName = fileName + genFileName;
-                        } else {
-                            System.out.println("downloader called.. ");
-                            fileName = fileName
-                                    + createUrlDownloadAndExtractFileGivenDate(calendar);
+                        try{
+                            if (file.exists()) {
+                                System.out.println(genFileName + " exists!");
+                                fileName = fileName + genFileName;
+                            } else {
+                                System.out.println("downloader called.. ");
+                                fileName = fileName
+                                        + createUrlDownloadAndExtractFileGivenDate(calendar);
+                            }
+                            Price instrPrice = ReadPriceCsv.readPrice(fileName, symbolName, (Calendar)calendar.clone());
+                            instrument.getPriceList().add(instrPrice);
+                        }catch (FileNotFoundException e){
+                            System.err.println("Public Holiday" + calendar.getTime());
                         }
-                         Price instrPrice = ReadPriceCsv.readPrice(fileName, symbolName, (Calendar)calendar.clone());
-                        instrument.getPriceList().add(instrPrice);
+
                     }
                 }
                 entityManager.getTransaction().begin();
@@ -133,26 +139,31 @@ public class InstrumentServiceImpl implements InstrumentService {
     private Instrument getSingleInstrumentGivenDateAndName(
             Calendar startDate, Calendar endDate, String symbol) throws IOException{
        Instrument instrument=new Instrument(symbol);
-        for (Calendar i = startDate; i.before(endDate); i.add(Calendar.DATE, 1)) {
+        for (Calendar calendar = startDate; calendar.before(endDate); calendar.add(Calendar.DATE, 1)) {
             String fileName = properties.getProperty("DATA_PATH");
             System.out.println("in for loop");
-            if (isWeekDay(i)) {
-                String genFileName = createFilenamGivenDate(i);
-                File file = new File(fileName + genFileName);
-                if (file.exists()) {
-                    System.out.println(genFileName + " exists!");
-                   // Logger.trace(genFileName + " exists!");
-                    fileName = fileName + genFileName;
-                } else {
-                    System.out.println("downloader called.. ");
-                  //  Logger.trace("downloader called.. ");
-                    fileName = fileName
-                            + createUrlDownloadAndExtractFileGivenDate(i);
+            if (isWeekDay(calendar)) {
+                try{
+                    String genFileName = createFilenamGivenDate(calendar);
+                    File file = new File(fileName + genFileName);
+                    if (file.exists()) {
+                        System.out.println(genFileName + " exists!");
+                        // Logger.trace(genFileName + " exists!");
+                        fileName = fileName + genFileName;
+                    } else {
+                        System.out.println("downloader called.. ");
+                        //  Logger.trace("downloader called.. ");
+                        fileName = fileName
+                                + createUrlDownloadAndExtractFileGivenDate(calendar);
+                    }
+
+
+                    Price instrPrice = ReadPriceCsv.readPrice(fileName, symbol, (Calendar)calendar.clone());
+                    instrument.getPriceList().add(instrPrice);
+                } catch (FileNotFoundException e){
+                    System.err.println("Public Holiday" + calendar.getTime());
                 }
 
-
-                Price instrPrice = ReadPriceCsv.readPrice(fileName, symbol, (Calendar)i.clone());
-                instrument.getPriceList().add(instrPrice);
             }
 
         }
