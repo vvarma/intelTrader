@@ -2,6 +2,7 @@ package com.inteltrader.advisor.tawrapper;
 
 import com.inteltrader.advisor.InstrumentAo;
 import com.inteltrader.entity.Instrument;
+import com.inteltrader.entity.Price;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -22,6 +23,13 @@ public  class TAWrapper implements InstrumentWrapper  {
         this.instrumentWrapper = instrumentWrapper;
         this.desc=desc;
     }
+
+    @Override
+    public void updateWrapper(Price price) {
+        instrumentWrapper.updateWrapper(price);
+
+    }
+
     @Override
     public InstrumentAo getInstrument() {
         return instrumentWrapper.getInstrument();

@@ -1,6 +1,7 @@
 package com.inteltrader.advisor.tawrapper;
 
 import com.inteltrader.advisor.InstrumentAo;
+import com.inteltrader.entity.Price;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,4 +12,5 @@ import com.inteltrader.advisor.InstrumentAo;
  */
 public interface InstrumentWrapper {
     public InstrumentAo getInstrument();
+    public void updateWrapper(Price price);
 }

@@ -1,5 +1,7 @@
 package com.inteltrader.advisor.tawrapper;
 
+import com.inteltrader.entity.Price;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,15 @@ public class MACDWrapper extends TAWrapper {
             System.err.println("Something wrong sizes should be same #123");
         }
     }
+    private void updateMacdWrapper(){
+
+    }
+    @Override
+    public void updateWrapper(Price price) {
+        super.updateWrapper(price);
+        updateMacdWrapper();
+    }
+
     public List<Double> getMacdList() {
         return macdList;
     }
