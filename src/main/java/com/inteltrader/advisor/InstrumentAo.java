@@ -44,4 +44,8 @@ public class InstrumentAo implements Serializable {
     public InstrumentAo(String symbolName) {
         this.symbolName = symbolName;
     }
+    public Price getCurrentPrice(){
+        int index=priceList.size()-1;
+        return priceList.get(index);
+    }
 }

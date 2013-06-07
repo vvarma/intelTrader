@@ -2,6 +2,7 @@ package com.inteltrader.rest;
 
 import com.google.gson.Gson;
 import com.inteltrader.entity.Portfolio;
+import com.inteltrader.service.InstrumentService;
 import com.inteltrader.service.PortfolioService;
 import com.inteltrader.util.RestCodes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 public class PortfolioServiceRest {
     @Autowired
     private PortfolioService portfolioService;
+    @Autowired
+    private InstrumentService instrumentService;
     @RequestMapping(value = "/create/{portfolioName}", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -54,7 +57,7 @@ public class PortfolioServiceRest {
     public
     @ResponseBody
     ResponseEntity<String> updatePortfolio(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request) {
-
+        instrumentService.updateInstruments(portfolioName);
         RestCodes responseCode = portfolioService.updatePortfolio(portfolioName);
 
         return new ResponseEntity<String>(responseCode.toString(),

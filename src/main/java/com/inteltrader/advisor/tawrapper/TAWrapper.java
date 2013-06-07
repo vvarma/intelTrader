@@ -1,6 +1,7 @@
 package com.inteltrader.advisor.tawrapper;
 
 import com.inteltrader.advisor.InstrumentAo;
+import com.inteltrader.advisor.qlearningadvisor.State;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * Time: 11:24 AM
  * To change this template use File | Settings | File Templates.
  */
-public  class TAWrapper implements InstrumentWrapper  {
+public abstract class TAWrapper implements InstrumentWrapper  {
     private InstrumentWrapper instrumentWrapper;
     private String desc;
 
@@ -25,25 +26,19 @@ public  class TAWrapper implements InstrumentWrapper  {
     }
 
     @Override
-    public void updateWrapper(Price price) {
-        instrumentWrapper.updateWrapper(price);
-
-    }
-
-    @Override
     public InstrumentAo getInstrument() {
         return instrumentWrapper.getInstrument();
     }
-    public TAWrapper getWrapper(){
-        return this;
+    public InstrumentWrapper getWrapper(){
+        return instrumentWrapper;
     }
-    public static TAWrapper WrapMaker(Instrument instrument,String ...tokens) throws IOException {
-        TAWrapper taWrapper=new TAWrapper(new InstrumentWrapperImpl(instrument),"Default");
+    public static InstrumentWrapper WrapMaker(Instrument instrument,String ...tokens) throws IOException {
+        InstrumentWrapper instrumentWrapper=new InstrumentWrapperImpl(instrument);
         List<String> tokenList= Arrays.asList(tokens);
         if(tokenList.contains("MACD"))  {
-            taWrapper=new MACDWrapper(taWrapper,"MACD");
+            instrumentWrapper=new MACDWrapper(instrumentWrapper,"MACD");
         }
-        return taWrapper;
+        return instrumentWrapper;
     }
 
     public String getDesc() {

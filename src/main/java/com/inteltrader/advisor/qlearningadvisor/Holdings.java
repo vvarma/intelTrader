@@ -11,6 +11,48 @@ public class Holdings {
     public enum HoldingState{
         LONG_PROFIT,LONG_LOSS,SHORT_PROFIT,SHORT_LOSS,NO_HOLDING;
     }
+    private int quantity;
+    private double currentPrice;
+
+    public Holdings( double currentPrice) {
+        this.quantity = 0;
+        this.currentPrice = currentPrice;
+    }
+    public void addQuantity(int quantity){
+        this.quantity+=quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public double getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public HoldingState getHoldingsAndUpdateCurrentPrice(double currentPrice){
+        HoldingState toBeReturned=null;
+        if(quantity==0){
+            toBeReturned= HoldingState.NO_HOLDING;
+        }
+        if (this.currentPrice>currentPrice){
+            if (quantity>0){
+                toBeReturned= HoldingState.LONG_PROFIT;
+            }   else {
+                toBeReturned= HoldingState.SHORT_LOSS;
+            }
+        }else{
+            if (quantity>0){
+                toBeReturned= HoldingState.LONG_LOSS;
+            }   else {
+                toBeReturned= HoldingState.SHORT_PROFIT;
+            }
+
+        }
+        this.currentPrice=currentPrice;
+        return toBeReturned;
+
+    }
     public HoldingState getHoldings(int quantity,double lastPrice,double currentPrice ){
         if(quantity==0){
             return HoldingState.NO_HOLDING;
@@ -29,5 +71,13 @@ public class Holdings {
             }
 
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Holdings{" +
+                "quantity=" + quantity +
+                ", currentPrice=" + currentPrice +
+                '}';
     }
 }

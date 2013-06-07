@@ -21,7 +21,7 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 public class QLearningAdvisor implements Advisor {
-    private Set<State> states = new HashSet<State>();
+    private Set<State> stateEXes = new HashSet<State>();
     private State presentState;
     private Advice presentAdvice;
     private Holdings holdings;
@@ -44,8 +44,8 @@ public class QLearningAdvisor implements Advisor {
         calculatorMACD.calcMACD(instrumentVo, macdList, macdSignalList, macdHistList);
         calculatorRSI.calcRSI(instrumentVo, rsiList);
         train(instrumentVo);
-        System.out.println("No of States = " + states.size());
-        for (State s:states){
+        System.out.println("No of States = " + stateEXes.size());
+        for (State s: stateEXes){
             System.out.println(s.toString());
         }
         int i=macdHistList.size()-1;
@@ -54,19 +54,19 @@ public class QLearningAdvisor implements Advisor {
         price=instrumentVo.getPriceList().get(i).getClosePrice();
         presentState = new State(holdings.getHoldings(quantity, price, instrumentVo.getPriceList().get(i).getClosePrice()),
                 calculatorMACD.getMACDState(macdHistList.get(i)), calculatorRSI.getRSIState(rsiList.get(i)));
-        if (!states.contains(presentState)){
-            states.add(presentState);
+        if (!stateEXes.contains(presentState)){
+            stateEXes.add(presentState);
         }else{
-           //presentState= states.get(states.indexOf(presentState));
-           // presentState=states.
+           //presentState= stateEXes.get(stateEXes.indexOf(presentState));
+           // presentState=stateEXes.
         }
-        presentAdvice=presentState.getGreedyAdvice();
+        presentAdvice= presentState.getGreedyAdvice();
         quantity=updateQuantity(quantity,presentAdvice);
         return presentAdvice;  //To change body of implemented methods use File | Settings | File Templates.
         }
 
         private void updateState(Holdings holdings,CalculatorRSI.RSIState rsiState,CalculatorMACD.MACDState macdState){
-            for (State s:states){
+            for (State s: stateEXes){
 
 
             }
@@ -89,12 +89,12 @@ public class QLearningAdvisor implements Advisor {
                     price= instrumentAo.getPriceList().get(i).getClosePrice();
                     presentState = new State(holdings.getHoldings(quantity, price, instrumentAo.getPriceList().get(i).getClosePrice()),
                             calculatorMACD.getMACDState(macdHistList.get(i)), calculatorRSI.getRSIState(rsiList.get(i)));
-                    if (!states.contains(presentState)){
-                         states.add(presentState);
+                    if (!stateEXes.contains(presentState)){
+                         stateEXes.add(presentState);
                      }  else{
-                        //presentState= states.get(states.indexOf(presentState));
+                        //presentState= stateEXes.get(stateEXes.indexOf(presentState));
                     }
-                     presentAdvice=presentState.getNonGreedyAdvice(iter);
+                     presentAdvice= presentState.getNonGreedyAdvice(iter);
                     quantity=updateQuantity(quantity,presentAdvice);
                    // System.out.print(" present state :"+presentState.toString()+" present advice :"+presentAdvice.toString()+" "+quantity+" "+price);
 
@@ -123,7 +123,7 @@ public class QLearningAdvisor implements Advisor {
         instrumentVo.setPriceList(instrument.getPriceList());
         calculatorRSI = new CalculatorRSI();
         calculatorMACD = new CalculatorMACD();
-        holdings = new Holdings();
+        holdings = new Holdings(instrument.getCurrentPrice().getClosePrice());
         presentState = new State(Holdings.HoldingState.NO_HOLDING, CalculatorMACD.MACDState.START, CalculatorRSI.RSIState.START);
         presentAdvice = Advice.HOLD;
 

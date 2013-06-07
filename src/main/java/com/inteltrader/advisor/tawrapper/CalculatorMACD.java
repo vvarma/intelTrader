@@ -46,7 +46,7 @@ public class CalculatorMACD {
     }
 
     public RetCode calcMACD(InstrumentAo instrumentAo,List<Double> macdList,List<Double> macdSignalList,List<Double> macdHistList) {
-        System.out.println("43232"+noOutEle);
+        //System.out.println("43232"+noOutEle);
         if(noOutEle==Integer.MAX_VALUE){
             noOutEle= instrumentAo.getPriceList().size();
         }

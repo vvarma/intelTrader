@@ -1,5 +1,7 @@
 package com.inteltrader.advisor.tawrapper;
 
+import com.inteltrader.advisor.Advice;
+import com.inteltrader.advisor.qlearningadvisor.State;
 import com.inteltrader.entity.Price;
 
 import java.io.IOException;
@@ -13,7 +15,7 @@ import java.util.List;
  * Time: 11:26 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MACDWrapper extends TAWrapper {
+public class MACDWrapper extends TAWrapper{
     private List<Double> macdList;
     private List<Double> macdSignalList;
     private List<Double> macdHistList;
@@ -47,13 +49,44 @@ public class MACDWrapper extends TAWrapper {
             System.err.println("Something wrong sizes should be same #123");
         }
     }
-    private void updateMacdWrapper(){
+    private void updateMacdWrapper()throws IOException{
+        List<Double> tempMacdList=new ArrayList<Double>();
+        List<Double> tempMacdHistList=new ArrayList<Double>();
+        List<Double> tempMacdSignalList=new ArrayList<Double>();
+        calculator=new CalculatorMACD(1,1);
+        calculator.calcMACD(getInstrument(),tempMacdList,tempMacdSignalList,tempMacdHistList);
+        macdList.remove(0);
+        macdHistList.remove(0);
+        macdSignalList.remove(0);
+        int index=tempMacdHistList.size()-1;
+        macdList.add(tempMacdList.get(0));
+        macdHistList.add(tempMacdHistList.get(0));
+        macdSignalList.add(tempMacdSignalList.get(0));
+
 
     }
+
     @Override
-    public void updateWrapper(Price price) {
-        super.updateWrapper(price);
+    public void updateHoldings(Advice advice) {
+        this.getWrapper().updateHoldings(advice);
+    }
+
+    @Override
+    public State.Builder getStateBuilder() throws IOException {
+        int index=macdHistList.size()-1;
+        return this.getWrapper().getStateBuilder().macd(calculator.getMACDState(macdHistList.get(index)));  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public State.Builder updateWrapperAndGetStateBuilder(Price price, State presentState, Advice presentAdvice) throws IOException{
+        return this.getWrapper().updateWrapperAndGetStateBuilder(price, presentState, presentAdvice).macd(updateWrapperAndReturnState());  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private CalculatorMACD.MACDState updateWrapperAndReturnState() throws IOException {
         updateMacdWrapper();
+         int index=macdHistList.size()-1;
+         return calculator.getMACDState(macdHistList.get(index));
+
     }
 
     public List<Double> getMacdList() {
@@ -67,4 +100,5 @@ public class MACDWrapper extends TAWrapper {
     public List<Double> getMacdHistList() {
         return macdHistList;
     }
+
 }

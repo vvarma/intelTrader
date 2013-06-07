@@ -4,6 +4,7 @@ import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.Advisor;
 import com.inteltrader.advisor.qlearningadvisor.QLearningAdvisor;
 import com.inteltrader.advisor.simpleadvisor.SimpleAdvisor;
+import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
 import com.inteltrader.advisor.tawrapper.TAWrapper;
 import com.inteltrader.entity.Instrument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,9 @@ public class AnalyserServiceImpl implements AnalyserService {
     }
 
     @Override
-    public TAWrapper getWrapper(String symbolName) throws IOException{
+    public InstrumentWrapper getWrapper(String symbolName) throws IOException{
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
-        TAWrapper taWrapper=TAWrapper.WrapMaker(instrument,"MACD");
+        InstrumentWrapper taWrapper=TAWrapper.WrapMaker(instrument,"MACD");
         return taWrapper;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

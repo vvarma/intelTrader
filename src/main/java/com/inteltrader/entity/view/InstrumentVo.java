@@ -1,5 +1,6 @@
 package com.inteltrader.entity.view;
 
+import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
 import com.inteltrader.advisor.tawrapper.MACDWrapper;
 import com.inteltrader.advisor.tawrapper.TAWrapper;
 import com.inteltrader.entity.Instrument;
@@ -34,7 +35,7 @@ public class InstrumentVo {
         }
     }
 
-    public InstrumentVo(TAWrapper wrapper) {
+    public InstrumentVo(InstrumentWrapper wrapper) {
         extras=new HashMap<String, List<Double>>();
         symbolName=wrapper.getInstrument().getSymbolName();
         startDate=wrapper.getInstrument().getPriceList().get(0).getTimeStamp().getTime();
@@ -45,11 +46,14 @@ public class InstrumentVo {
             Date date=price.getTimeStamp().getTime();
             priceList.add(new PriceVo(date,price.getClosePrice(),price.getOpenPrice(),price.getLowPrice(),price.getHighPrice(),price.getLastClosePrice(),price.getTotalTradedQuantity()));
         }
-        if (wrapper.getDesc().equals("MACD")){
-            extras.put("MACD",((MACDWrapper)wrapper).getMacdList());
-            extras.put("MACDHist",((MACDWrapper)wrapper).getMacdHistList());
-            extras.put("MACDSignal",((MACDWrapper)wrapper).getMacdSignalList());
+        if (wrapper instanceof TAWrapper){
+            if (((TAWrapper)wrapper).getDesc().equals("MACD")){
+                extras.put("MACD",((MACDWrapper)wrapper).getMacdList());
+                extras.put("MACDHist",((MACDWrapper)wrapper).getMacdHistList());
+                extras.put("MACDSignal",((MACDWrapper)wrapper).getMacdSignalList());
+            }
         }
+
 
     }
 

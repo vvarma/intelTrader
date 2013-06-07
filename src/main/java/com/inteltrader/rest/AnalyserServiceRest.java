@@ -1,6 +1,7 @@
 package com.inteltrader.rest;
 
 import com.google.gson.Gson;
+import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
 import com.inteltrader.advisor.tawrapper.TAWrapper;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.view.InstrumentVo;
@@ -35,7 +36,7 @@ public class AnalyserServiceRest {
     @ResponseBody
     ResponseEntity<String> loadInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request){
         try{
-            TAWrapper taWrapper=analyserService.getWrapper(symbolName);
+            InstrumentWrapper taWrapper=analyserService.getWrapper(symbolName);
             InstrumentVo instrumentVo=new InstrumentVo(taWrapper);
             HttpHeaders headers=new HttpHeaders();
             headers.add("Access-Control-Allow-Origin","*");
