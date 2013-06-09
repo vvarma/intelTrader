@@ -7,6 +7,7 @@ import com.inteltrader.advisor.tawrapper.CalculatorRSI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,6 +21,7 @@ public class State implements States {
     private CalculatorMACD.MACDState macdState;
     private CalculatorRSI.RSIState rsiState;
     private Map<Advice, Double> actionRewardMap;
+    private Random random=new Random();
 
     public static class Builder {
         private final Holdings.HoldingState holdingState;
@@ -83,7 +85,7 @@ public class State implements States {
 
     public Advice getNonGreedyAdvice(int iter) {
         Advice[] arrAdvice = {Advice.BUY, Advice.HOLD, Advice.SELL};
-        int i = iter / 34;
+        int i = random.nextInt(3);
         Advice ret = arrAdvice[i];
 
         //System.out.println("1232321" + ret.toString() + " " + iter);

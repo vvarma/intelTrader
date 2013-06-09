@@ -39,10 +39,18 @@ public class InstrumentWrapperImpl implements InstrumentWrapper {
     public void updateHoldings(Advice advice) {
         switch (advice) {
             case BUY:
-                holdings.addQuantity(1);
+                int buy=1;
+                int presentQusnt=holdings.getQuantity();
+                if (presentQusnt<0)
+                    buy=buy-presentQusnt;
+                holdings.addQuantity(buy);
                 break;
             case SELL:
-                holdings.addQuantity(-1);
+                int sell=-1;
+                int presentQuant=holdings.getQuantity();
+                if (presentQuant>0)
+                    sell=sell-presentQuant;
+                holdings.addQuantity(sell);
                 break;
             case HOLD:
                 break;
@@ -58,7 +66,7 @@ public class InstrumentWrapperImpl implements InstrumentWrapper {
     public State.Builder updateWrapperAndGetStateBuilder(Price price, State presentState, Advice presentAdvice) {
         double reward = calcReward(holdings.getQuantity(), holdings.getCurrentPrice(), price.getClosePrice());
         presentState.updateReward(presentAdvice, reward);
-        System.out.println(holdings);
+        System.out.println(holdings +" "+ presentAdvice  + presentState);
         State.Builder stateBuilderToReturn = new State.Builder(holdings.getHoldingsAndUpdateCurrentPrice(price.getClosePrice()));
         updateWrapper(price);
         return stateBuilderToReturn;

@@ -10,10 +10,7 @@ import com.inteltrader.entity.Price;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -60,6 +57,13 @@ public class QLearningAdvisorImpl2 implements Advisor {
             for (Price price:instrument.getPriceList().subList(MIN_REQ,MAX)){
                 if(!stateSet.contains(presentState))
                     stateSet.add(presentState);
+                Iterator iterator=stateSet.iterator();
+                while (iterator.hasNext()){
+                    State state=(State)iterator.next();
+                    if (presentState.equals(state)){
+                        presentState=state;
+                    }
+                }
                //System.out.println("1"+presentState);
                 presentState=testWrapper.updateWrapperAndGetStateBuilder(price, presentState, presentAdvice).build();
               // System.out.println("3"+presentState);

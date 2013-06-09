@@ -64,9 +64,14 @@ public class TAWrapperTest {
         Set<State> stateSet = new HashSet<State>();
         stateSet.add(state);
         state.updateReward(Advice.BUY, 12);
+        State nState = new State.Builder(Holdings.HoldingState.NO_HOLDING).macd(CalculatorMACD.MACDState.NEGETIVE_BELOW_THRESHOLD).build();
+        nState.updateReward(Advice.SELL,21);
+        stateSet.add(nState);
         Iterator iter = stateSet.iterator();
         while (iter.hasNext()) {
             State s = (State) iter.next();
+            System.out.println("12332"+s);
+            System.out.println("12332"+nState);
             Assert.assertEquals(s, state);
 
         }
