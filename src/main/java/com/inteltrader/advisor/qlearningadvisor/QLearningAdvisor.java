@@ -6,6 +6,7 @@ import com.inteltrader.advisor.InstrumentAo;
 import com.inteltrader.advisor.tawrapper.CalculatorMACD;
 import com.inteltrader.advisor.tawrapper.CalculatorRSI;
 import com.inteltrader.entity.Instrument;
+import com.inteltrader.entity.Price;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +35,11 @@ public class QLearningAdvisor implements Advisor {
     private InstrumentAo instrumentVo;
     int quantity = 0;
     double price = 0;
+
+    @Override
+    public Advice updatePriceAndGetAdvice(Price price) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
     @Override
     public Advice getAdvice() {

@@ -1,5 +1,9 @@
 package com.inteltrader.advisor;
 
+import com.inteltrader.entity.Price;
+
+import java.io.IOException;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Vinay
@@ -9,4 +13,5 @@ package com.inteltrader.advisor;
  */
 public interface Advisor {
     Advice getAdvice();
+    Advice updatePriceAndGetAdvice(Price price) throws IOException;
 }

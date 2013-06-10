@@ -29,7 +29,14 @@ public class QLearningAdvisorImpl2 implements Advisor {
     @Override
     public Advice getAdvice() {
 
-        return null;
+        return presentAdvice;
+    }
+
+    @Override
+    public Advice updatePriceAndGetAdvice(Price price) throws IOException{
+        presentState=instrumentWrapper.updateWrapperAndGetStateBuilder(price,presentState,presentAdvice).build();
+        presentAdvice=presentState.getGreedyAdvice();
+        return presentAdvice;
     }
 
     public QLearningAdvisorImpl2(Instrument instrument,String... token) throws IOException {
