@@ -1,5 +1,7 @@
 package com.inteltrader.advisor.qlearningadvisor;
 
+import com.inteltrader.advisor.Advice;
+
 /**
  * Created with IntelliJ IDEA.
  * User: vvarm1
@@ -30,6 +32,26 @@ public class Holdings {
         return currentPrice;
     }
 
+    public void updateHoldings(Advice advice) {
+        switch (advice) {
+            case BUY:
+                int buy=1;
+                int presentQusnt=this.getQuantity();
+                if (presentQusnt<0)
+                    buy=buy-presentQusnt;
+                this.addQuantity(buy);
+                break;
+            case SELL:
+                int sell=-1;
+                int presentQuant=this.getQuantity();
+                if (presentQuant>0)
+                    sell=sell-presentQuant;
+                this.addQuantity(sell);
+                break;
+            case HOLD:
+                break;
+        }
+    }
     public HoldingState getHoldingsAndUpdateCurrentPrice(double currentPrice){
         HoldingState toBeReturned=null;
         if(quantity==0){

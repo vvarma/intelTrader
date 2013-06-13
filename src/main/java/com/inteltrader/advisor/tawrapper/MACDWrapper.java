@@ -1,6 +1,7 @@
 package com.inteltrader.advisor.tawrapper;
 
 import com.inteltrader.advisor.Advice;
+import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import com.inteltrader.advisor.qlearningadvisor.State;
 import com.inteltrader.entity.Price;
 
@@ -72,14 +73,19 @@ public class MACDWrapper extends TAWrapper{
     }
 
     @Override
+    public State.Builder updateWrapperAndGetStateBuilder(Price price, Holdings.HoldingState holdingState) throws IOException {
+        return this.getWrapper().updateWrapperAndGetStateBuilder(price,holdingState).macd(updateWrapperAndReturnState());
+    }
+
+    @Override
     public State.Builder getStateBuilder() throws IOException {
         int index=macdHistList.size()-1;
-        return this.getWrapper().getStateBuilder().macd(calculator.getMACDState(macdHistList.get(index)));  //To change body of implemented methods use File | Settings | File Templates.
+        return this.getWrapper().getStateBuilder().macd(calculator.getMACDState(macdHistList.get(index)));
     }
 
     @Override
     public State.Builder updateWrapperAndGetStateBuilder(Price price, State presentState, Advice presentAdvice) throws IOException{
-        return this.getWrapper().updateWrapperAndGetStateBuilder(price, presentState, presentAdvice).macd(updateWrapperAndReturnState());  //To change body of implemented methods use File | Settings | File Templates.
+        return this.getWrapper().updateWrapperAndGetStateBuilder(price, presentState, presentAdvice).macd(updateWrapperAndReturnState());
     }
 
     private CalculatorMACD.MACDState updateWrapperAndReturnState() throws IOException {

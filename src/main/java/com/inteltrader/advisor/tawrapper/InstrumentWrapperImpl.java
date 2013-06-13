@@ -63,6 +63,12 @@ public class InstrumentWrapperImpl implements InstrumentWrapper {
     }
 
     @Override
+    public State.Builder updateWrapperAndGetStateBuilder(Price price, Holdings.HoldingState holdingState) throws IOException {
+        updateWrapper(price);
+        return new State.Builder(holdingState);
+    }
+
+    @Override
     public State.Builder updateWrapperAndGetStateBuilder(Price price, State presentState, Advice presentAdvice) {
         double reward = calcReward(holdings.getQuantity(), holdings.getCurrentPrice(), price.getClosePrice());
         presentState.updateReward(presentAdvice, reward);

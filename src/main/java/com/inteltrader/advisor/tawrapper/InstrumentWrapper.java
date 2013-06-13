@@ -2,6 +2,7 @@ package com.inteltrader.advisor.tawrapper;
 
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.InstrumentAo;
+import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import com.inteltrader.advisor.qlearningadvisor.State;
 import com.inteltrader.entity.Price;
 
@@ -17,6 +18,7 @@ import java.io.IOException;
 public interface InstrumentWrapper {
     public InstrumentAo getInstrument();
     public State.Builder updateWrapperAndGetStateBuilder(Price price, State presentState, Advice presentAdvice)throws IOException;
+    public State.Builder updateWrapperAndGetStateBuilder(Price price,Holdings.HoldingState holdingState)throws IOException;
     public State.Builder getStateBuilder()throws IOException;
     public void updateHoldings(Advice advice);
 
