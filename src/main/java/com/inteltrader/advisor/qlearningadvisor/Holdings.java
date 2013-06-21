@@ -57,7 +57,7 @@ public class Holdings {
         if(quantity==0){
             toBeReturned= HoldingState.NO_HOLDING;
         }
-        if (this.currentPrice>currentPrice){
+        if (this.currentPrice<currentPrice){
             if (quantity>0){
                 toBeReturned= HoldingState.LONG_PROFIT;
             }   else {

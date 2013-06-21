@@ -3,10 +3,10 @@ package com.inteltrader.advisor.qlearningadvisor;
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.Advisor;
 import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
-import com.inteltrader.advisor.tawrapper.InstrumentWrapperImpl;
 import com.inteltrader.advisor.tawrapper.TAWrapper;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
+import com.inteltrader.entity.States;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -24,7 +24,24 @@ public class QLearningAdvisorImpl2 implements Advisor {
     private Set<State> stateSet;
     private State presentState;
     private Advice presentAdvice;
-    private Logger appLogger = Logger.getLogger("AppLogging");
+    private Logger appLogger = Logger.getLogger(QLearningAdvisorImpl2.class);
+
+    public QLearningAdvisorImpl2(States states, Instrument instrument,Holdings.HoldingState hState, String... token) throws IOException{
+        instrumentWrapper =TAWrapper.WrapMaker(instrument,token);
+        stateSet=states.getStateSet();
+        presentState=instrumentWrapper.getStateBuilder(hState).build();
+        if(!stateSet.contains(presentState))
+            stateSet.add(presentState);
+        Iterator iterator=stateSet.iterator();
+        while (iterator.hasNext()){
+            State state=(State)iterator.next();
+            if (presentState.equals(state)){
+                presentState=state;
+            }
+        }
+        presentAdvice=presentState.getGreedyAdvice();
+    }
+
     @Override
     public Advice getAdvice() {
 
@@ -38,16 +55,22 @@ public class QLearningAdvisorImpl2 implements Advisor {
         return presentAdvice;
     }
 
-    public QLearningAdvisorImpl2(Instrument instrument,String... token) throws IOException {
-        appLogger.info("info");
-        appLogger.trace("trace");
-        appLogger.warn("warn");
-        appLogger.debug("debug");
-        stateSet=new HashSet<State>();
+    public QLearningAdvisorImpl2(Instrument instrument,Holdings.HoldingState hState,String... token) throws IOException {
+       stateSet=new HashSet<State>();
         instrumentWrapper =TAWrapper.WrapMaker(instrument,token);
-        presentState=instrumentWrapper.getStateBuilder().build();
-        presentAdvice=Advice.HOLD;
         train(instrument,token);
+        presentState=instrumentWrapper.getStateBuilder(hState).build();
+        if(!stateSet.contains(presentState))
+            stateSet.add(presentState);
+        Iterator iterator=stateSet.iterator();
+        while (iterator.hasNext()){
+            State state=(State)iterator.next();
+            if (presentState.equals(state)){
+                presentState=state;
+            }
+        }
+        presentAdvice=presentState.getGreedyAdvice();
+
     }
 
     private void train(Instrument instrument, String[] token) throws IOException{
@@ -59,7 +82,7 @@ public class QLearningAdvisorImpl2 implements Advisor {
         Advice presentAdvice=Advice.HOLD;
         for (int iter=0;iter<100;iter++){
             InstrumentWrapper testWrapper=TAWrapper.WrapMaker(testInstrument,token);
-            State presentState=testWrapper.getStateBuilder().build();
+            State presentState=testWrapper.getStateBuilder(Holdings.HoldingState.NO_HOLDING).build();
             for (Price price:instrument.getPriceList().subList(MIN_REQ,MAX)){
                 if(!stateSet.contains(presentState))
                     stateSet.add(presentState);
@@ -87,5 +110,15 @@ public class QLearningAdvisorImpl2 implements Advisor {
     }
     public Set<State> getStateSet() {
         return stateSet;
+    }
+
+    @Override
+    public States getStates() {
+        States states=new States();
+        states.setSymbolNamme(instrumentWrapper.getInstrument().getSymbolName());
+        states.setPresentState(presentState);
+        states.setStateSet(stateSet);
+        states.setPresentAdvice(presentAdvice);
+        return states;
     }
 }

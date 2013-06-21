@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -57,11 +58,22 @@ public class PortfolioServiceRest {
     public
     @ResponseBody
     ResponseEntity<String> updatePortfolio(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request) {
-        instrumentService.updateInstruments(portfolioName);
-        RestCodes responseCode = portfolioService.updatePortfolio(portfolioName);
+        if (instrumentService.updateInstruments(portfolioName)!=RestCodes.NO_COMMENT){
+            try {
+                RestCodes responseCode = portfolioService.updatePortfolio(portfolioName);
 
-        return new ResponseEntity<String>(responseCode.toString(),
-                new HttpHeaders(), HttpStatus.OK);
+                return new ResponseEntity<String>(responseCode.toString(),
+                        new HttpHeaders(), HttpStatus.OK);
+            }  catch (IOException e){
+                return new ResponseEntity<String>(e.toString(),
+                        new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR)    ;
+            }
+        }else{
+            return new ResponseEntity<String>("Nothing to Update",
+                    new HttpHeaders(), HttpStatus.OK);
+        }
+
+
 
     }
     @RequestMapping(value = "/load/{portfolioName}", method = RequestMethod.GET)

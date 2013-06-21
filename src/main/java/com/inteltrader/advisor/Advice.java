@@ -1,5 +1,7 @@
 package com.inteltrader.advisor;
 
+import javax.persistence.Embeddable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Vinay
@@ -7,6 +9,10 @@ package com.inteltrader.advisor;
  * Time: 11:23 pm
  * To change this template use File | Settings | File Templates.
  */
+
+
 public enum Advice {
     BUY,SELL,HOLD;
+
+
 }

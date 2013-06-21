@@ -4,6 +4,7 @@ import com.inteltrader.advisor.InstrumentAo;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
+import org.apache.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.util.Properties;
  * To change this template use File | Settings | File Templates.
  */
 public class CalculatorMACD {
+
     private Core core = new Core();
     private Properties properties = new Properties();
     int fastPeriod;
@@ -77,6 +79,7 @@ public class CalculatorMACD {
     }
 
     public MACDState getMACDState(Double result){
+
        // RetCode retCode=calcMACD(instrumentVo);
       //  if(retCode.equals(RetCode.Success)){
             if(result>threshold){

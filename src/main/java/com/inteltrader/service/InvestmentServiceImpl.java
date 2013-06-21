@@ -3,6 +3,7 @@ package com.inteltrader.service;
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.entity.Investment;
 import com.inteltrader.entity.Transactions;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.FileInputStream;
@@ -21,24 +22,32 @@ public class InvestmentServiceImpl implements InvestmentService {
     @Autowired
     private InstrumentService instrumentService;
     private Properties properties=new Properties();
+    private Logger logger=Logger.getLogger(this.getClass());
     @Override
     public void makeInvestment(Advice advice, Investment investment) {
+        logger.trace("Making Investment..");
         int tradeQuantity=Integer.parseInt(properties.getProperty("TRADE_QUANTITY"));
-        System.out.println(advice.toString());
-        System.out.println(this.getClass().toString());
-        switch (advice){
+         switch (advice){
             case BUY:
-                investment.setQuantity(investment.getQuantity()+tradeQuantity );
+                if (investment.getQuantity()<=0)
+                    investment.setQuantity(tradeQuantity);
+                else
+                    investment.setQuantity(investment.getQuantity()+tradeQuantity);
                 investment.getTransactionsList().add(new Transactions(tradeQuantity,investment.getCurrentPrice())) ;
                 break;
             case SELL:
-                investment.setQuantity(investment.getQuantity()-tradeQuantity );
+                if (investment.getQuantity()>=0)
+                    investment.setQuantity(- tradeQuantity);
+                else
+                    investment.setQuantity(investment.getQuantity()- tradeQuantity);
                 investment.getTransactionsList().add(new Transactions(-tradeQuantity,investment.getCurrentPrice())) ;
                 break;
             default:break;
 
 
         }
+        logger.fatal("Investment :"+investment.getSymbolName() +" advice :"+advice+
+                " present quantity :"+investment.getQuantity()+" present price :"+investment.getCurrentPrice().getClosePrice());
     }
 
     public InvestmentServiceImpl() throws IOException {

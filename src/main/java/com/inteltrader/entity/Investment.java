@@ -1,5 +1,6 @@
 package com.inteltrader.entity;
 
+import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -73,8 +74,29 @@ public class Investment implements Serializable {
         return currentPrice;
     }
 
-    public void setCurrentPrice(Price currentPrice) {
+    public Holdings.HoldingState setCurrentPrice(Price currentPrice) {
+        Holdings.HoldingState toBeReturned=null;
+        if(quantity==0){
+            this.currentPrice = currentPrice;
+            return Holdings.HoldingState.NO_HOLDING;
+        }
+        if (this.currentPrice.getClosePrice()<currentPrice.getClosePrice()){
+            if (quantity>0){
+                toBeReturned= Holdings.HoldingState.LONG_PROFIT;
+            }   else {
+                toBeReturned= Holdings.HoldingState.SHORT_LOSS;
+            }
+        }else{
+            if (quantity>0){
+                toBeReturned= Holdings.HoldingState.LONG_LOSS;
+            }   else {
+                toBeReturned= Holdings.HoldingState.SHORT_PROFIT;
+            }
+
+        }
+
         this.currentPrice = currentPrice;
+        return toBeReturned;
     }
 
     public List<Transactions> getTransactionsList() {
@@ -99,6 +121,26 @@ public class Investment implements Serializable {
 
     public void setAssociatedPortfolio(Portfolio associatedPortfolio) {
         this.associatedPortfolio = associatedPortfolio;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Investment)) return false;
+
+        Investment that = (Investment) o;
+
+        if (investmentId != that.investmentId) return false;
+        if (!symbolName.equals(that.symbolName)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = investmentId;
+        result = 31 * result + symbolName.hashCode();
+        return result;
     }
 /*
 

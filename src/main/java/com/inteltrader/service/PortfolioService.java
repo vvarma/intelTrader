@@ -4,6 +4,7 @@ import com.inteltrader.entity.Investment;
 import com.inteltrader.entity.Portfolio;
 import com.inteltrader.util.RestCodes;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface PortfolioService {
-    RestCodes updatePortfolio(String portfolioName);
+    RestCodes updatePortfolio(String portfolioName) throws IOException;
     RestCodes createPortfolio(String portfolioName);
     RestCodes addToPortfolio(String portfolioName, String symbolName);
     Portfolio retrievePortfolio(String portfolioName);

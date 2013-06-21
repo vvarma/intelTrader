@@ -6,6 +6,7 @@ import com.inteltrader.entity.Investment;
 import com.inteltrader.entity.Portfolio;
 import com.inteltrader.entity.Price;
 import com.inteltrader.util.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -27,79 +28,92 @@ import java.util.*;
 public class InstrumentServiceImpl implements InstrumentService {
     @PersistenceUnit
     EntityManagerFactory entityManagerFactory;
-
     @Autowired
     private IInstrumentDao instrumentDao;
-    private Properties properties=new Properties();
+    private Properties properties = new Properties();
     @Autowired
     private PortfolioService portfolioService;
+    private Logger logger = Logger.getLogger(this.getClass());
 
     @Override
     public Instrument retrieveInstrument(String symbolName) {
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
-        Instrument instrument=instrumentDao.retrieveInstrument(entityManager,symbolName);
-        if(instrument==null){
-            Calendar startDate=(GregorianCalendar) Global.getCalendar().clone();
-            startDate.add(Calendar.YEAR,-2);
-            if(createInstrument(symbolName,startDate)==RestCodes.SUCCESS){
-                instrument=instrumentDao.retrieveInstrument(entityManager,symbolName);
+        logger.trace("Retrieve Instruments..");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Instrument instrument = instrumentDao.retrieveInstrument(entityManager, symbolName);
+        if (instrument == null) {
+            logger.trace("Instrument does not exist in database.. Creating Instrument.");
+            Calendar startDate = (GregorianCalendar) Global.getCalendar().clone();
+            startDate.add(Calendar.YEAR, -2);
+            if (createInstrument(symbolName, startDate) == RestCodes.SUCCESS) {
+                instrument = instrumentDao.retrieveInstrument(entityManager, symbolName);
             }
 
         }
-         return instrument;
+
+        //not closed because its amazingly lazy mofo
+        return instrument;
     }
 
 
-
     @Override
-    public RestCodes updateInstruments(String portfolioName){
-        List<String> symbolNameList=new ArrayList<String>();
-        Portfolio portfolio=portfolioService.retrievePortfolio(portfolioName);
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
-        try{
-            for(Investment investment:portfolio.getInvestmentList()){
-               symbolNameList.add(investment.getSymbolName());
+    public RestCodes updateInstruments(String portfolioName) {
+        logger.trace("Updating Instruments..");
+        List<String> symbolNameList = new ArrayList<String>();
+        Portfolio portfolio = portfolioService.retrievePortfolio(portfolioName);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            logger.trace("Retreive Investments from portfolio :"+portfolioName);
+            for (Investment investment : portfolio.getInvestmentList()) {
+                symbolNameList.add(investment.getSymbolName());
+                logger.trace("Investment :"+investment.getSymbolName());
             }
-            System.out.println(symbolNameList);
-            for(String symbolName:symbolNameList){
-                Instrument instrument=instrumentDao.retrieveInstrument(entityManager,symbolName);
-                Calendar startDate=instrument.getCurrentPrice().getTimeStamp();
-                Calendar endDate=(GregorianCalendar)Global.getCalendar().clone();
-                for (Calendar calendar=startDate;calendar.before(endDate);calendar.add(Calendar.DATE,1)){
+            logger.trace("Updating investments..");
+            for (String symbolName : symbolNameList) {
+                Instrument instrument = instrumentDao.retrieveInstrument(entityManager, symbolName);
+                Calendar startDate = instrument.getCurrentPrice().getTimeStamp();
+                Calendar endDate = (GregorianCalendar) Global.getCalendar().clone();
+                for (Calendar calendar = startDate; calendar.before(endDate); calendar.add(Calendar.DATE, 1)) {
                     String fileName = properties.getProperty("DATA_PATH");
-                    System.out.println("in for loop");
                     if (isWeekDay(calendar)) {
                         String genFileName = createFilenamGivenDate(calendar);
                         File file = new File(fileName + genFileName);
-                        try{
+                        try {
                             if (file.exists()) {
-                                System.out.println(genFileName + " exists!");
                                 fileName = fileName + genFileName;
                             } else {
-                                System.out.println("downloader called.. ");
                                 fileName = fileName
                                         + createUrlDownloadAndExtractFileGivenDate(calendar);
                             }
-                            Price instrPrice = ReadPriceCsv.readPrice(fileName, symbolName, (Calendar)calendar.clone());
+                            Price instrPrice = null;
+                            instrPrice=ReadPriceCsv.readPrice(fileName, symbolName, (Calendar) calendar.clone());
+                            logger.debug(symbolName+": New Price :"+instrPrice);
+                            if (instrPrice==null)  {
+                               logger.debug("Nothing to update");
+                                return RestCodes.NO_COMMENT;
+                            }
                             instrument.getPriceList().add(instrPrice);
-                        }catch (FileNotFoundException e){
-                            System.err.println("Public Holiday" + calendar.getTime());
+                        } catch (FileNotFoundException e) {
+                            logger.error("Public Holiday" + calendar.getTime());
                         }
 
                     }
                 }
                 entityManager.getTransaction().begin();
                 try {
-                    instrumentDao.updateInstrument(entityManager,instrument);
-                }catch (RuntimeException e){
+                    logger.trace("Writing instrument to Dao");
+                    instrumentDao.updateInstrument(entityManager, instrument);
+                    logger.trace("Success.");
+                } catch (RuntimeException e) {
                     e.printStackTrace();
+                    logger.error("Update Failed");
                     return RestCodes.FAILURE;
-                }  finally {
+                } finally {
                     entityManager.getTransaction().commit();
+                    entityManager.close();
                 }
             }
             return RestCodes.SUCCESS;
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return RestCodes.FAILURE;
         }
@@ -107,43 +121,44 @@ public class InstrumentServiceImpl implements InstrumentService {
 
     @Override
     public RestCodes createInstrument(String symbolName, Calendar startDate) {
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
-        Calendar endDate=(Calendar)startDate.clone();
-        endDate.add(Calendar.YEAR,2);
-        endDate.add(Calendar.MONTH,-2);
-       // endDate.roll(Calendar.YEAR,2);
+        Calendar endDate = (Calendar) startDate.clone();
+        endDate.add(Calendar.YEAR, 2);
+        endDate.add(Calendar.MONTH, -2);
+        // endDate.roll(Calendar.YEAR,2);
         System.out.println(startDate);
         System.out.println(endDate);
-        try{
-            Instrument instrument=getSingleInstrumentGivenDateAndName(startDate,endDate,symbolName);
+        try {
+            Instrument instrument = getSingleInstrumentGivenDateAndName(startDate, endDate, symbolName);
             System.out.println(instrument);
-            instrumentDao.createInstrument(entityManager,instrument);
+            instrumentDao.createInstrument(entityManager, instrument);
             return RestCodes.SUCCESS;
-        }  catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             e.printStackTrace();
             return RestCodes.FAILURE;
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             e.printStackTrace();
             e.printStackTrace();
             return RestCodes.FAILURE;
-        }finally {
+        } finally {
             entityManager.getTransaction().commit();
+            entityManager.close();
         }
 
 
     }
 
     private Instrument getSingleInstrumentGivenDateAndName(
-            Calendar startDate, Calendar endDate, String symbol) throws IOException{
-       Instrument instrument=new Instrument(symbol);
+            Calendar startDate, Calendar endDate, String symbol) throws IOException {
+        Instrument instrument = new Instrument(symbol);
         for (Calendar calendar = startDate; calendar.before(endDate); calendar.add(Calendar.DATE, 1)) {
             String fileName = properties.getProperty("DATA_PATH");
             System.out.println("in for loop");
             if (isWeekDay(calendar)) {
-                try{
+                try {
                     String genFileName = createFilenamGivenDate(calendar);
                     File file = new File(fileName + genFileName);
                     if (file.exists()) {
@@ -158,9 +173,9 @@ public class InstrumentServiceImpl implements InstrumentService {
                     }
 
 
-                    Price instrPrice = ReadPriceCsv.readPrice(fileName, symbol, (Calendar)calendar.clone());
+                    Price instrPrice = ReadPriceCsv.readPrice(fileName, symbol, (Calendar) calendar.clone());
                     instrument.getPriceList().add(instrPrice);
-                } catch (FileNotFoundException e){
+                } catch (FileNotFoundException e) {
                     System.err.println("Public Holiday" + calendar.getTime());
                 }
 
@@ -170,6 +185,7 @@ public class InstrumentServiceImpl implements InstrumentService {
 
         return instrument;
     }
+
     private static String createFilenamGivenDate(Calendar i) {
         StringBuilder fileNameBuilder = new StringBuilder("cm");
         if (i.get(Calendar.DATE) < 10) {
@@ -182,6 +198,7 @@ public class InstrumentServiceImpl implements InstrumentService {
         fileNameBuilder.append("bhav.csv");
         return fileNameBuilder.toString();
     }
+
     private boolean isWeekDay(Calendar i) {
 
         if (i.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
@@ -193,7 +210,7 @@ public class InstrumentServiceImpl implements InstrumentService {
     private String createUrlGivenDate(Calendar i) {
 
 		/*
-		 * String url=
+         * String url=
 		 * "http://www.nseindia.com/content/historical/EQUITIES/2013/JAN/cm09JAN2013bhav.csv.zip"
 		 * ;
 		 */
@@ -215,6 +232,7 @@ public class InstrumentServiceImpl implements InstrumentService {
         //Logger.trace(urlBuilder.toString());
         return urlBuilder.toString();
     }
+
     private String createUrlDownloadAndExtractFileGivenDate(Calendar i)
             throws IOException {
         String url;
@@ -225,7 +243,7 @@ public class InstrumentServiceImpl implements InstrumentService {
         return extractZip.extractTemp();
     }
 
-    public InstrumentServiceImpl() throws IOException{
+    public InstrumentServiceImpl() throws IOException {
         properties.load(new FileInputStream("intel.properties"));
     }
 

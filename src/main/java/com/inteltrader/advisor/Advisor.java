@@ -1,8 +1,11 @@
 package com.inteltrader.advisor;
 
+import com.inteltrader.advisor.qlearningadvisor.State;
 import com.inteltrader.entity.Price;
+import com.inteltrader.entity.States;
 
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,4 +17,5 @@ import java.io.IOException;
 public interface Advisor {
     Advice getAdvice();
     Advice updatePriceAndGetAdvice(Price price) throws IOException;
+    States getStates();
 }

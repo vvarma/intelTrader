@@ -1,0 +1,12 @@
+log4j.logger.org.springframework.orm.jpa=ERROR
+log4j.logger.org.springframework.orm.jpa.JpaTransactionManager=ERROR
+log4j.logger.org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter=ERROR
+log4j.logger.org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean=ERROR
+log4j.logger.org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor=ERROR
+log4j.logger.org.hibernate=DEBUG log4j.logger.org.hibernate.SQL=ERROR
+
+# A3 is set to be a FileAppender which will log all actions in the application.
+log4j.appender.A3=org.apache.log4j.FileAppender
+log4j.appender.A3.layout=org.apache.log4j.PatternLayout
+log4j.appender.A3.layout.ConversionPattern=%-22d{dd/MMM/yyyy HH:mm:ss} - %m%n
+log4j.appender.A3.file=${site.webapp.root}/WEB-INF/application.log

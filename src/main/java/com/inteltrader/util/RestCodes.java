@@ -9,5 +9,6 @@ package com.inteltrader.util;
  */
 public enum RestCodes {
     SUCCESS,
-    FAILURE
+    FAILURE,
+    NO_COMMENT
 }

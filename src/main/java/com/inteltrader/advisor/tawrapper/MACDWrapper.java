@@ -4,6 +4,7 @@ import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import com.inteltrader.advisor.qlearningadvisor.State;
 import com.inteltrader.entity.Price;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class MACDWrapper extends TAWrapper{
+    private Logger logger=Logger.getLogger(this.getClass());
     private List<Double> macdList;
     private List<Double> macdSignalList;
     private List<Double> macdHistList;
@@ -30,13 +32,14 @@ public class MACDWrapper extends TAWrapper{
         //calculator=new CalculatorMACD();
         calculator.calcMACD(getInstrument(),macdList,macdSignalList,macdHistList);
         zeroBitwise();    //not a permanent solution
+        //logger.debug("Macd Result is :" + macdHistList);
     }
     private void zeroBitwise(){
         int indexMacd=macdList.size()-1;
         int indexMacdHist=macdHistList.size()-1;
         int indexMacdSignal=macdSignalList.size()-1;
         if(indexMacd==indexMacdHist&&indexMacd==indexMacdSignal){
-            for(int i=0;i<indexMacd;i++){
+            for(int i=0;i<=indexMacd;i++){
                 if(macdList.get(i).equals(0.0)&macdList.get(i).equals(macdHistList.get(i))&&macdList.get(i).equals(macdSignalList.get(i))){
                     macdList.remove(i);
                     macdHistList.remove(i);
@@ -59,7 +62,6 @@ public class MACDWrapper extends TAWrapper{
         macdList.remove(0);
         macdHistList.remove(0);
         macdSignalList.remove(0);
-        int index=tempMacdHistList.size()-1;
         macdList.add(tempMacdList.get(0));
         macdHistList.add(tempMacdHistList.get(0));
         macdSignalList.add(tempMacdSignalList.get(0));
@@ -78,9 +80,10 @@ public class MACDWrapper extends TAWrapper{
     }
 
     @Override
-    public State.Builder getStateBuilder() throws IOException {
+    public State.Builder getStateBuilder(Holdings.HoldingState hState) throws IOException {
         int index=macdHistList.size()-1;
-        return this.getWrapper().getStateBuilder().macd(calculator.getMACDState(macdHistList.get(index)));
+
+        return this.getWrapper().getStateBuilder(hState).macd(calculator.getMACDState(macdHistList.get(index)));
     }
 
     @Override
@@ -89,7 +92,7 @@ public class MACDWrapper extends TAWrapper{
     }
 
     private CalculatorMACD.MACDState updateWrapperAndReturnState() throws IOException {
-        updateMacdWrapper();
+        //updateMacdWrapper();
          int index=macdHistList.size()-1;
          return calculator.getMACDState(macdHistList.get(index));
 

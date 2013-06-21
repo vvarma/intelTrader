@@ -19,7 +19,7 @@ public interface InstrumentWrapper {
     public InstrumentAo getInstrument();
     public State.Builder updateWrapperAndGetStateBuilder(Price price, State presentState, Advice presentAdvice)throws IOException;
     public State.Builder updateWrapperAndGetStateBuilder(Price price,Holdings.HoldingState holdingState)throws IOException;
-    public State.Builder getStateBuilder()throws IOException;
+    public State.Builder getStateBuilder(Holdings.HoldingState hState)throws IOException;
     public void updateHoldings(Advice advice);
 
 }

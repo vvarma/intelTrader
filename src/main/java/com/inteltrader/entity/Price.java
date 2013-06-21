@@ -101,7 +101,7 @@ public class Price {
     public String toString() {
         return "Price{" +
                 "priceId=" + priceId +
-                ", timeStamp=" + timeStamp +
+                ", timeStamp=" + timeStamp.getTime() +
                 ", closePrice=" + closePrice +
                 ", openPrice=" + openPrice +
                 ", lowPrice=" + lowPrice +

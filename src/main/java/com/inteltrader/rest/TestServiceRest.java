@@ -3,6 +3,7 @@ package com.inteltrader.rest;
 import com.inteltrader.service.InstrumentService;
 import com.inteltrader.service.PortfolioService;
 import com.inteltrader.util.Global;
+import com.inteltrader.util.RestCodes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -35,8 +37,8 @@ public class TestServiceRest {
     @RequestMapping(value = "/global/setTime/{dd}/{mm}/{yyyy}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> createPortfolioTest(@PathVariable("dd") String dd,@PathVariable("mm") String mm,@PathVariable("yyyy") String yyyy, HttpServletRequest request) {
-        Calendar cal=new GregorianCalendar();
+    ResponseEntity<String> createPortfolioTest(@PathVariable("dd") String dd, @PathVariable("mm") String mm, @PathVariable("yyyy") String yyyy, HttpServletRequest request) {
+        Calendar cal = new GregorianCalendar();
         cal.set(Calendar.YEAR, Integer.parseInt(yyyy));
         cal.set(Calendar.MONTH, Integer.parseInt(mm));
         cal.set(Calendar.DATE, Integer.parseInt(dd));
@@ -45,6 +47,7 @@ public class TestServiceRest {
                 new HttpHeaders(), HttpStatus.OK);
 
     }
+
     @RequestMapping(value = "/portfolio/create/{portfolioName}", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -54,32 +57,45 @@ public class TestServiceRest {
                 new HttpHeaders(), HttpStatus.OK);
 
     }
+
     @RequestMapping(value = "/portfolio/addToPortfolio/{portfolioName}/{symbolName}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> addToPortfolioTest(@PathVariable("portfolioName") String portfolioName,@PathVariable("symbolName") String symbolName, HttpServletRequest request) {
+    ResponseEntity<String> addToPortfolioTest(@PathVariable("portfolioName") String portfolioName, @PathVariable("symbolName") String symbolName, HttpServletRequest request) {
         portfolioService.addToPortfolio(portfolioName, symbolName);
         return new ResponseEntity<String>("yo",
                 new HttpHeaders(), HttpStatus.OK);
 
     }
+
     @RequestMapping(value = "/portfolio/updatePortfolio/{portfolioName}", method = RequestMethod.GET)
     public
     @ResponseBody
     ResponseEntity<String> updatePortfolioTest(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request) {
-        StringBuilder builder=new StringBuilder();
-        Calendar today=new GregorianCalendar();
-        Calendar fake=Global.getCalendar();
-        for (Calendar c=fake;c.before(today);Global.addCalendar()) {
-            portfolioService.updatePortfolio(portfolioName);
-            builder.append(portfolioService.calculatePnL(portfolioName));
-            builder.append(" "+Global.getCalendar().get(Calendar.DATE)+" "+Global.getCalendar().get(Calendar.MONTH)+" "+Global.getCalendar().get(Calendar.YEAR));
-            builder.append('\n');
+        StringBuilder builder = new StringBuilder();
+        Calendar today = new GregorianCalendar();
+        Calendar fake = Global.getCalendar();
+        try {
+            for (Calendar c = fake; c.before(today); Global.addCalendar()) {
+                if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+                        || c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
+                    continue;
+                if (instrumentService.updateInstruments(portfolioName)!= RestCodes.NO_COMMENT){
+                    portfolioService.updatePortfolio(portfolioName);
+                    builder.append(portfolioService.calculatePnL(portfolioName));
+                    builder.append(" " + Global.getCalendar().get(Calendar.DATE) + " " + Global.getCalendar().get(Calendar.MONTH) + " " + Global.getCalendar().get(Calendar.YEAR));
+                    builder.append('\n');
+                }
+
+            }
+            return new ResponseEntity<String>(builder.toString(),
+                    new HttpHeaders(), HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>(e.toString(),
+                    new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-
-        return new ResponseEntity<String>(builder.toString(),
-                new HttpHeaders(), HttpStatus.OK);
 
     }
 

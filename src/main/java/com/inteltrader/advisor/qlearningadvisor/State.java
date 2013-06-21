@@ -4,6 +4,7 @@ import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.tawrapper.CalculatorMACD;
 import com.inteltrader.advisor.tawrapper.CalculatorRSI;
 
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -16,10 +17,21 @@ import java.util.Random;
  * Time: 2:38 PM
  * To change this template use File | Settings | File Templates.
  */
-public class State implements States {
+@Entity
+public class State {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="STATE_ID")
+    private int id=0;
     private final Holdings.HoldingState holdingState;
     private CalculatorMACD.MACDState macdState;
     private CalculatorRSI.RSIState rsiState;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @MapKeyEnumerated
+    @JoinTable(
+            name = "ACTION_REWARD",
+            joinColumns = @JoinColumn(name = "STATE_ID")
+    )
     private Map<Advice, Double> actionRewardMap;
     private Random random=new Random();
 
@@ -73,12 +85,14 @@ public class State implements States {
     }
 
     public Advice getGreedyAdvice() {
-        double maxReward = Double.MIN_VALUE;
+        double maxReward = -Double.MAX_VALUE;
         Advice maxAdvice = null;
         for (Advice advice : actionRewardMap.keySet()) {
             if (actionRewardMap.get(advice) > maxReward) {
+                maxReward=actionRewardMap.get(advice);
                 maxAdvice = advice;
             }
+
         }
         return maxAdvice;
     }
@@ -123,5 +137,9 @@ public class State implements States {
                 ", rsiState=" + rsiState +
                 ", actionRewardMap=" + actionRewardMap +
                 '}';
+    }
+
+    public State() {
+        holdingState= Holdings.HoldingState.NO_HOLDING;
     }
 }

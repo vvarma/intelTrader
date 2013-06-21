@@ -33,6 +33,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </beans:bean>
     <beans:bean id="portfolioDao" class="com.inteltrader.dao.PortfolioDao">
     </beans:bean>
+    <beans:bean id="statesDao" class="com.inteltrader.dao.StatesDao">
+    </beans:bean>
 
  <!-- Application Service Layer -->
     <beans:bean id="instrumentService" class="com.inteltrader.service.InstrumentServiceImpl">
@@ -68,19 +70,23 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
 
     <context:component-scan base-package="com.inteltrader"/>
-            <!--
 
-        &lt;!&ndash; AOP RELATED &ndash;&gt;
+    <!--for logging before and after using AOP-->
+    <beans:bean id="aroundMethod" class="com.inteltrader.util.BeforeAndAfterLogger"/>
 
-        <beans:bean id="daoExecution" class="com.vacuumhead.wesplit.dao.SessionManager"/>
-
-        <aop:config>
-        <aop:aspect id="daoAspect" ref="daoExecution">
-          <aop:pointcut id="pointCutBefore" expression="execution(* com.vacuumhead.wesplit.dao.*.*(..))"/>
-          <aop:around method="daoExecution" pointcut-ref="pointCutBefore"/>
+    <aop:config>
+        <aop:aspect id="serviceAspect" ref="aroundMethod">
+            <aop:pointcut id="servicePointCutBefore" expression="execution(* com.inteltrader.service.*.*(..))"/>
+            <aop:around method="aroundMethod" pointcut-ref="servicePointCutBefore"/>
         </aop:aspect>
-        </aop:config>
-
-        -->
+        <aop:aspect id="daoAspect" ref="aroundMethod">
+            <aop:pointcut id="daoPointCutBefore" expression="execution(* com.inteltrader.dao.*.*(..))"/>
+            <aop:around method="aroundMethod" pointcut-ref="daoPointCutBefore"/>
+        </aop:aspect>
+        <aop:aspect id="analyserAspect" ref="aroundMethod">
+            <aop:pointcut id="analyserPointCutBefore" expression="execution(* com.inteltrader.advisor.qlearningadvisor.*.*(..))"/>
+            <aop:around method="aroundMethod" pointcut-ref="analyserPointCutBefore"/>
+        </aop:aspect>
+    </aop:config>
 
 </beans:beans>

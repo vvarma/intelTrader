@@ -1,9 +1,11 @@
 package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
+import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
 import com.inteltrader.advisor.tawrapper.TAWrapper;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 
 /**
@@ -14,6 +16,7 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public interface AnalyserService {
-    Advice getAnalysis(String symbolName);
+    Advice getAnalysis(String symbolName,EntityManager entityManager);
     InstrumentWrapper getWrapper(String symbolName)throws IOException;
+    void createAnalyser(String symbolName, EntityManager entityManager, Holdings.HoldingState hState) throws IOException;
 }

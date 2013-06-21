@@ -7,6 +7,7 @@ import com.inteltrader.advisor.tawrapper.CalculatorMACD;
 import com.inteltrader.advisor.tawrapper.CalculatorRSI;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
+import com.inteltrader.entity.States;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +39,13 @@ public class QLearningAdvisor implements Advisor {
 
     @Override
     public Advice updatePriceAndGetAdvice(Price price) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+
+
+    @Override
+    public States getStates() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

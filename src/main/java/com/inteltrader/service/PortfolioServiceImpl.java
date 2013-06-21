@@ -1,14 +1,17 @@
 package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
+import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import com.inteltrader.dao.IPortfolioDao;
 import com.inteltrader.entity.*;
 import com.inteltrader.util.RestCodes;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -30,87 +33,106 @@ public class PortfolioServiceImpl implements PortfolioService {
     private InvestmentService investmentService;
     @Autowired
     private InstrumentService instrumentService;
+    private Logger logger=Logger.getLogger(this.getClass());
 
     @Override
-    public RestCodes updatePortfolio(String portfolioName) {
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
-        Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
-            for (Investment investment:portfolio.getInvestmentList()){
-            investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
-            investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName()),investment);
+    public RestCodes updatePortfolio(String portfolioName) throws IOException
+    {   logger.trace("Updating Portfolio..");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
+        for (Investment investment : portfolio.getInvestmentList()) {
+            logger.trace("Updating Investment :"+investment.getSymbolName());
+            Holdings.HoldingState hState = investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
+            analyserService.createAnalyser(investment.getSymbolName(),entityManager,hState);
+            investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName(), entityManager), investment);
 
         }
-        entityManager.getTransaction().begin();
+        logger.trace("Updating portfolio dao..");
         portfolioDao.updatePortfolio(entityManager, portfolio);
         entityManager.getTransaction().commit();
+        entityManager.close();
+
         return RestCodes.SUCCESS;
 
     }
 
     @Override
     public RestCodes createPortfolio(String portfolioName) {
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        try{
-            Portfolio portfolio=new Portfolio(portfolioName);
-            portfolioDao.createPortfolio(entityManager,portfolio);
+        try {
+            Portfolio portfolio = new Portfolio(portfolioName);
+            portfolioDao.createPortfolio(entityManager, portfolio);
             return RestCodes.SUCCESS;
-        }catch (RuntimeException e){
-             e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
             return RestCodes.FAILURE;
-        }finally {
+        } finally {
             entityManager.getTransaction().commit();
+            entityManager.close();
         }
 
     }
 
-     @Override
-    public RestCodes addToPortfolio(String portfolioName,String symbolName) {
-        try{
-            Instrument instrument=instrumentService.retrieveInstrument(symbolName);
-            EntityManager entityManager=entityManagerFactory.createEntityManager();
-            Investment investment=new Investment(symbolName);
-            investment.setCurrentPrice(instrument.getCurrentPrice());
+    @Override
+    public RestCodes addToPortfolio(String portfolioName, String symbolName) {
+        try {
+            Instrument instrument = instrumentService.retrieveInstrument(symbolName);
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            Investment investment = new Investment(symbolName);
+            Holdings.HoldingState hState = investment.setCurrentPrice(instrument.getCurrentPrice());
             entityManager.getTransaction().begin();
-            Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
+            Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
             System.out.println(portfolio);
-            portfolio.getInvestmentList().add(investment);
+            if (!portfolio.getInvestmentList().contains(investment))
+                portfolio.getInvestmentList().add(investment);
             investment.setAssociatedPortfolio(portfolio);
-            System.out.println(portfolio);
-            //investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName()),investment);
-            //portfolioDao.updatePortfolio(entityManager,portfolio);
             entityManager.getTransaction().commit();
+            entityManager.close();
             return RestCodes.SUCCESS;
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             e.printStackTrace();
             return RestCodes.FAILURE;
-        }
-     }
+        }/* catch (IOException e) {
+            e.printStackTrace();
+            return RestCodes.FAILURE;
+        }*/
+    }
 
     @Override
     public Portfolio retrievePortfolio(String portfolioName) {
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
-        Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
-       return portfolio;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
+
+        return portfolio;
     }
 
     @Override
     public Double calculatePnL(String portfolioName) {
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
-        Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
-        Double pnl=0.0;
-        for(Investment investment:portfolio.getInvestmentList()){
-            for(Transactions transactions: investment.getTransactionsList()){
-                pnl+=transactions.getQuantity()*transactions.getTransactionPrice().getClosePrice();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
+        double pnl=0.0;
+        for (Investment investment : portfolio.getInvestmentList()) {
+            double invested = 0.0;
+            double value=0.0;
+            for (Transactions transactions : investment.getTransactionsList()) {
+                invested += transactions.getQuantity() * transactions.getTransactionPrice().getClosePrice();
             }
+            value+=investment.getQuantity()*investment.getCurrentPrice().getClosePrice();
+            pnl+=(value-invested);
         }
+
         return pnl;
     }
 
-    private Price getCurrentInstrumentPrice(String symbolName){
-        return instrumentService.retrieveInstrument(symbolName).getCurrentPrice();
+    private Price getCurrentInstrumentPrice(String symbolName) {
+        Price price=instrumentService.retrieveInstrument(symbolName).getCurrentPrice();
+        logger.fatal("Current Price is :" +price.getClosePrice());
+        return price;
 
     }
+
     public EntityManagerFactory getEntityManagerFactory() {
         return entityManagerFactory;
     }

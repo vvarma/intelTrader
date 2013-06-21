@@ -2,13 +2,19 @@ package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.Advisor;
-import com.inteltrader.advisor.qlearningadvisor.QLearningAdvisor;
-import com.inteltrader.advisor.simpleadvisor.SimpleAdvisor;
+import com.inteltrader.advisor.qlearningadvisor.Holdings;
+import com.inteltrader.advisor.qlearningadvisor.QLearningAdvisorImpl2;
 import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
 import com.inteltrader.advisor.tawrapper.TAWrapper;
+import com.inteltrader.dao.IStatesDao;
 import com.inteltrader.entity.Instrument;
+import com.inteltrader.entity.States;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import java.io.IOException;
 
 /**
@@ -22,18 +28,39 @@ public class AnalyserServiceImpl implements AnalyserService {
     @Autowired
     InstrumentService instrumentService;
     private Advisor advisor;
+    @PersistenceUnit
+    private EntityManagerFactory entityManagerFactory;
+
+    @Autowired
+    private IStatesDao statesDao;
+    private Logger logger=Logger.getLogger(this.getClass());
+
     @Override
-    public Advice getAnalysis(String symbolName) {
+    public Advice getAnalysis(String symbolName, EntityManager entityManager) {
+        States states=statesDao.retrieveStates(symbolName,entityManager);
+        logger.trace("Get Analysis .. present Advice :" +states.getPresentAdvice());
+        return states.getPresentAdvice();
+    }
+
+    @Override
+    public void createAnalyser(String symbolName, EntityManager entityManager, Holdings.HoldingState hState) throws IOException{
+        logger.trace("Creating Analyser for symbol "+symbolName+" and HState +"+hState);
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
-        try{
-            //advisor= SimpleAdvisor.buildAdvisor(instrument,"MACD");
-            if (advisor==null)
-                advisor= new QLearningAdvisor(instrument);
-            return advisor.getAdvice();
-        } catch (IOException e){
-            e.printStackTrace();
-            return null;
+        States states=statesDao.retrieveStates(symbolName,entityManager);
+        if (states==null){
+            logger.trace("Creating Advisor first time..");
+            advisor=new QLearningAdvisorImpl2(instrument,hState,"MACD");
+
+        }else{
+            logger.trace("States exist, creating advisor from retrieved states");
+           advisor=new QLearningAdvisorImpl2(states,instrument,hState,"MACD");
         }
+        states=advisor.getStates();
+        logger.trace("Saving states to db..");
+        logger.fatal("Present State is :"+states.getPresentState() +'\n'+
+        "Present Advice is :"+states.getPresentAdvice() );
+        logger.debug(states);
+        statesDao.createState(states,entityManager);
 
     }
 

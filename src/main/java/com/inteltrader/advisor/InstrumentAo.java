@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,8 +25,9 @@ public class InstrumentAo implements Serializable {
     private List<Price> priceList;
 
 
-  public void setPriceList(List<Price> priceList) {
-        this.priceList = priceList;
+  public void setPriceList(Collection<Price> priceList) {
+
+        this.priceList = new ArrayList<Price>(priceList);
     }
 
     public void setSymbolName(String symbolName) {

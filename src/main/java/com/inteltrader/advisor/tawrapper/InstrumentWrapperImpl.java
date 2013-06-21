@@ -58,8 +58,8 @@ public class InstrumentWrapperImpl implements InstrumentWrapper {
     }
 
     @Override
-    public State.Builder getStateBuilder() throws IOException {
-        return new State.Builder(Holdings.HoldingState.NO_HOLDING);
+    public State.Builder getStateBuilder(Holdings.HoldingState hState) throws IOException {
+        return new State.Builder(hState);
     }
 
     @Override

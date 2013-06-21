@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,8 +26,8 @@ public class Portfolio  implements Serializable {
     @Id
     @Column(name="PORTFOLIO_NAME")
     private String portfolioName;
-    @OneToMany(mappedBy = "associatedPortfolio",cascade = CascadeType.ALL,fetch = FetchType.EAGER,targetEntity = com.inteltrader.entity.Investment.class)
-    private List<Investment> investmentList=new ArrayList<Investment>();
+    @OneToMany(mappedBy = "associatedPortfolio",cascade = CascadeType.ALL,targetEntity = com.inteltrader.entity.Investment.class)
+    private Set<Investment> investmentList=new HashSet<Investment>();
 
     public Portfolio(String portfolioName) {
         this.portfolioName = portfolioName;
@@ -44,14 +46,12 @@ public class Portfolio  implements Serializable {
         this.portfolioName = portfolioName;
     }
 
-    public List<Investment> getInvestmentList() {
+    public Set<Investment> getInvestmentList() {
         return investmentList;
     }
 
-    public void setInvestmentList(List<Investment> investmentList) {
-
-            this.investmentList = investmentList;
-
+    public void setInvestmentList(Set<Investment> investmentList) {
+        this.investmentList = investmentList;
     }
 
     @Override

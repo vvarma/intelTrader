@@ -10,6 +10,9 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
         <class>com.inteltrader.entity.Instrument</class>
         <class>com.inteltrader.entity.Portfolio</class>
         <class>com.inteltrader.entity.Investment</class>
+        <class>com.inteltrader.entity.States</class>
+        <class>com.inteltrader.advisor.qlearningadvisor.State</class>
+        <class>com.inteltrader.advisor.Advice</class>
         <properties>
             <property name="hibernate.connection.driver_class"
                       value="com.mysql.jdbc.Driver"/>
@@ -25,8 +28,15 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
                       value="true"/>
             <property name="hibernate.hbm2ddl.auto"
                       value="update"/>
-            <property name="hibernate.c3p0.min_size"
-                      value="10"/>
+            <property name="hibernate.connection.provider_class"
+                      value="org.hibernate.connection.C3P0ConnectionProvider"/>
+
+            <property name="hibernate.c3p0.max_size" value="100"/>
+            <property name="hibernate.c3p0.min_size" value="0"/>
+            <property name="hibernate.c3p0.acquire_increment" value="1"/>
+            <property name="hibernate.c3p0.idle_test_period" value="300"/>
+            <property name="hibernate.c3p0.max_statements" value="0"/>
+            <property name="hibernate.c3p0.timeout" value="100"/>
         </properties>
     </persistence-unit>
 </persistence>

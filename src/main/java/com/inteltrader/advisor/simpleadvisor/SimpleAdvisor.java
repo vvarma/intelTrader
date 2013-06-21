@@ -3,6 +3,8 @@ package com.inteltrader.advisor.simpleadvisor;
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.Advisor;
 import com.inteltrader.entity.Instrument;
+import com.inteltrader.entity.Price;
+import com.inteltrader.entity.States;
 import com.inteltrader.util.InvalidAdviceException;
 
 import java.io.IOException;
@@ -28,6 +30,17 @@ public class SimpleAdvisor implements Advisor {
         }
         return advice;
     }
+
+    @Override
+    public Advice updatePriceAndGetAdvice(Price price) throws IOException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public States getStates() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     private Advice collateAdvice(Advice advice1, Advice advice2){
         switch (advice1){
             case BUY:
