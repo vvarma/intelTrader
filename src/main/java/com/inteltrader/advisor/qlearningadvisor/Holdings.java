@@ -16,9 +16,9 @@ public class Holdings {
     private int quantity;
     private double currentPrice;
 
-    public Holdings( double currentPrice) {
+    public Holdings() {
         this.quantity = 0;
-        this.currentPrice = currentPrice;
+        this.currentPrice = 0;
     }
     public void addQuantity(int quantity){
         this.quantity+=quantity;
@@ -38,14 +38,14 @@ public class Holdings {
                 int buy=1;
                 int presentQusnt=this.getQuantity();
                 if (presentQusnt<0)
-                    buy=buy-presentQusnt;
+                    buy=-presentQusnt;
                 this.addQuantity(buy);
                 break;
             case SELL:
                 int sell=-1;
                 int presentQuant=this.getQuantity();
                 if (presentQuant>0)
-                    sell=sell-presentQuant;
+                    sell=-presentQuant;
                 this.addQuantity(sell);
                 break;
             case HOLD:
@@ -55,7 +55,8 @@ public class Holdings {
     public HoldingState getHoldingsAndUpdateCurrentPrice(double currentPrice){
         HoldingState toBeReturned=null;
         if(quantity==0){
-            toBeReturned= HoldingState.NO_HOLDING;
+            this.currentPrice=currentPrice;
+            return  HoldingState.NO_HOLDING;
         }
         if (this.currentPrice<currentPrice){
             if (quantity>0){

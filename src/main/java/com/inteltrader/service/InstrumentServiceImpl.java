@@ -43,7 +43,7 @@ public class InstrumentServiceImpl implements InstrumentService {
         if (instrument == null) {
             logger.trace("Instrument does not exist in database.. Creating Instrument.");
             Calendar startDate = (GregorianCalendar) Global.getCalendar().clone();
-            startDate.add(Calendar.YEAR, -2);
+            startDate.add(Calendar.YEAR, -5);
             if (createInstrument(symbolName, startDate) == RestCodes.SUCCESS) {
                 instrument = instrumentDao.retrieveInstrument(entityManager, symbolName);
             }
@@ -57,15 +57,15 @@ public class InstrumentServiceImpl implements InstrumentService {
 
     @Override
     public RestCodes updateInstruments(String portfolioName) {
-        logger.trace("Updating Instruments..");
+        logger.debug("Updating Instruments..");
         List<String> symbolNameList = new ArrayList<String>();
         Portfolio portfolio = portfolioService.retrievePortfolio(portfolioName);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            logger.trace("Retreive Investments from portfolio :"+portfolioName);
+
+            logger.debug("Retreive Investments from portfolio :" + portfolioName);
             for (Investment investment : portfolio.getInvestmentList()) {
                 symbolNameList.add(investment.getSymbolName());
-                logger.trace("Investment :"+investment.getSymbolName());
+                logger.debug("Investment :" + investment.getSymbolName());
             }
             logger.trace("Updating investments..");
             for (String symbolName : symbolNameList) {
@@ -85,15 +85,15 @@ public class InstrumentServiceImpl implements InstrumentService {
                                         + createUrlDownloadAndExtractFileGivenDate(calendar);
                             }
                             Price instrPrice = null;
-                            instrPrice=ReadPriceCsv.readPrice(fileName, symbolName, (Calendar) calendar.clone());
-                            logger.debug(symbolName+": New Price :"+instrPrice);
-                            if (instrPrice==null)  {
-                               logger.debug("Nothing to update");
+                            instrPrice = ReadPriceCsv.readPrice(fileName, symbolName, (Calendar) calendar.clone());
+                            logger.trace(symbolName + ": New Price :" + instrPrice.getClosePrice());
+                            if (instrPrice == null) {
+                                logger.debug("Nothing to update");
                                 return RestCodes.NO_COMMENT;
                             }
                             instrument.getPriceList().add(instrPrice);
-                        } catch (FileNotFoundException e) {
-                            logger.error("Public Holiday" + calendar.getTime());
+                        } catch (IOException e) {
+                            logger.debug("Public Holiday" + calendar.getTime());
                         }
 
                     }
@@ -103,7 +103,7 @@ public class InstrumentServiceImpl implements InstrumentService {
                     logger.trace("Writing instrument to Dao");
                     instrumentDao.updateInstrument(entityManager, instrument);
                     logger.trace("Success.");
-                } catch (RuntimeException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     logger.error("Update Failed");
                     return RestCodes.FAILURE;
@@ -113,10 +113,7 @@ public class InstrumentServiceImpl implements InstrumentService {
                 }
             }
             return RestCodes.SUCCESS;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return RestCodes.FAILURE;
-        }
+
     }
 
     @Override
@@ -124,9 +121,10 @@ public class InstrumentServiceImpl implements InstrumentService {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
-        Calendar endDate = (Calendar) startDate.clone();
-        endDate.add(Calendar.YEAR, 2);
-        endDate.add(Calendar.MONTH, -2);
+        Calendar endDate = Global.getCalendar();
+        /*Calendar endDate = (Calendar) startDate.clone();
+        endDate.add(Calendar.YEAR, 2);*/
+        //endDate.add(Calendar.MONTH, -2);
         // endDate.roll(Calendar.YEAR,2);
         System.out.println(startDate);
         System.out.println(endDate);
@@ -137,11 +135,11 @@ public class InstrumentServiceImpl implements InstrumentService {
             return RestCodes.SUCCESS;
         } catch (IOException e) {
             e.printStackTrace();
-            e.printStackTrace();
+
             return RestCodes.FAILURE;
         } catch (RuntimeException e) {
             e.printStackTrace();
-            e.printStackTrace();
+
             return RestCodes.FAILURE;
         } finally {
             entityManager.getTransaction().commit();

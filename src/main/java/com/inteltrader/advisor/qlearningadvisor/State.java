@@ -5,10 +5,7 @@ import com.inteltrader.advisor.tawrapper.CalculatorMACD;
 import com.inteltrader.advisor.tawrapper.CalculatorRSI;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,8 +18,8 @@ import java.util.Random;
 public class State {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="STATE_ID")
-    private int id=0;
+    @Column(name = "STATE_ID")
+    private int id = 0;
     private final Holdings.HoldingState holdingState;
     private CalculatorMACD.MACDState macdState;
     private CalculatorRSI.RSIState rsiState;
@@ -33,7 +30,7 @@ public class State {
             joinColumns = @JoinColumn(name = "STATE_ID")
     )
     private Map<Advice, Double> actionRewardMap;
-    private Random random=new Random();
+    private Random random = new Random();
 
     public static class Builder {
         private final Holdings.HoldingState holdingState;
@@ -72,6 +69,22 @@ public class State {
     public void updateReward(Advice advice, double reward) {
         double updateReward = reward + actionRewardMap.get(advice);
         actionRewardMap.put(advice, updateReward);
+        //normaliseRewards();
+    }
+
+    public void normaliseRewards() {
+        List<Double> valSet = new ArrayList<Double>(actionRewardMap.values());
+        double maxValue = Math.abs(valSet.get(0));
+        for (double d : valSet) {
+            double absD = Math.abs(d);
+            if (absD > maxValue) {
+                maxValue = absD;
+            }
+        }
+        if (maxValue != 0.0)
+            for (Advice a : actionRewardMap.keySet()) {
+                actionRewardMap.put(a, actionRewardMap.get(a) / maxValue);
+            }
     }
 
     public State(Holdings.HoldingState holdingState, CalculatorMACD.MACDState macdState, CalculatorRSI.RSIState rsiState) {
@@ -89,7 +102,7 @@ public class State {
         Advice maxAdvice = null;
         for (Advice advice : actionRewardMap.keySet()) {
             if (actionRewardMap.get(advice) > maxReward) {
-                maxReward=actionRewardMap.get(advice);
+                maxReward = actionRewardMap.get(advice);
                 maxAdvice = advice;
             }
 
@@ -99,7 +112,8 @@ public class State {
 
     public Advice getNonGreedyAdvice(int iter) {
         Advice[] arrAdvice = {Advice.BUY, Advice.HOLD, Advice.SELL};
-        int i = random.nextInt(3);
+        //int i = random.nextInt(3);
+        int i = ((int)(Math.random()*137 +17))%3;
         Advice ret = arrAdvice[i];
 
         //System.out.println("1232321" + ret.toString() + " " + iter);
@@ -140,6 +154,6 @@ public class State {
     }
 
     public State() {
-        holdingState= Holdings.HoldingState.NO_HOLDING;
+        holdingState = Holdings.HoldingState.NO_HOLDING;
     }
 }

@@ -42,7 +42,7 @@ public class InstrumentServiceRest {
     ResponseEntity<String> createInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) {
 
         Calendar strtDate=(GregorianCalendar) Global.getCalendar().clone();
-        strtDate.add(Calendar.YEAR,-2);
+        strtDate.add(Calendar.YEAR,-4);
         RestCodes responseCode = instrumentService.createInstrument(symbolName,strtDate);
 
         return new ResponseEntity<String>(responseCode.toString(),

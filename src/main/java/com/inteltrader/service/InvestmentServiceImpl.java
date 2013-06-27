@@ -25,19 +25,19 @@ public class InvestmentServiceImpl implements InvestmentService {
     private Logger logger=Logger.getLogger(this.getClass());
     @Override
     public void makeInvestment(Advice advice, Investment investment) {
-        logger.trace("Making Investment..");
+        logger.debug("Making Investment..");
         int tradeQuantity=Integer.parseInt(properties.getProperty("TRADE_QUANTITY"));
          switch (advice){
             case BUY:
-                if (investment.getQuantity()<=0)
-                    investment.setQuantity(tradeQuantity);
+                if (investment.getQuantity()<0)
+                    investment.setQuantity(0);
                 else
                     investment.setQuantity(investment.getQuantity()+tradeQuantity);
                 investment.getTransactionsList().add(new Transactions(tradeQuantity,investment.getCurrentPrice())) ;
                 break;
             case SELL:
-                if (investment.getQuantity()>=0)
-                    investment.setQuantity(- tradeQuantity);
+                if (investment.getQuantity()>0)
+                    investment.setQuantity(0);
                 else
                     investment.setQuantity(investment.getQuantity()- tradeQuantity);
                 investment.getTransactionsList().add(new Transactions(-tradeQuantity,investment.getCurrentPrice())) ;
@@ -46,7 +46,7 @@ public class InvestmentServiceImpl implements InvestmentService {
 
 
         }
-        logger.fatal("Investment :"+investment.getSymbolName() +" advice :"+advice+
+        logger.debug("Investment :"+investment.getSymbolName() +" advice :"+advice+
                 " present quantity :"+investment.getQuantity()+" present price :"+investment.getCurrentPrice().getClosePrice());
     }
 

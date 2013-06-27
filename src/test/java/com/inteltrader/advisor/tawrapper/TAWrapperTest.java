@@ -107,5 +107,10 @@ public class TAWrapperTest {
             Assert.assertTrue(false);
         }
     }
+    @Test
+    public void isTheStateBuilderWorking(){
+        Instrument instrument = instrumentService.retrieveInstrument("CIPLA");
+
+    }
 
 }

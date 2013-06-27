@@ -26,6 +26,7 @@ public class BeforeAndAfterLogger {
 
             long startTime = System.currentTimeMillis();
             retVal = point.proceed();
+
             long stopTime = System.currentTimeMillis();
 
            logger.trace("Returning :" + method.getName() + "(" + signature + ")"

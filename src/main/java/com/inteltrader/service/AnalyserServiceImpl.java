@@ -38,28 +38,28 @@ public class AnalyserServiceImpl implements AnalyserService {
     @Override
     public Advice getAnalysis(String symbolName, EntityManager entityManager) {
         States states=statesDao.retrieveStates(symbolName,entityManager);
-        logger.trace("Get Analysis .. present Advice :" +states.getPresentAdvice());
+        logger.debug("Get Analysis .. present Advice :" +states.getPresentAdvice());
         return states.getPresentAdvice();
     }
 
     @Override
     public void createAnalyser(String symbolName, EntityManager entityManager, Holdings.HoldingState hState) throws IOException{
-        logger.trace("Creating Analyser for symbol "+symbolName+" and HState +"+hState);
+        logger.debug("Creating Analyser for symbol "+symbolName+" and HState +"+hState);
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
         States states=statesDao.retrieveStates(symbolName,entityManager);
         if (states==null){
-            logger.trace("Creating Advisor first time..");
-            advisor=new QLearningAdvisorImpl2(instrument,hState,"MACD");
+            logger.debug("Creating Advisor first time..");
+            advisor=new QLearningAdvisorImpl2(instrument,hState,"MACD","RSI");
 
         }else{
-            logger.trace("States exist, creating advisor from retrieved states");
-           advisor=new QLearningAdvisorImpl2(states,instrument,hState,"MACD");
+            logger.debug("States exist, creating advisor from retrieved states");
+           advisor=new QLearningAdvisorImpl2(states,instrument,hState,"MACD","RSI");
         }
         states=advisor.getStates();
-        logger.trace("Saving states to db..");
-        logger.fatal("Present State is :"+states.getPresentState() +'\n'+
+        logger.debug("Saving states to db..");
+        logger.debug("Present State is :"+states.getPresentState() +'\n'+
         "Present Advice is :"+states.getPresentAdvice() );
-        logger.debug(states);
+        //logger.debug(states);
         statesDao.createState(states,entityManager);
 
     }
@@ -67,7 +67,7 @@ public class AnalyserServiceImpl implements AnalyserService {
     @Override
     public InstrumentWrapper getWrapper(String symbolName) throws IOException{
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
-        InstrumentWrapper taWrapper=TAWrapper.WrapMaker(instrument,"MACD");
+        InstrumentWrapper taWrapper=TAWrapper.WrapMaker(instrument,"MACD","RSI");
         return taWrapper;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

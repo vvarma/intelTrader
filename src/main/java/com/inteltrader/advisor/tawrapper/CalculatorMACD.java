@@ -39,7 +39,7 @@ public class CalculatorMACD {
     }
 
     public CalculatorMACD() throws IOException {
-        this(1,1);
+        this(1,0.20);
 
     }
 

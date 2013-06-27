@@ -30,7 +30,7 @@ public class InstrumentWrapperImpl implements InstrumentWrapper {
             int LIST_SIZE = instrument.getPriceList().size();
             this.instrumentAo.setPriceList(instrument.getPriceList().subList(LIST_SIZE - MAX_SIZE, LIST_SIZE));
         }
-        holdings = new Holdings(instrumentAo.getCurrentPrice().getClosePrice());
+        holdings = new Holdings();
 
 
     }

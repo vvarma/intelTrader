@@ -37,20 +37,18 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public RestCodes updatePortfolio(String portfolioName) throws IOException
-    {   logger.trace("Updating Portfolio..");
+    {   logger.debug("Updating Portfolio..");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
         Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
         for (Investment investment : portfolio.getInvestmentList()) {
-            logger.trace("Updating Investment :"+investment.getSymbolName());
             Holdings.HoldingState hState = investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
+            logger.debug("Updating Investment :"+investment.getSymbolName()+investment.getCurrentPrice().getClosePrice());
             analyserService.createAnalyser(investment.getSymbolName(),entityManager,hState);
             investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName(), entityManager), investment);
 
         }
-        logger.trace("Updating portfolio dao..");
+        logger.debug("Updating portfolio dao..");
         portfolioDao.updatePortfolio(entityManager, portfolio);
-        entityManager.getTransaction().commit();
         entityManager.close();
 
         return RestCodes.SUCCESS;

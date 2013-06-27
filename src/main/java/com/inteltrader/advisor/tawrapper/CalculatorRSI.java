@@ -25,7 +25,7 @@ public class CalculatorRSI {
     double result;
 
     public enum RSIState{
-        ABOVE_THRESHOLD,BETWEEN_THRESHOLD,BELOW_THRESHOLD,START;
+        ABOVE_THRESHOLD,BETWEEN_THRESHOLD,BELOW_THRESHOLD;
     }
     public RetCode calcRSI(InstrumentAo instrumentAo,List<Double> resultList){
         noOutEle= instrumentAo.getPriceList().size();
@@ -53,10 +53,10 @@ public class CalculatorRSI {
          return retCode;
     }
 
-    public CalculatorRSI() throws IOException {
+    public CalculatorRSI(int noOutEle) throws IOException {
         properties.load(new FileInputStream("intel.properties"));
         rsiPeriod=Integer.parseInt(properties.getProperty("RSI_Period"));
-        noOutEle=1;
+        this.noOutEle=noOutEle;
     }
     public RSIState getRSIState(Double result){
        /* RetCode retCode=calcRSI(instrumentVo);

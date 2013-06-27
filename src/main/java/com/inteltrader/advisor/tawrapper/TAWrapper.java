@@ -38,6 +38,9 @@ public abstract class TAWrapper implements InstrumentWrapper  {
         if(tokenList.contains("MACD"))  {
             instrumentWrapper=new MACDWrapper(instrumentWrapper,"MACD");
         }
+        if (tokenList.contains("RSI")){
+            instrumentWrapper=new RSIWrapper(instrumentWrapper,"RSI");
+        }
         return instrumentWrapper;
     }
 
