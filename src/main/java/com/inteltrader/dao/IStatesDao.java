@@ -12,6 +12,6 @@ import javax.persistence.EntityManager;
  * To change this template use File | Settings | File Templates.
  */
 public interface IStatesDao {
-    void createState(States states,EntityManager entityManager);
-    States retrieveStates(String symbolName,EntityManager entityManager);
+    void createState(States states);
+    States retrieveStates(String symbolName);
 }

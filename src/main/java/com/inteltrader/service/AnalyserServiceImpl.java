@@ -11,6 +11,7 @@ import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.States;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -27,6 +28,8 @@ import java.io.IOException;
 public class AnalyserServiceImpl implements AnalyserService {
     @Autowired
     InstrumentService instrumentService;
+
+    @Autowired
     private Advisor advisor;
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
