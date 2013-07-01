@@ -18,7 +18,8 @@ import java.io.IOException;
  */
 public class InstrumentWrapperImpl implements InstrumentWrapper {
     private InstrumentAo instrumentAo;
-    private int MAX_SIZE = 2 * 365;
+    //changeTo
+    private int MAX_SIZE = 4 * 365;
     private Holdings holdings;
 
     public InstrumentWrapperImpl(Instrument instrument) {
@@ -58,14 +59,21 @@ public class InstrumentWrapperImpl implements InstrumentWrapper {
     }
 
     @Override
+    public State.Builder getStateBuilder(int i) throws IndexOutOfBoundsException {
+        if (i>=getInstrument().getPriceList().size())
+            throw new IndexOutOfBoundsException();
+        return new State.Builder();
+    }
+
+    @Override
     public State.Builder getStateBuilder(Holdings.HoldingState hState) throws IOException {
-        return new State.Builder(hState);
+        return new State.Builder();
     }
 
     @Override
     public State.Builder updateWrapperAndGetStateBuilder(Price price, Holdings.HoldingState holdingState) throws IOException {
         updateWrapper(price);
-        return new State.Builder(holdingState);
+        return new State.Builder();
     }
 
     @Override
@@ -73,7 +81,7 @@ public class InstrumentWrapperImpl implements InstrumentWrapper {
         double reward = calcReward(holdings.getQuantity(), holdings.getCurrentPrice(), price.getClosePrice());
         presentState.updateReward(presentAdvice, reward);
         System.out.println(holdings +" "+ presentAdvice  + presentState);
-        State.Builder stateBuilderToReturn = new State.Builder(holdings.getHoldingsAndUpdateCurrentPrice(price.getClosePrice()));
+        State.Builder stateBuilderToReturn = new State.Builder();
         updateWrapper(price);
         return stateBuilderToReturn;
     }

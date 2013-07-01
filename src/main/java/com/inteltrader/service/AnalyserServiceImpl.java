@@ -40,7 +40,7 @@ public class AnalyserServiceImpl implements AnalyserService {
 
     @Override
     public Advice getAnalysis(String symbolName, EntityManager entityManager) {
-        States states=statesDao.retrieveStates(symbolName,entityManager);
+        States states=statesDao.retrieveStates(symbolName);
         logger.debug("Get Analysis .. present Advice :" +states.getPresentAdvice());
         return states.getPresentAdvice();
     }
@@ -49,7 +49,7 @@ public class AnalyserServiceImpl implements AnalyserService {
     public void createAnalyser(String symbolName, EntityManager entityManager, Holdings.HoldingState hState) throws IOException{
         logger.debug("Creating Analyser for symbol "+symbolName+" and HState +"+hState);
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
-        States states=statesDao.retrieveStates(symbolName,entityManager);
+        States states=statesDao.retrieveStates(symbolName);
         if (states==null){
             logger.debug("Creating Advisor first time..");
             advisor=new QLearningAdvisorImpl2(instrument,hState,"MACD","RSI");
@@ -63,7 +63,7 @@ public class AnalyserServiceImpl implements AnalyserService {
         logger.debug("Present State is :"+states.getPresentState() +'\n'+
         "Present Advice is :"+states.getPresentAdvice() );
         //logger.debug(states);
-        statesDao.createState(states,entityManager);
+        statesDao.createState(states);
 
     }
 

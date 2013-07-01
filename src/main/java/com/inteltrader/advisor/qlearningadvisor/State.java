@@ -20,7 +20,6 @@ public class State {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "STATE_ID")
     private int id = 0;
-    private final Holdings.HoldingState holdingState;
     private CalculatorMACD.MACDState macdState;
     private CalculatorRSI.RSIState rsiState;
     @ElementCollection(fetch = FetchType.EAGER)
@@ -33,7 +32,6 @@ public class State {
     private Random random = new Random();
 
     public static class Builder {
-        private final Holdings.HoldingState holdingState;
         private CalculatorMACD.MACDState macdState = null;
         private CalculatorRSI.RSIState rsiState = null;
 
@@ -47,8 +45,8 @@ public class State {
             return this;
         }
 
-        public Builder(Holdings.HoldingState holdingState) {
-            this.holdingState = holdingState;
+        public Builder() {
+
         }
 
         public State build() {
@@ -57,7 +55,6 @@ public class State {
     }
 
     private State(Builder builder) {
-        holdingState = builder.holdingState;
         macdState = builder.macdState;
         rsiState = builder.rsiState;
         actionRewardMap = new HashMap<Advice, Double>();
@@ -67,10 +64,10 @@ public class State {
     }
 
     public void updateReward(Advice advice, double reward) {
-        double updateReward = reward + actionRewardMap.get(advice);
-        actionRewardMap.put(advice, updateReward);
+         actionRewardMap.put(advice, reward);
         //normaliseRewards();
     }
+
 
     public void normaliseRewards() {
         List<Double> valSet = new ArrayList<Double>(actionRewardMap.values());
@@ -87,8 +84,7 @@ public class State {
             }
     }
 
-    public State(Holdings.HoldingState holdingState, CalculatorMACD.MACDState macdState, CalculatorRSI.RSIState rsiState) {
-        this.holdingState = holdingState;
+    public State(CalculatorMACD.MACDState macdState, CalculatorRSI.RSIState rsiState) {
         this.macdState = macdState;
         this.rsiState = rsiState;
         actionRewardMap = new HashMap<Advice, Double>();
@@ -97,6 +93,9 @@ public class State {
         actionRewardMap.put(Advice.HOLD, 0.0);
     }
 
+    public double getRewardForAdvice(Advice advice){
+        return actionRewardMap.get(advice);
+    }
     public Advice getGreedyAdvice() {
         double maxReward = -Double.MAX_VALUE;
         Advice maxAdvice = null;
@@ -110,9 +109,10 @@ public class State {
         return maxAdvice;
     }
 
-    public Advice getNonGreedyAdvice(int iter) {
+    public Advice getNonGreedyAdvice() {
         Advice[] arrAdvice = {Advice.BUY, Advice.HOLD, Advice.SELL};
         //int i = random.nextInt(3);
+        //changeTo check
         int i = ((int)(Math.random()*137 +17))%3;
         Advice ret = arrAdvice[i];
 
@@ -124,11 +124,10 @@ public class State {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof State)) return false;
 
         State state = (State) o;
 
-        if (holdingState != state.holdingState) return false;
         if (macdState != state.macdState) return false;
         if (rsiState != state.rsiState) return false;
 
@@ -137,8 +136,7 @@ public class State {
 
     @Override
     public int hashCode() {
-        int result = holdingState.hashCode();
-        result = 31 * result + (macdState != null ? macdState.hashCode() : 0);
+        int result = macdState != null ? macdState.hashCode() : 0;
         result = 31 * result + (rsiState != null ? rsiState.hashCode() : 0);
         return result;
     }
@@ -146,14 +144,13 @@ public class State {
     @Override
     public String toString() {
         return "State{" +
-                "holdingState=" + holdingState +
-                ", macdState=" + macdState +
+                "macdState=" + macdState +
                 ", rsiState=" + rsiState +
                 ", actionRewardMap=" + actionRewardMap +
                 '}';
     }
 
     public State() {
-        holdingState = Holdings.HoldingState.NO_HOLDING;
+
     }
 }

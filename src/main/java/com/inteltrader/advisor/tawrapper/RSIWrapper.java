@@ -47,6 +47,15 @@ public class RSIWrapper extends TAWrapper {
     }
 
     @Override
+    public State.Builder getStateBuilder(int index) throws IndexOutOfBoundsException {
+        return this.getWrapper().getStateBuilder(index).rsi(getRsiState(index));
+    }
+
+    private CalculatorRSI.RSIState getRsiState(int index) {
+        return calculator.getRSIState(rsiList.get(index));  //To change body of created methods use File | Settings | File Templates.
+    }
+
+    @Override
     public State.Builder updateWrapperAndGetStateBuilder(Price price, State presentState, Advice presentAdvice) throws IOException {
         return this.getWrapper().updateWrapperAndGetStateBuilder(price, presentState, presentAdvice).rsi(updateWrapperAndReturnState());
     }

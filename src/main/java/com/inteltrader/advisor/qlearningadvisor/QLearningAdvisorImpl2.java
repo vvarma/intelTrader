@@ -103,7 +103,7 @@ public class QLearningAdvisorImpl2 implements Advisor {
                 presentState.updateReward(presentAdvice, calcReward(holdings.getQuantity(), holdings.getCurrentPrice(), price.getClosePrice()));
                 Holdings.HoldingState hState = holdings.getHoldingsAndUpdateCurrentPrice(price.getClosePrice());
                 presentState = testWrapper.updateWrapperAndGetStateBuilder(price, hState).build();
-                presentAdvice = presentState.getNonGreedyAdvice(iter);
+                presentAdvice = presentState.getNonGreedyAdvice();
                 holdings.updateHoldings(presentAdvice);
 
 
