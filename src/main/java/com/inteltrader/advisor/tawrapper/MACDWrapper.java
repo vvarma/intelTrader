@@ -77,7 +77,7 @@ public class MACDWrapper extends TAWrapper {
 
     @Override
     public State.Builder getStateBuilder(int i) throws IndexOutOfBoundsException {
-        return this.getStateBuilder(i).macd(getMacdState(i));
+        return this.getWrapper().getStateBuilder(i).macd(getMacdState(i));
     }
 
     private CalculatorMACD.MACDState getMacdState(int index) {

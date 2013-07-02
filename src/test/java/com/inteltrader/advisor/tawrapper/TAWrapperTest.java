@@ -47,7 +47,7 @@ public class TAWrapperTest {
             InstrumentWrapper wrapper = TAWrapper.WrapMaker(instrument, "MACD");
             Price price = wrapper.getInstrument().getCurrentPrice();
             wrapper.getInstrument().getPriceList().remove(wrapper.getInstrument().getPriceList().size() - 1);
-            State preState = new State.Builder(Holdings.HoldingState.NO_HOLDING).build();
+            State preState = new State.Builder().build();
             State state = wrapper.updateWrapperAndGetStateBuilder(price, preState, Advice.BUY).build();
             System.out.println(state);
             Assert.assertEquals(wrapper.getInstrument().getSymbolName(), instrument.getSymbolName());
@@ -60,11 +60,11 @@ public class TAWrapperTest {
 
     @Test
     public void generalTestForSet() {
-        State state = new State.Builder(Holdings.HoldingState.NO_HOLDING).macd(CalculatorMACD.MACDState.NEGETIVE_BELOW_THRESHOLD).build();
+        State state = new State.Builder().macd(CalculatorMACD.MACDState.NEGETIVE_BELOW_THRESHOLD).build();
         Set<State> stateSet = new HashSet<State>();
         stateSet.add(state);
         state.updateReward(Advice.BUY, 12);
-        State nState = new State.Builder(Holdings.HoldingState.NO_HOLDING).macd(CalculatorMACD.MACDState.NEGETIVE_BELOW_THRESHOLD).build();
+        State nState = new State.Builder().macd(CalculatorMACD.MACDState.NEGETIVE_BELOW_THRESHOLD).build();
         nState.updateReward(Advice.SELL,21);
         stateSet.add(nState);
         Iterator iter = stateSet.iterator();
@@ -77,7 +77,7 @@ public class TAWrapperTest {
         }
     }
 
-    @Test
+/*    @Test
     public void forUpdateWrapper() {
         Instrument instrument = instrumentService.retrieveInstrument("CIPLA");
         try {
@@ -85,7 +85,7 @@ public class TAWrapperTest {
             instrument.getPriceList().remove(instrument.getPriceList().size() - 1);
             InstrumentWrapper wrapper = TAWrapper.WrapMaker(instrument, "MACD");
             Set<State> stateSet = new HashSet<State>();
-            State preState = new State.Builder(Holdings.HoldingState.NO_HOLDING).build();
+            State preState = new State.Builder().build();
             stateSet.add(preState);
             wrapper.updateHoldings(Advice.BUY);
             System.out.println(preState);
@@ -106,11 +106,11 @@ public class TAWrapperTest {
         } catch (IOException e) {
             Assert.assertTrue(false);
         }
-    }
-    @Test
+    }*/
+    /*@Test
     public void isTheStateBuilderWorking(){
         Instrument instrument = instrumentService.retrieveInstrument("CIPLA");
 
-    }
+    }*/
 
 }

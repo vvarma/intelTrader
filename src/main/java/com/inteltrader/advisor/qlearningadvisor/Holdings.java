@@ -2,6 +2,10 @@ package com.inteltrader.advisor.qlearningadvisor;
 
 import com.inteltrader.advisor.Advice;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: vvarm1
@@ -15,12 +19,23 @@ public class Holdings {
     }
     private int quantity;
     private double currentPrice;
+    private List<Transactions> transactionsList=new ArrayList<Transactions>();
 
     public Holdings() {
         this.quantity = 0;
         this.currentPrice = 0;
     }
+    public double calcPnl(){
+        double pnl=0;
+        double invested=0;
+        for (Transactions t:transactionsList){
+            invested+=(t.getQuantity()*t.getTransactionPrice());
+        }
+        pnl=(quantity*currentPrice)-invested;
+        return pnl;
+    }
     public void addQuantity(int quantity){
+        transactionsList.add(new Transactions(quantity,currentPrice));
         this.quantity+=quantity;
     }
 
@@ -30,6 +45,10 @@ public class Holdings {
 
     public double getCurrentPrice() {
         return currentPrice;
+    }
+
+    public void setCurrentPrice(double currentPrice) {
+        this.currentPrice = currentPrice;
     }
 
     public void updateHoldings(Advice advice) {
@@ -101,6 +120,7 @@ public class Holdings {
         return "Holdings{" +
                 "quantity=" + quantity +
                 ", currentPrice=" + currentPrice +
+                ", transactionsList=" + transactionsList +
                 '}';
     }
 }

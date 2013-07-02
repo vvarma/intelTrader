@@ -45,6 +45,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </beans:bean>
     <beans:bean id="analyserService" class="com.inteltrader.service.AnalyserServiceImpl">
     </beans:bean>
+    <!-- Advisor-->
+    <beans:bean id="advisor" class="com.inteltrader.advisor.newqlearning.QLearning">
+    </beans:bean>
+    <beans:bean id="qLearning" class="com.inteltrader.advisor.newqlearning.QLearning">
+    </beans:bean>
 
     <!-- ENTITY MANAGER... BEANIFY ENTITY MANAGER FACTORY -->
     <beans:bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

@@ -30,7 +30,11 @@ public class QLearning implements Advisor {
     private States states;
     private InstrumentWrapper wrapper;
 
-    public void initWrapper(Instrument instrument, String... token) throws IOException {
+    public void initWrapper(Instrument instrument, String... token) throws IOException,InstantiationException {
+        if (wrapper!=null){
+            System.out.println(wrapper);
+            throw new InstantiationException();
+        }
         wrapper = TAWrapper.WrapMaker(instrument, token);
     }
 
@@ -61,33 +65,52 @@ public class QLearning implements Advisor {
         }
 
         //changeTo use methods in wrapper super only. no local instance
-        public void initTrain(){
+        public Set<State> initTrain(){
+            Holdings holdings;
             State presentState=null;
             Advice presentAdvice=null;
             Set<State> stateSet=new HashSet<State>();
             int index=wrapper.getInstrument().getPriceList().size()-1;
-            for (int i=MAX_ELE_START;i<=index;i++){
-                State state=wrapper.getStateBuilder(i).build();
-                Iterator<State> stateIterator=stateSet.iterator();
-                boolean doesntContain=true;
-                while (stateIterator.hasNext()){
-                    State s=stateIterator.next();
-                    if (s.equals(state)){
-                        state=s;
-                        doesntContain=false;
-                        break;
+            int iter=0;
+            double pnl=0;
+            boolean bool=false;
+            do{
+                holdings=new Holdings();
+                holdings.setCurrentPrice(wrapper.getInstrument().getPriceList().get(MAX_ELE_START-1).getClosePrice());
+                iter++;
+                for (int i=MAX_ELE_START;i<=index;i++){
+                    State state=wrapper.getStateBuilder(i).build();
+                    Iterator<State> stateIterator=stateSet.iterator();
+                    boolean doesntContain=true;
+                    while (stateIterator.hasNext()){
+                        State s=stateIterator.next();
+                        if (s.equals(state)){
+                            state=s;
+                            doesntContain=false;
+                            break;
+                        }
                     }
+                    if (doesntContain){
+                        stateSet.add(state);
+                    }
+                    if (presentState!=null){
+                        updateReward(presentState,Advice.BUY,state,i);
+                        updateReward(presentState,Advice.SELL,state,i);
+                        updateReward(presentState,Advice.HOLD,state,i);
+                    }
+                    presentState=state;
+                    //changeTo
+                    presentAdvice=presentState.getGreedyAdvice();
+                    holdings.setCurrentPrice(wrapper.getInstrument().getPriceList().get(i).getClosePrice());
+                    holdings.updateHoldings(presentAdvice);
                 }
-                if (doesntContain){
-                    stateSet.add(state);
-                }
-                if (presentState!=null){
-                   updateReward(presentState,presentAdvice,state,i);
-                }
-                presentState=state;
-                //changeTo
-                presentAdvice=presentState.getNonGreedyAdvice();
-            }
+                bool=holdings.calcPnl()==pnl;
+                pnl=holdings.calcPnl();
+                System.out.println("iter :" + iter + " pnl :"+pnl);
+            }while ((iter<=100)&&(!bool));
+           //System.out.println("Holdings :" + holdings);
+
+            return stateSet;
 
         }
 
@@ -113,6 +136,10 @@ public class QLearning implements Advisor {
         }
 
 
+    }
+
+    public InstrumentWrapper getWrapper() {
+        return wrapper;
     }
 
     @Override
