@@ -31,13 +31,15 @@ public class QLearningTest {
     QLearning qLearning;
     @Autowired
     InstrumentService instrumentService;
+    String[] token={"MACD","RSI","BBAND"};
 
     @Test
     public void checkInitForQLearning(){
         Instrument instrument=instrumentService.retrieveInstrument("SBIN");
         try{
             try {
-                qLearning.initWrapper(instrument,"MACD","RSI");
+                System.out.println("token" + token);
+                qLearning.initWrapper(instrument,token);
             } catch (InstantiationException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -52,7 +54,7 @@ public class QLearningTest {
         Instrument instrument=instrumentService.retrieveInstrument("SBIN");
         try {
             try {
-                qLearning.initWrapper(instrument,"MACD","RSI");
+                qLearning.initWrapper(instrument,token);
             } catch (InstantiationException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -70,7 +72,7 @@ public class QLearningTest {
        Instrument instrument=instrumentService.retrieveInstrument("SBIN");
         try {
             try {
-                qLearning.initWrapper(instrument,"MACD","RSI");
+                qLearning.initWrapper(instrument,token);
             }  catch (InstantiationException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -87,7 +89,7 @@ public class QLearningTest {
         Instrument instrument=instrumentService.retrieveInstrument("SBIN");
         try {
             try {
-                qLearning.initWrapper(instrument,"MACD","RSI");
+                qLearning.initWrapper(instrument,token);
             }  catch (InstantiationException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }

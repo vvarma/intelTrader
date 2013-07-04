@@ -68,9 +68,10 @@ public class AnalyserServiceImpl implements AnalyserService {
     }
 
     @Override
-    public InstrumentWrapper getWrapper(String symbolName) throws IOException{
+    public InstrumentWrapper getWrapper(String symbolName,String[] tokens) throws IOException{
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
-        InstrumentWrapper taWrapper=TAWrapper.WrapMaker(instrument,"MACD","RSI");
+
+        InstrumentWrapper taWrapper=TAWrapper.WrapMaker(instrument,tokens);
         return taWrapper;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

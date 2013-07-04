@@ -1,8 +1,6 @@
 package com.inteltrader.entity.view;
 
-import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
-import com.inteltrader.advisor.tawrapper.MACDWrapper;
-import com.inteltrader.advisor.tawrapper.TAWrapper;
+import com.inteltrader.advisor.tawrapper.*;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
 
@@ -46,12 +44,23 @@ public class InstrumentVo {
             Date date=price.getTimeStamp().getTime();
             priceList.add(new PriceVo(date,price.getClosePrice(),price.getOpenPrice(),price.getLowPrice(),price.getHighPrice(),price.getLastClosePrice(),price.getTotalTradedQuantity()));
         }
-        if (wrapper instanceof TAWrapper){
-            if (((TAWrapper)wrapper).getDesc().equals("MACD")){
+        while (wrapper instanceof TAWrapper){
+            TAWrapper wrap=(TAWrapper)wrapper;
+            String desc=wrap.getDesc();
+            if (desc.equals("MACD")){
                 extras.put("MACD",((MACDWrapper)wrapper).getMacdList());
                 extras.put("MACDHist",((MACDWrapper)wrapper).getMacdHistList());
                 extras.put("MACDSignal",((MACDWrapper)wrapper).getMacdSignalList());
             }
+            if (desc.equals("RSI")){
+                extras.put("RSI",((RSIWrapper)wrap).getRsiList());
+            }
+            if (desc.equals("BBAND")){
+                extras.put("BBANDUpper",((BBandWrapper)wrap).getUpperBand());
+                extras.put("BBANDLower",((BBandWrapper)wrap).getLowerBand());
+                extras.put("BBANDMiddle",((BBandWrapper)wrap).getMiddleBand());
+            }
+            wrapper=wrap.getWrapper();
         }
 
 

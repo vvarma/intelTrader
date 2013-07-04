@@ -3,8 +3,8 @@ package com.inteltrader.advisor.tawrapper;
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import com.inteltrader.advisor.qlearningadvisor.State;
+import com.inteltrader.com.inteltrader.indicators.CalculatorMACD;
 import com.inteltrader.entity.Price;
-import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,13 +18,15 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class MACDWrapper extends TAWrapper {
+    private String desc;
     private List<Double> macdList;
     private List<Double> macdSignalList;
     private List<Double> macdHistList;
     private CalculatorMACD calculator;
 
     public MACDWrapper(InstrumentWrapper instrumentWrapper, String desc) throws IOException {
-        super(instrumentWrapper, desc);
+        super(instrumentWrapper);
+        this.desc=desc;
         macdHistList = new ArrayList<Double>();
         macdList = new ArrayList<Double>();
         macdSignalList = new ArrayList<Double>();
@@ -81,6 +83,7 @@ public class MACDWrapper extends TAWrapper {
     }
 
     private CalculatorMACD.MACDState getMacdState(int index) {
+
         return calculator.getMACDState(macdHistList.get(index));
     }
 
@@ -124,4 +127,8 @@ public class MACDWrapper extends TAWrapper {
         return macdHistList;
     }
 
+    @Override
+    public String getDesc() {
+        return desc;    //To change body of overridden methods use File | Settings | File Templates.
+    }
 }

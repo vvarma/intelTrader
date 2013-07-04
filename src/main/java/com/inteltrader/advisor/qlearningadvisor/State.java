@@ -1,8 +1,9 @@
 package com.inteltrader.advisor.qlearningadvisor;
 
 import com.inteltrader.advisor.Advice;
-import com.inteltrader.advisor.tawrapper.CalculatorMACD;
-import com.inteltrader.advisor.tawrapper.CalculatorRSI;
+import com.inteltrader.com.inteltrader.indicators.CalculatorBollingerBands;
+import com.inteltrader.com.inteltrader.indicators.CalculatorMACD;
+import com.inteltrader.com.inteltrader.indicators.CalculatorRSI;
 
 import javax.persistence.*;
 import java.util.*;
@@ -22,6 +23,7 @@ public class State {
     private int id = 0;
     private CalculatorMACD.MACDState macdState;
     private CalculatorRSI.RSIState rsiState;
+    private CalculatorBollingerBands.BBandState bBandState;
     @ElementCollection(fetch = FetchType.EAGER)
     @MapKeyEnumerated
     @JoinTable(
@@ -34,6 +36,7 @@ public class State {
     public static class Builder {
         private CalculatorMACD.MACDState macdState = null;
         private CalculatorRSI.RSIState rsiState = null;
+        private CalculatorBollingerBands.BBandState bBandState=null;
 
         public Builder macd(CalculatorMACD.MACDState macdState) {
             this.macdState = macdState;
@@ -44,7 +47,10 @@ public class State {
             this.rsiState = rsiState;
             return this;
         }
-
+        public Builder bband (CalculatorBollingerBands.BBandState bBandState){
+            this.bBandState=bBandState;
+            return this;
+        }
         public Builder() {
 
         }
@@ -57,6 +63,7 @@ public class State {
     private State(Builder builder) {
         macdState = builder.macdState;
         rsiState = builder.rsiState;
+        bBandState=builder.bBandState;
         actionRewardMap = new HashMap<Advice, Double>();
         actionRewardMap.put(Advice.BUY, 0.0);
         actionRewardMap.put(Advice.SELL, 0.0);
@@ -128,6 +135,7 @@ public class State {
 
         State state = (State) o;
 
+        if (bBandState != state.bBandState) return false;
         if (macdState != state.macdState) return false;
         if (rsiState != state.rsiState) return false;
 
@@ -138,6 +146,7 @@ public class State {
     public int hashCode() {
         int result = macdState != null ? macdState.hashCode() : 0;
         result = 31 * result + (rsiState != null ? rsiState.hashCode() : 0);
+        result = 31 * result + (bBandState != null ? bBandState.hashCode() : 0);
         return result;
     }
 
@@ -146,6 +155,7 @@ public class State {
         return "State{" +
                 "macdState=" + macdState +
                 ", rsiState=" + rsiState +
+                ", bBandState=" + bBandState +
                 ", actionRewardMap=" + actionRewardMap +
                 '}';
     }

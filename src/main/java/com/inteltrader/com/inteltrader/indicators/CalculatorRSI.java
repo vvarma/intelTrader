@@ -1,4 +1,4 @@
-package com.inteltrader.advisor.tawrapper;
+package com.inteltrader.com.inteltrader.indicators;
 
 import com.inteltrader.advisor.InstrumentAo;
 import com.tictactec.ta.lib.Core;

@@ -18,11 +18,11 @@ import java.util.List;
  */
 public abstract class TAWrapper implements InstrumentWrapper  {
     private InstrumentWrapper instrumentWrapper;
-    private String desc;
 
-    protected TAWrapper(InstrumentWrapper instrumentWrapper,String desc) {
+
+    protected TAWrapper(InstrumentWrapper instrumentWrapper) {
         this.instrumentWrapper = instrumentWrapper;
-        this.desc=desc;
+
     }
 
     @Override
@@ -32,7 +32,7 @@ public abstract class TAWrapper implements InstrumentWrapper  {
     public InstrumentWrapper getWrapper(){
         return instrumentWrapper;
     }
-    public static InstrumentWrapper WrapMaker(Instrument instrument,String ...tokens) throws IOException {
+    public static InstrumentWrapper WrapMaker(Instrument instrument,String[] tokens) throws IOException {
         InstrumentWrapper instrumentWrapper=new InstrumentWrapperImpl(instrument);
         List<String> tokenList= Arrays.asList(tokens);
         if(tokenList.contains("MACD"))  {
@@ -41,10 +41,16 @@ public abstract class TAWrapper implements InstrumentWrapper  {
         if (tokenList.contains("RSI")){
             instrumentWrapper=new RSIWrapper(instrumentWrapper,"RSI");
         }
+        System.out.println(tokenList.contains("MACD") +" hads bcmcbit");
+        System.out.println(tokenList.contains("BBAND") +" hads bcmcbit");
+        if (tokenList.contains("BBAND")){
+            System.out.println("in");
+            instrumentWrapper=new BBandWrapper(instrumentWrapper,"BBAND");
+        }
         return instrumentWrapper;
     }
 
     public String getDesc() {
-        return desc;
+        return "ABstract";
     }
 }

@@ -3,6 +3,7 @@ package com.inteltrader.advisor.tawrapper;
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import com.inteltrader.advisor.qlearningadvisor.State;
+import com.inteltrader.com.inteltrader.indicators.CalculatorRSI;
 import com.inteltrader.entity.Price;
 
 import java.io.IOException;
@@ -17,11 +18,13 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class RSIWrapper extends TAWrapper {
+    private String desc;
     private List<Double> rsiList;
     CalculatorRSI calculator;
 
     public RSIWrapper(InstrumentWrapper instrumentWrapper, String desc) throws IOException {
-        super(instrumentWrapper, desc);
+        super(instrumentWrapper);
+        this.desc=desc;
         rsiList = new ArrayList<Double>();
         calculator = new CalculatorRSI(Integer.MAX_VALUE);
         calculator.calcRSI(getInstrument(), rsiList);
@@ -89,5 +92,8 @@ public class RSIWrapper extends TAWrapper {
         return rsiList;
     }
 
-
+    @Override
+    public String getDesc() {
+        return desc;    //To change body of overridden methods use File | Settings | File Templates.
+    }
 }

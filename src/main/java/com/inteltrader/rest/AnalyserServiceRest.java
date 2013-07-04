@@ -36,7 +36,8 @@ public class AnalyserServiceRest {
     @ResponseBody
     ResponseEntity<String> loadInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request){
         try{
-            InstrumentWrapper taWrapper=analyserService.getWrapper(symbolName);
+            String[] tokens={"MACD","RSI","BBAND"};
+            InstrumentWrapper taWrapper=analyserService.getWrapper(symbolName,tokens);
             InstrumentVo instrumentVo=new InstrumentVo(taWrapper);
             HttpHeaders headers=new HttpHeaders();
             headers.add("Access-Control-Allow-Origin","*");

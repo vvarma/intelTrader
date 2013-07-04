@@ -1,8 +1,8 @@
 package com.inteltrader.advisor.tawrapper;
 
 import com.inteltrader.advisor.Advice;
-import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import com.inteltrader.advisor.qlearningadvisor.State;
+import com.inteltrader.com.inteltrader.indicators.CalculatorMACD;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
 import com.inteltrader.service.InstrumentService;
