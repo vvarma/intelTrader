@@ -27,10 +27,10 @@ public class CalculatorBollingerBands {
         }
         int endIndex=instrumentAo.getPriceList().size()-1;
         int startIndex=endIndex-noOutEle+1;
-        int optInTimePeriod=Integer.MIN_VALUE;
-        double optInNbDevUp=Double.MIN_VALUE;
-        double optInNbDevDn=Double.MIN_VALUE;
-        MAType optInMAType=MAType.Ema;
+        int optInTimePeriod=20;
+        double optInNbDevUp=2;
+        double optInNbDevDn=2;
+        MAType optInMAType=MAType.Sma;
         MInteger outBegIdx=new MInteger();
         outBegIdx.value=startIndex;
         MInteger outNBElement=new MInteger();
@@ -44,12 +44,16 @@ public class CalculatorBollingerBands {
 
         }
         RetCode retCode =core.bbands(startIndex,endIndex,closePriceInput,optInTimePeriod,optInNbDevUp,optInNbDevDn,optInMAType,outBegIdx,outNBElement,outRealUpperBand,outRealMiddleBand,outRealLowerBand);
+        boolean wtf=true;
         for (int i=0;i<=endIndex;i++){
             upperBandList.add(outRealUpperBand[i]);
             middleBandList.add(outRealMiddleBand[i]);
             lowerBandList.add(outRealLowerBand[i]);
+            if(!(outRealLowerBand[i]==outRealMiddleBand[i]&&outRealLowerBand[i]==outRealMiddleBand[i])){
+                wtf=false;
+            }
         }
-        System.out.println("threex" +retCode);
+        System.out.println("threex" +retCode+wtf);
         return retCode;
     }
     public enum BBandState{

@@ -19,7 +19,7 @@ import java.io.IOException;
 public class InstrumentWrapperImpl implements InstrumentWrapper {
     private InstrumentAo instrumentAo;
     //changeTo
-    private int MAX_SIZE = 4 * 365;
+    private int MAX_SIZE = Integer.MAX_VALUE;
     private Holdings holdings;
 
     public InstrumentWrapperImpl(Instrument instrument) {

@@ -32,10 +32,11 @@ public class QLearningTest {
     @Autowired
     InstrumentService instrumentService;
     String[] token={"MACD","RSI","BBAND"};
+    String symbolName="AMTEKAUTO";
 
     @Test
     public void checkInitForQLearning(){
-        Instrument instrument=instrumentService.retrieveInstrument("SBIN");
+        Instrument instrument=instrumentService.retrieveInstrument(symbolName);
         try{
             try {
                 System.out.println("token" + token);
@@ -43,7 +44,7 @@ public class QLearningTest {
             } catch (InstantiationException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-            Assert.assertEquals(qLearning.getWrapper().getInstrument().getSymbolName(), "SBIN");
+            Assert.assertEquals(qLearning.getWrapper().getInstrument().getSymbolName(), symbolName);
         }catch (IOException e){
             e.printStackTrace();
             Assert.assertTrue(false);
@@ -51,7 +52,7 @@ public class QLearningTest {
     }
     @Test
     public void checkGetStateBuilderForIndex(){
-        Instrument instrument=instrumentService.retrieveInstrument("SBIN");
+        Instrument instrument=instrumentService.retrieveInstrument(symbolName);
         try {
             try {
                 qLearning.initWrapper(instrument,token);
@@ -69,7 +70,7 @@ public class QLearningTest {
     @Test(expected = IndexOutOfBoundsException.class)
 
     public void checkGetStateBuilderForIndexOutOfBounds(){
-       Instrument instrument=instrumentService.retrieveInstrument("SBIN");
+       Instrument instrument=instrumentService.retrieveInstrument(symbolName);
         try {
             try {
                 qLearning.initWrapper(instrument,token);
@@ -86,14 +87,14 @@ public class QLearningTest {
 
     @Test
     public void initTrainerAndTrain(){
-        Instrument instrument=instrumentService.retrieveInstrument("SBIN");
+        Instrument instrument=instrumentService.retrieveInstrument(symbolName);
         try {
             try {
                 qLearning.initWrapper(instrument,token);
             }  catch (InstantiationException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-            QLearning.Trainer trainer= qLearning.new Trainer(0.6,0.9,40);
+            QLearning.Trainer trainer= qLearning.new Trainer(0.15,0.9999,40);
             Set<State> stateSet=trainer.initTrain();
             System.out.println(stateSet);
 

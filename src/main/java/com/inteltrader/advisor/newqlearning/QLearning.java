@@ -75,6 +75,7 @@ public class QLearning implements Advisor {
             double pnl=0;
             boolean bool=false;
             do{
+                ALPHA=0.15/(1+iter);
                 holdings=new Holdings();
                 holdings.setCurrentPrice(wrapper.getInstrument().getPriceList().get(MAX_ELE_START-1).getClosePrice());
                 iter++;
@@ -106,7 +107,7 @@ public class QLearning implements Advisor {
                 }
                 bool=holdings.calcPnl()==pnl;
                 pnl=holdings.calcPnl();
-                System.out.println("iter :" + iter + " pnl :"+pnl);
+                System.out.println("iter :" + iter + " pnl :"+pnl +"Learning rate :"+ALPHA);
             }while ((iter<=100)&&(!bool));
            //System.out.println("Holdings :" + holdings);
 
