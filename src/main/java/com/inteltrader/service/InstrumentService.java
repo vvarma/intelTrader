@@ -1,8 +1,10 @@
 package com.inteltrader.service;
 
 import com.inteltrader.entity.Instrument;
+import com.inteltrader.entity.Price;
 import com.inteltrader.util.RestCodes;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,5 +20,5 @@ public interface InstrumentService {
     RestCodes updateInstruments(String portfolioName);
 
 
-
+    List<Price> getNewPrices(String symbolName, Price currentPrice) throws NoSuchFieldException;
 }

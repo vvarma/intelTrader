@@ -7,7 +7,6 @@ import com.inteltrader.entity.Portfolio;
 import com.inteltrader.entity.Price;
 import com.inteltrader.util.*;
 import org.apache.log4j.Logger;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -117,6 +116,19 @@ public class InstrumentServiceImpl implements InstrumentService {
             }
             return RestCodes.SUCCESS;
 
+    }
+
+    @Override
+    public List<Price> getNewPrices(String symbolName, Price currentPrice) throws NoSuchFieldException {
+
+        Instrument instrument=retrieveInstrument(symbolName);
+        List<Price> priceList=instrument.getPriceList();
+        int index=priceList.indexOf(currentPrice);
+        int maxIndex=priceList.size()-1;
+        if (index>=maxIndex)
+            return new ArrayList<Price>();
+
+        return new ArrayList<Price>(priceList.subList(index+1,maxIndex+1));
     }
 
     @Override

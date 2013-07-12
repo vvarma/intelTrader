@@ -160,13 +160,15 @@ public class QLearning implements Advisor {
 
     @Override
     public Advice getAdvice() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return states.getPresentAdvice();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public Advice updatePriceAndGetAdvice(Price price) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Advice updatePriceAndGetAdvice(Price price) throws IOException {
+       return null;
     }
+
+
 
     @Override
     public States getStates() {

@@ -1,6 +1,7 @@
 package com.inteltrader.advisor;
 
 import com.inteltrader.advisor.qlearningadvisor.State;
+import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
 import com.inteltrader.entity.States;
@@ -20,4 +21,5 @@ public interface Advisor {
     Advice updatePriceAndGetAdvice(Price price) throws IOException;
     States getStates();
     void initAdvisor(Instrument instrument, String... token) throws IOException, InstantiationException;
+    InstrumentWrapper getWrapper();
 }

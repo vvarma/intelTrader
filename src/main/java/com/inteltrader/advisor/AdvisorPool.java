@@ -2,12 +2,14 @@ package com.inteltrader.advisor;
 
 import com.inteltrader.advisor.newqlearning.QLearning;
 import com.inteltrader.entity.Instrument;
+import com.inteltrader.entity.Price;
 import com.inteltrader.service.InstrumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,5 +42,12 @@ public class AdvisorPool {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return advisor;
+    }
+    public void updateAdvisor(String key) throws NoSuchFieldException, IOException {
+        Advisor advisor =getAdvisor(key);
+        List<Price> newPriceList=instrumentService.getNewPrices(advisor.getWrapper().getInstrument().getSymbolName(),advisor.getWrapper().getInstrument().getCurrentPrice());
+        for (Price price:newPriceList){
+            advisor.updatePriceAndGetAdvice(price);
+        }
     }
 }
