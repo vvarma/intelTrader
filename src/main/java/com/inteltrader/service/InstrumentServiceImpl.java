@@ -7,6 +7,7 @@ import com.inteltrader.entity.Portfolio;
 import com.inteltrader.entity.Price;
 import com.inteltrader.util.*;
 import org.apache.log4j.Logger;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -36,7 +37,7 @@ public class InstrumentServiceImpl implements InstrumentService {
     private Logger logger = Logger.getLogger(this.getClass());
 
     @Override
-    public Instrument retrieveInstrument(String symbolName) {
+    public Instrument retrieveInstrument(String symbolName) throws NoSuchFieldException {
         logger.trace("Retrieve Instruments..");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Instrument instrument = instrumentDao.retrieveInstrument(entityManager, symbolName);
@@ -49,6 +50,8 @@ public class InstrumentServiceImpl implements InstrumentService {
             }
 
         }
+        if (instrument==null)
+            throw new NoSuchFieldException(symbolName +" not found");
 
         //not closed because its amazingly lazy mofo
         return instrument;

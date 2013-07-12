@@ -3,6 +3,7 @@ package com.inteltrader.dao;
 import com.inteltrader.entity.Portfolio;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,5 +34,12 @@ public class PortfolioDao implements IPortfolioDao {
     public Portfolio retrievePortfolio(EntityManager entityManager, String portfolioName) {
         Portfolio portfolio=entityManager.find(Portfolio.class,portfolioName);
         return portfolio;
+    }
+
+    @Override
+    public List<String> retrieveAllPortfolios(EntityManager entityManager) {
+        String query="select p.portfolioName from Portfolio p";
+        List<String> resultList=entityManager.createQuery(query).getResultList();
+        return resultList;
     }
 }

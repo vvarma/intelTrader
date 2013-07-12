@@ -99,7 +99,7 @@ public class TAWrapperTest {
 
                 System.out.println(s);
             }
-            Assert.assertEquals(wrapper.getInstrument().getSymbolName(), instrument.getSymbolName());
+            Assert.assertEquals(wrapper.getInstrument().getPortfolioName(), instrument.getPortfolioName());
             Assert.assertEquals(1, stateSet.size());
 
 

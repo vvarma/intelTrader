@@ -2,6 +2,7 @@ package com.inteltrader.rest;
 
 import com.google.gson.Gson;
 import com.inteltrader.entity.Portfolio;
+import com.inteltrader.entity.view.PortfolioVo;
 import com.inteltrader.service.InstrumentService;
 import com.inteltrader.service.PortfolioService;
 import com.inteltrader.util.RestCodes;
@@ -17,6 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -73,17 +78,36 @@ public class PortfolioServiceRest {
                     new HttpHeaders(), HttpStatus.OK);
         }
 
-
-
     }
+    @RequestMapping(value = "/listAll",method = RequestMethod.GET)
+     public
+    @ResponseBody
+    ResponseEntity<String> listPortfolios(HttpServletRequest request){
+        List<String> portfolioStrin=portfolioService.listAllPortfolios();
+        String[] p=new String[portfolioStrin.size()];
+        int i=0;
+        for (String s:portfolioStrin){
+           p[i++]=s;
+        }
+
+        Map<String,String[]> portfolioMap=new HashMap<String, String[]>();
+        portfolioMap.put("portfolio",p);
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin","*");
+        return new ResponseEntity<String>(new Gson().toJson(portfolioMap),
+                headers, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/load/{portfolioName}", method = RequestMethod.GET)
     public
     @ResponseBody
     ResponseEntity<String> loadInstrument(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request){
         Portfolio portfolio= portfolioService.retrievePortfolio(portfolioName);
-
-        return new ResponseEntity<String>(new Gson().toJson(portfolio),
-                new HttpHeaders(), HttpStatus.OK);
+        PortfolioVo portfolioVo=new PortfolioVo(portfolio);
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin","*");
+        return new ResponseEntity<String>(new Gson().toJson(portfolioVo),
+                headers, HttpStatus.OK);
     }
     @RequestMapping(value = "/pnl/{portfolioName}", method = RequestMethod.GET)
     public

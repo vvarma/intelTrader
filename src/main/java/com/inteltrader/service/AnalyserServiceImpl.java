@@ -46,7 +46,7 @@ public class AnalyserServiceImpl implements AnalyserService {
     }
 
     @Override
-    public void createAnalyser(String symbolName, EntityManager entityManager, Holdings.HoldingState hState) throws IOException{
+    public void createAnalyser(String symbolName, EntityManager entityManager, Holdings.HoldingState hState) throws IOException, NoSuchFieldException {
         logger.debug("Creating Analyser for symbol "+symbolName+" and HState +"+hState);
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
         States states=statesDao.retrieveStates(symbolName);
@@ -68,7 +68,7 @@ public class AnalyserServiceImpl implements AnalyserService {
     }
 
     @Override
-    public InstrumentWrapper getWrapper(String symbolName,String[] tokens) throws IOException{
+    public InstrumentWrapper getWrapper(String symbolName,String[] tokens) throws IOException, NoSuchFieldException {
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
 
         InstrumentWrapper taWrapper=TAWrapper.WrapMaker(instrument,tokens);

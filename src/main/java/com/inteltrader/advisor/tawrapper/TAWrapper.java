@@ -32,7 +32,7 @@ public abstract class TAWrapper implements InstrumentWrapper  {
     public InstrumentWrapper getWrapper(){
         return instrumentWrapper;
     }
-    public static InstrumentWrapper WrapMaker(Instrument instrument,String[] tokens) throws IOException {
+    public static InstrumentWrapper WrapMaker(Instrument instrument,String... tokens) throws IOException {
         InstrumentWrapper instrumentWrapper=new InstrumentWrapperImpl(instrument);
         List<String> tokenList= Arrays.asList(tokens);
         if(tokenList.contains("MACD"))  {
