@@ -75,6 +75,32 @@ public class BBandWrapper extends TAWrapper {
     }
 
     @Override
+    public State.Builder updateWrapper(Price price) throws IOException {
+
+        return this.getWrapper().updateWrapper(price).bband(updateBBandAndGetState());  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private CalculatorBollingerBands.BBandState updateBBandAndGetState() {
+        updateBband();
+        int index=getInstrument().getPriceList().size()-1;
+        return calculator.getBBandState(upperBand.get(index),middleBand.get(index),lowerBand.get(index),getInstrument().getCurrentPrice().getClosePrice());
+    }
+
+    private void updateBband() {
+        List<Double> tempUpperBand = new ArrayList<Double>();
+        List<Double> tempMiddleBand = new ArrayList<Double>();
+        List<Double> tempLowerBand = new ArrayList<Double>();
+        calculator.calcBollBands(getInstrument(),1,tempUpperBand,tempMiddleBand,tempLowerBand);
+        upperBand.remove(0);
+        middleBand.remove(0);
+        lowerBand.remove(0);
+        upperBand.add(tempUpperBand.get(0));
+        middleBand.add(tempMiddleBand.get(0));
+        lowerBand.add(tempLowerBand.get(0));
+    }
+
+
+    @Override
     public String getDesc() {
         return desc;    //To change body of overridden methods use File | Settings | File Templates.
     }

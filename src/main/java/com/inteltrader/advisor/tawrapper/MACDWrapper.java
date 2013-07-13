@@ -3,8 +3,9 @@ package com.inteltrader.advisor.tawrapper;
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import com.inteltrader.advisor.qlearningadvisor.State;
-import com.inteltrader.com.inteltrader.indicators.CalculatorMACD;
+import com.inteltrader.indicators.CalculatorMACD;
 import com.inteltrader.entity.Price;
+import com.inteltrader.indicators.CalculatorMACD;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class MACDWrapper extends TAWrapper {
     private List<Double> macdList;
     private List<Double> macdSignalList;
     private List<Double> macdHistList;
-    private CalculatorMACD calculator;
+    private CalculatorMACD  calculator;
 
     public MACDWrapper(InstrumentWrapper instrumentWrapper, String desc) throws IOException {
         super(instrumentWrapper);
@@ -61,6 +62,7 @@ public class MACDWrapper extends TAWrapper {
         List<Double> tempMacdList = new ArrayList<Double>();
         List<Double> tempMacdHistList = new ArrayList<Double>();
         List<Double> tempMacdSignalList = new ArrayList<Double>();
+        calculator.setNoOutEle(1);
         calculator.calcMACD(getInstrument(), tempMacdList, tempMacdSignalList, tempMacdHistList);
         macdList.remove(0);
         macdHistList.remove(0);
@@ -105,6 +107,12 @@ public class MACDWrapper extends TAWrapper {
     @Override
     public State.Builder updateWrapperAndGetStateBuilder(Price price, State presentState, Advice presentAdvice) throws IOException {
         return this.getWrapper().updateWrapperAndGetStateBuilder(price, presentState, presentAdvice).macd(updateWrapperAndReturnState());
+    }
+
+    @Override
+    public State.Builder updateWrapper(Price price) throws IOException {
+
+        return this.getWrapper().updateWrapper(price).macd(updateWrapperAndReturnState());  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     private CalculatorMACD.MACDState updateWrapperAndReturnState() throws IOException {

@@ -79,4 +79,5 @@ public class CalculatorBollingerBands {
         else
             return BBandState.BELOW_LOWER_THRESHOLD;
     }
+
 }

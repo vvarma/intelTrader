@@ -72,4 +72,8 @@ public class CalculatorRSI {
             throw new RuntimeException(retCode.toString());
         }*/
     }
+
+    public void setNoOutEle(int noOutEle) {
+        this.noOutEle = noOutEle;
+    }
 }

@@ -95,13 +95,14 @@ public class InstrumentWrapperImpl implements InstrumentWrapper {
     }
 
 
-    private void updateWrapper(Price price) {
+    public State.Builder updateWrapper(Price price) {
         if (instrumentAo.getPriceList().size() < MAX_SIZE) {
             instrumentAo.getPriceList().add(price);
         } else {
             instrumentAo.getPriceList().remove(0);
             instrumentAo.getPriceList().add(price);
         }
+        return new State.Builder();
     }
 
     @Override

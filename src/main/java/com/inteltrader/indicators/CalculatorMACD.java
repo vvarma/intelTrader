@@ -96,4 +96,7 @@ public class CalculatorMACD {
 
     }
 
+    public void setNoOutEle(int noOutEle) {
+        this.noOutEle = noOutEle;
+    }
 }

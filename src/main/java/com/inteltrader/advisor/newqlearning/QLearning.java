@@ -165,6 +165,7 @@ public class QLearning implements Advisor {
 
     @Override
     public Advice updatePriceAndGetAdvice(Price price) throws IOException {
+
        return null;
     }
 

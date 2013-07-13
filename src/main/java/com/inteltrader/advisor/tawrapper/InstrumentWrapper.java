@@ -22,5 +22,6 @@ public interface InstrumentWrapper {
     public State.Builder getStateBuilder(Holdings.HoldingState hState)throws IOException;
     public void updateHoldings(Advice advice);
     public State.Builder getStateBuilder(int i) throws IndexOutOfBoundsException;
+    public State.Builder updateWrapper(Price price) throws IOException;
 
 }

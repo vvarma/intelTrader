@@ -44,6 +44,7 @@ public class RSIWrapper extends TAWrapper {
     }
     private void updateRsiWrapper() throws IOException {
         List<Double> tempRsiList = new ArrayList<Double>();
+        calculator.setNoOutEle(1);
         calculator.calcRSI(getInstrument(), tempRsiList);
         rsiList.remove(0);
        rsiList.add(tempRsiList.get(0));
@@ -90,6 +91,11 @@ public class RSIWrapper extends TAWrapper {
 
     public List<Double> getRsiList() {
         return rsiList;
+    }
+
+    @Override
+    public State.Builder updateWrapper(Price price) throws IOException {
+        return this.getWrapper().updateWrapper(price).rsi(updateWrapperAndReturnState());
     }
 
     @Override
