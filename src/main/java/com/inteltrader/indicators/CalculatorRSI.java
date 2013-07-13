@@ -1,4 +1,4 @@
-package com.inteltrader.com.inteltrader.indicators;
+package com.inteltrader.indicators;
 
 import com.inteltrader.advisor.InstrumentAo;
 import com.tictactec.ta.lib.Core;

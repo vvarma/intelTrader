@@ -32,7 +32,7 @@ public class QLearningTest {
     @Autowired
     InstrumentService instrumentService;
     String[] token={"MACD","RSI","BBAND"};
-    String symbolName="AMTEKAUTO";
+    String symbolName="CIPLA";
 
     @Test
     public void checkInitForQLearning(){

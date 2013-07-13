@@ -1,9 +1,9 @@
 package com.inteltrader.advisor.qlearningadvisor;
 
 import com.inteltrader.advisor.Advice;
-import com.inteltrader.com.inteltrader.indicators.CalculatorBollingerBands;
-import com.inteltrader.com.inteltrader.indicators.CalculatorMACD;
-import com.inteltrader.com.inteltrader.indicators.CalculatorRSI;
+import com.inteltrader.indicators.CalculatorBollingerBands;
+import com.inteltrader.indicators.CalculatorMACD;
+import com.inteltrader.indicators.CalculatorRSI;
 
 import javax.persistence.*;
 import java.util.*;

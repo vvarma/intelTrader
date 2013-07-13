@@ -1,10 +1,9 @@
-package com.inteltrader.com.inteltrader.indicators;
+package com.inteltrader.indicators;
 
 import com.inteltrader.advisor.InstrumentAo;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
-import org.apache.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
