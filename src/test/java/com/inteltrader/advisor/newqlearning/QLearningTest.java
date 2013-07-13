@@ -36,7 +36,12 @@ public class QLearningTest {
 
     @Test
     public void checkInitForQLearning(){
-        Instrument instrument=instrumentService.retrieveInstrument(symbolName);
+        Instrument instrument= null;
+        try {
+            instrument = instrumentService.retrieveInstrument(symbolName);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         try{
             try {
                 System.out.println("token" + token);
@@ -52,7 +57,12 @@ public class QLearningTest {
     }
     @Test
     public void checkGetStateBuilderForIndex(){
-        Instrument instrument=instrumentService.retrieveInstrument(symbolName);
+        Instrument instrument= null;
+        try {
+            instrument = instrumentService.retrieveInstrument(symbolName);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         try {
             try {
                 qLearning.initWrapper(instrument,token);
@@ -70,7 +80,12 @@ public class QLearningTest {
     @Test(expected = IndexOutOfBoundsException.class)
 
     public void checkGetStateBuilderForIndexOutOfBounds(){
-       Instrument instrument=instrumentService.retrieveInstrument(symbolName);
+        Instrument instrument= null;
+        try {
+            instrument = instrumentService.retrieveInstrument(symbolName);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         try {
             try {
                 qLearning.initWrapper(instrument,token);
@@ -87,7 +102,12 @@ public class QLearningTest {
 
     @Test
     public void initTrainerAndTrain(){
-        Instrument instrument=instrumentService.retrieveInstrument(symbolName);
+        Instrument instrument= null;
+        try {
+            instrument = instrumentService.retrieveInstrument(symbolName);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         try {
             try {
                 qLearning.initWrapper(instrument,token);

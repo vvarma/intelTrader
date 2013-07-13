@@ -29,7 +29,15 @@ public class QLearning implements Advisor {
     private IStatesDao statesDao;
     private States states;
     private InstrumentWrapper wrapper;
+    private Trainer trainer;
 
+    public QLearning(double alpha,double gamma,int max_elements) {
+        trainer=new Trainer(alpha,gamma,max_elements);
+    }
+    public void initAdvisor(Instrument instrument, String... token) throws IOException, InstantiationException {
+        initWrapper(instrument,token);
+        initStates();
+    }
     public void initWrapper(Instrument instrument, String... token) throws IOException,InstantiationException {
         if (wrapper!=null){
             System.out.println(wrapper);
@@ -38,28 +46,34 @@ public class QLearning implements Advisor {
         wrapper = TAWrapper.WrapMaker(instrument, token);
     }
 
-    public void initStates() {
+    private void initStates() {
         states = statesDao.retrieveStates(wrapper.getInstrument().getSymbolName());
         if (states == null) {
-
-
+           states=new States();
+            states.setStateSet(trainer.initTrain());
+            int index=wrapper.getInstrument().getPriceList().size()-1;
+            states.setPresentState(wrapper.getStateBuilder(index).build());
+            states.setPresentAdvice(null);
+            statesDao.createState(states);
         }
     }
     //gamma values and alpha values should be updated during iterations
     //number of iterations to stabilise? some parameter of error
 
     public class Trainer {
-        private double ALPHA, GAMMA;
+        private double ALPHA, GAMMA,ALPHA_VAL;
         private int MAX_ELE_START;
 
         public Trainer(double ALPHA, double GAMMA, int MAX_ELE_START) {
             this.ALPHA = ALPHA;
+            this.ALPHA_VAL=ALPHA;
             this.GAMMA = GAMMA;
             this.MAX_ELE_START = MAX_ELE_START;
         }
 
         public Trainer() {
             ALPHA=0.5;
+            ALPHA_VAL=ALPHA;
             GAMMA=0.5;
             MAX_ELE_START=40;
         }
@@ -75,7 +89,7 @@ public class QLearning implements Advisor {
             double pnl=0;
             boolean bool=false;
             do{
-                ALPHA=0.15/(1+iter);
+                ALPHA=ALPHA_VAL/(1+iter);
                 holdings=new Holdings();
                 holdings.setCurrentPrice(wrapper.getInstrument().getPriceList().get(MAX_ELE_START-1).getClosePrice());
                 iter++;
@@ -140,18 +154,21 @@ public class QLearning implements Advisor {
     }
 
     public InstrumentWrapper getWrapper() {
+
         return wrapper;
     }
 
     @Override
     public Advice getAdvice() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return states.getPresentAdvice();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public Advice updatePriceAndGetAdvice(Price price) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Advice updatePriceAndGetAdvice(Price price) throws IOException {
+       return null;
     }
+
+
 
     @Override
     public States getStates() {

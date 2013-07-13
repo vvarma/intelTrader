@@ -36,7 +36,7 @@ public class InstrumentServiceImpl implements InstrumentService {
     private Logger logger = Logger.getLogger(this.getClass());
 
     @Override
-    public Instrument retrieveInstrument(String symbolName) {
+    public Instrument retrieveInstrument(String symbolName) throws NoSuchFieldException {
         logger.trace("Retrieve Instruments..");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Instrument instrument = instrumentDao.retrieveInstrument(entityManager, symbolName);
@@ -49,6 +49,8 @@ public class InstrumentServiceImpl implements InstrumentService {
             }
 
         }
+        if (instrument==null)
+            throw new NoSuchFieldException(symbolName +" not found");
 
         //not closed because its amazingly lazy mofo
         return instrument;
@@ -114,6 +116,19 @@ public class InstrumentServiceImpl implements InstrumentService {
             }
             return RestCodes.SUCCESS;
 
+    }
+
+    @Override
+    public List<Price> getNewPrices(String symbolName, Price currentPrice) throws NoSuchFieldException {
+
+        Instrument instrument=retrieveInstrument(symbolName);
+        List<Price> priceList=instrument.getPriceList();
+        int index=priceList.indexOf(currentPrice);
+        int maxIndex=priceList.size()-1;
+        if (index>=maxIndex)
+            return new ArrayList<Price>();
+
+        return new ArrayList<Price>(priceList.subList(index+1,maxIndex+1));
     }
 
     @Override

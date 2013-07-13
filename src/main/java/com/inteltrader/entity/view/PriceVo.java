@@ -1,5 +1,7 @@
 package com.inteltrader.entity.view;
 
+import com.inteltrader.entity.Price;
+
 import java.util.Date;
 
 /**
@@ -13,6 +15,16 @@ public class PriceVo {
     private Date timeStamp;
     private Double closePrice,openPrice,lowPrice,highPrice,lastClosePrice;
     private long totalTradedQuantity;
+
+    public PriceVo(Price price) {
+        closePrice=price.getClosePrice();
+        openPrice=price.getOpenPrice();
+        lowPrice=price.getLowPrice();
+        highPrice=price.getHighPrice();
+        lastClosePrice=price.getLastClosePrice();
+        totalTradedQuantity=price.getTotalTradedQuantity();
+        timeStamp=price.getTimeStamp().getTime();
+    }
 
     public PriceVo(Date timeStamp, Double closePrice, Double openPrice, Double lowPrice, Double highPrice, Double lastClosePrice, long totalTradedQuantity) {
         this.timeStamp = timeStamp;

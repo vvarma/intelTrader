@@ -1,6 +1,5 @@
 package com.inteltrader.service;
 
-import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import com.inteltrader.dao.IPortfolioDao;
 import com.inteltrader.entity.*;
@@ -122,6 +121,12 @@ public class PortfolioServiceImpl implements PortfolioService {
         }
 
         return pnl;
+    }
+
+    @Override
+    public List<String> listAllPortfolios() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        return portfolioDao.retrieveAllPortfolios(entityManager);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     private Price getCurrentInstrumentPrice(String symbolName) {

@@ -20,4 +20,6 @@ public interface PortfolioService {
     RestCodes addToPortfolio(String portfolioName, String symbolName);
     Portfolio retrievePortfolio(String portfolioName);
     Double calculatePnL(String portfolioName);
+
+    List<String> listAllPortfolios();
 }

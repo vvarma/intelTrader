@@ -110,4 +110,24 @@ public class Price {
                 ", totalTradedQuantity=" + totalTradedQuantity +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Price)) return false;
+
+        Price price = (Price) o;
+
+        if (priceId != price.priceId) return false;
+        if (!timeStamp.equals(price.timeStamp)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (priceId ^ (priceId >>> 32));
+        result = 31 * result + timeStamp.hashCode();
+        return result;
+    }
 }

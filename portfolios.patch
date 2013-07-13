@@ -1,0 +1,231 @@
+Index: src/main/java/com/inteltrader/service/PortfolioServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.inteltrader.service;\r\n\r\nimport com.inteltrader.advisor.Advice;\r\nimport com.inteltrader.advisor.qlearningadvisor.Holdings;\r\nimport com.inteltrader.dao.IPortfolioDao;\r\nimport com.inteltrader.entity.*;\r\nimport com.inteltrader.util.RestCodes;\r\nimport org.apache.log4j.Logger;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\n\r\nimport javax.persistence.EntityManager;\r\nimport javax.persistence.EntityManagerFactory;\r\nimport javax.persistence.PersistenceUnit;\r\nimport java.io.IOException;\r\nimport java.util.List;\r\n\r\n/**\r\n * Created with IntelliJ IDEA.\r\n * User: vvarm1\r\n * Date: 4/17/13\r\n * Time: 3:20 PM\r\n * To change this template use File | Settings | File Templates.\r\n */\r\npublic class PortfolioServiceImpl implements PortfolioService {\r\n    @PersistenceUnit\r\n    private EntityManagerFactory entityManagerFactory;\r\n\r\n    @Autowired\r\n    private IPortfolioDao portfolioDao;\r\n    @Autowired\r\n    private AnalyserService analyserService;\r\n    @Autowired\r\n    private InvestmentService investmentService;\r\n    @Autowired\r\n    private InstrumentService instrumentService;\r\n    private Logger logger=Logger.getLogger(this.getClass());\r\n\r\n    @Override\r\n    public RestCodes updatePortfolio(String portfolioName) throws IOException\r\n    {   logger.debug(\"Updating Portfolio..\");\r\n        EntityManager entityManager = entityManagerFactory.createEntityManager();\r\n        Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);\r\n        for (Investment investment : portfolio.getInvestmentList()) {\r\n            Holdings.HoldingState hState = investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));\r\n            logger.debug(\"Updating Investment :\"+investment.getSymbolName()+investment.getCurrentPrice().getClosePrice());\r\n            analyserService.createAnalyser(investment.getSymbolName(),entityManager,hState);\r\n            investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName(), entityManager), investment);\r\n\r\n        }\r\n        logger.debug(\"Updating portfolio dao..\");\r\n        portfolioDao.updatePortfolio(entityManager, portfolio);\r\n        entityManager.close();\r\n\r\n        return RestCodes.SUCCESS;\r\n\r\n    }\r\n\r\n    @Override\r\n    public RestCodes createPortfolio(String portfolioName) {\r\n        EntityManager entityManager = entityManagerFactory.createEntityManager();\r\n        entityManager.getTransaction().begin();\r\n        try {\r\n            Portfolio portfolio = new Portfolio(portfolioName);\r\n            portfolioDao.createPortfolio(entityManager, portfolio);\r\n            return RestCodes.SUCCESS;\r\n        } catch (RuntimeException e) {\r\n            e.printStackTrace();\r\n            return RestCodes.FAILURE;\r\n        } finally {\r\n            entityManager.getTransaction().commit();\r\n            entityManager.close();\r\n        }\r\n\r\n    }\r\n\r\n    @Override\r\n    public RestCodes addToPortfolio(String portfolioName, String symbolName) {\r\n        try {\r\n            Instrument instrument = instrumentService.retrieveInstrument(symbolName);\r\n            EntityManager entityManager = entityManagerFactory.createEntityManager();\r\n            Investment investment = new Investment(symbolName);\r\n            Holdings.HoldingState hState = investment.setCurrentPrice(instrument.getCurrentPrice());\r\n            entityManager.getTransaction().begin();\r\n            Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);\r\n            System.out.println(portfolio);\r\n            if (!portfolio.getInvestmentList().contains(investment))\r\n                portfolio.getInvestmentList().add(investment);\r\n            investment.setAssociatedPortfolio(portfolio);\r\n            entityManager.getTransaction().commit();\r\n            entityManager.close();\r\n            return RestCodes.SUCCESS;\r\n        } catch (RuntimeException e) {\r\n            e.printStackTrace();\r\n            return RestCodes.FAILURE;\r\n        }/* catch (IOException e) {\r\n            e.printStackTrace();\r\n            return RestCodes.FAILURE;\r\n        }*/\r\n    }\r\n\r\n    @Override\r\n    public Portfolio retrievePortfolio(String portfolioName) {\r\n        EntityManager entityManager = entityManagerFactory.createEntityManager();\r\n        Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);\r\n\r\n        return portfolio;\r\n    }\r\n\r\n    @Override\r\n    public Double calculatePnL(String portfolioName) {\r\n        EntityManager entityManager = entityManagerFactory.createEntityManager();\r\n        Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);\r\n        double pnl=0.0;\r\n        for (Investment investment : portfolio.getInvestmentList()) {\r\n            double invested = 0.0;\r\n            double value=0.0;\r\n            for (Transactions transactions : investment.getTransactionsList()) {\r\n                invested += transactions.getQuantity() * transactions.getTransactionPrice().getClosePrice();\r\n            }\r\n            value+=investment.getQuantity()*investment.getCurrentPrice().getClosePrice();\r\n            pnl+=(value-invested);\r\n        }\r\n\r\n        return pnl;\r\n    }\r\n\r\n    private Price getCurrentInstrumentPrice(String symbolName) {\r\n        Price price=instrumentService.retrieveInstrument(symbolName).getCurrentPrice();\r\n        logger.fatal(\"Current Price is :\" +price.getClosePrice());\r\n        return price;\r\n\r\n    }\r\n\r\n    public EntityManagerFactory getEntityManagerFactory() {\r\n        return entityManagerFactory;\r\n    }\r\n\r\n    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {\r\n        this.entityManagerFactory = entityManagerFactory;\r\n    }\r\n\r\n    public IPortfolioDao getPortfolioDao() {\r\n        return portfolioDao;\r\n    }\r\n\r\n    public void setPortfolioDao(IPortfolioDao portfolioDao) {\r\n        this.portfolioDao = portfolioDao;\r\n    }\r\n\r\n    public AnalyserService getAnalyserService() {\r\n        return analyserService;\r\n    }\r\n\r\n    public void setAnalyserService(AnalyserService analyserService) {\r\n        this.analyserService = analyserService;\r\n    }\r\n\r\n    public InvestmentService getInvestmentService() {\r\n        return investmentService;\r\n    }\r\n\r\n    public void setInvestmentService(InvestmentService investmentService) {\r\n        this.investmentService = investmentService;\r\n    }\r\n\r\n    public InstrumentService getInstrumentService() {\r\n        return instrumentService;\r\n    }\r\n\r\n    public void setInstrumentService(InstrumentService instrumentService) {\r\n        this.instrumentService = instrumentService;\r\n    }\r\n}\r\n
+===================================================================
+--- src/main/java/com/inteltrader/service/PortfolioServiceImpl.java	(date 1373030173000)
++++ src/main/java/com/inteltrader/service/PortfolioServiceImpl.java	(revision )
+@@ -1,6 +1,5 @@
+ package com.inteltrader.service;
+ 
+-import com.inteltrader.advisor.Advice;
+ import com.inteltrader.advisor.qlearningadvisor.Holdings;
+ import com.inteltrader.dao.IPortfolioDao;
+ import com.inteltrader.entity.*;
+@@ -122,6 +121,12 @@
+         }
+ 
+         return pnl;
++    }
++
++    @Override
++    public List<Portfolio> listAllPortfolios() {
++        EntityManager entityManager = entityManagerFactory.createEntityManager();
++        return portfolioDao.retrieveAllPortfolios(entityManager);  //To change body of implemented methods use File | Settings | File Templates.
+     }
+ 
+     private Price getCurrentInstrumentPrice(String symbolName) {
+Index: src/main/java/com/inteltrader/service/PortfolioService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.inteltrader.service;\r\n\r\nimport com.inteltrader.entity.Investment;\r\nimport com.inteltrader.entity.Portfolio;\r\nimport com.inteltrader.util.RestCodes;\r\n\r\nimport java.io.IOException;\r\nimport java.util.List;\r\n\r\n/**\r\n * Created with IntelliJ IDEA.\r\n * User: Vinay\r\n * Date: 2/4/13\r\n * Time: 11:04 AM\r\n * To change this template use File | Settings | File Templates.\r\n */\r\npublic interface PortfolioService {\r\n    RestCodes updatePortfolio(String portfolioName) throws IOException;\r\n    RestCodes createPortfolio(String portfolioName);\r\n    RestCodes addToPortfolio(String portfolioName, String symbolName);\r\n    Portfolio retrievePortfolio(String portfolioName);\r\n    Double calculatePnL(String portfolioName);\r\n}\r\n
+===================================================================
+--- src/main/java/com/inteltrader/service/PortfolioService.java	(date 1373030173000)
++++ src/main/java/com/inteltrader/service/PortfolioService.java	(revision )
+@@ -20,4 +20,6 @@
+     RestCodes addToPortfolio(String portfolioName, String symbolName);
+     Portfolio retrievePortfolio(String portfolioName);
+     Double calculatePnL(String portfolioName);
++
++    List<Portfolio> listAllPortfolios();
+ }
+Index: src/test/java/com/inteltrader/advisor/tawrapper/TAWrapperTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.inteltrader.advisor.tawrapper;\r\n\r\nimport com.inteltrader.advisor.Advice;\r\nimport com.inteltrader.advisor.qlearningadvisor.State;\r\nimport com.inteltrader.com.inteltrader.indicators.CalculatorMACD;\r\nimport com.inteltrader.entity.Instrument;\r\nimport com.inteltrader.entity.Price;\r\nimport com.inteltrader.service.InstrumentService;\r\nimport junit.framework.Assert;\r\nimport org.junit.Test;\r\nimport org.junit.runner.RunWith;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.test.context.ContextConfiguration;\r\nimport org.springframework.test.context.junit4.SpringJUnit4ClassRunner;\r\n\r\nimport java.io.IOException;\r\nimport java.util.*;\r\n\r\n/**\r\n * Created with IntelliJ IDEA.\r\n * User: vvarm1\r\n * Date: 6/5/13\r\n * Time: 2:39 PM\r\n * To change this template use File | Settings | File Templates.\r\n */\r\n@RunWith(SpringJUnit4ClassRunner.class)\r\n@ContextConfiguration(locations = {\"file:src/main/webapp/WEB-INF/applicationContext.xml\"})\r\npublic class TAWrapperTest {\r\n    @Autowired\r\n    InstrumentService instrumentService;\r\n\r\n    @Test\r\n    public void shouldRetrieveInstrumentAndCreateWrapperCheckBySymbolName() {\r\n        Instrument instrument = instrumentService.retrieveInstrument(\"CIPLA\");\r\n        try {\r\n            InstrumentWrapper wrapper = TAWrapper.WrapMaker(instrument, \"\");\r\n            Assert.assertEquals(wrapper.getInstrument().getSymbolName(), instrument.getSymbolName());\r\n        } catch (IOException e) {\r\n            Assert.assertTrue(false);\r\n        }\r\n    }\r\n\r\n    @Test\r\n    public void shouldRetrieveInstrumentCreateWrapperAddPriceAndGetState() {\r\n        Instrument instrument = instrumentService.retrieveInstrument(\"CIPLA\");\r\n        try {\r\n            InstrumentWrapper wrapper = TAWrapper.WrapMaker(instrument, \"MACD\");\r\n            Price price = wrapper.getInstrument().getCurrentPrice();\r\n            wrapper.getInstrument().getPriceList().remove(wrapper.getInstrument().getPriceList().size() - 1);\r\n            State preState = new State.Builder().build();\r\n            State state = wrapper.updateWrapperAndGetStateBuilder(price, preState, Advice.BUY).build();\r\n            System.out.println(state);\r\n            Assert.assertEquals(wrapper.getInstrument().getSymbolName(), instrument.getSymbolName());\r\n\r\n\r\n        } catch (IOException e) {\r\n            Assert.assertTrue(false);\r\n        }\r\n    }\r\n\r\n    @Test\r\n    public void generalTestForSet() {\r\n        State state = new State.Builder().macd(CalculatorMACD.MACDState.NEGETIVE_BELOW_THRESHOLD).build();\r\n        Set<State> stateSet = new HashSet<State>();\r\n        stateSet.add(state);\r\n        state.updateReward(Advice.BUY, 12);\r\n        State nState = new State.Builder().macd(CalculatorMACD.MACDState.NEGETIVE_BELOW_THRESHOLD).build();\r\n        nState.updateReward(Advice.SELL,21);\r\n        stateSet.add(nState);\r\n        Iterator iter = stateSet.iterator();\r\n        while (iter.hasNext()) {\r\n            State s = (State) iter.next();\r\n            System.out.println(\"12332\"+s);\r\n            System.out.println(\"12332\"+nState);\r\n            Assert.assertEquals(s, state);\r\n\r\n        }\r\n    }\r\n\r\n/*    @Test\r\n    public void forUpdateWrapper() {\r\n        Instrument instrument = instrumentService.retrieveInstrument(\"CIPLA\");\r\n        try {\r\n            Price price = instrument.getCurrentPrice();\r\n            instrument.getPriceList().remove(instrument.getPriceList().size() - 1);\r\n            InstrumentWrapper wrapper = TAWrapper.WrapMaker(instrument, \"MACD\");\r\n            Set<State> stateSet = new HashSet<State>();\r\n            State preState = new State.Builder().build();\r\n            stateSet.add(preState);\r\n            wrapper.updateHoldings(Advice.BUY);\r\n            System.out.println(preState);\r\n            preState = wrapper.updateWrapperAndGetStateBuilder(price, preState, Advice.BUY).build();\r\n\r\n            Iterator iter = stateSet.iterator();\r\n            while (iter.hasNext()) {\r\n                State s = (State) iter.next();\r\n                Assert.assertNotSame(s, preState);\r\n                System.out.println(preState);\r\n\r\n                System.out.println(s);\r\n            }\r\n            Assert.assertEquals(wrapper.getInstrument().getSymbolName(), instrument.getSymbolName());\r\n            Assert.assertEquals(1, stateSet.size());\r\n\r\n\r\n        } catch (IOException e) {\r\n            Assert.assertTrue(false);\r\n        }\r\n    }*/\r\n    /*@Test\r\n    public void isTheStateBuilderWorking(){\r\n        Instrument instrument = instrumentService.retrieveInstrument(\"CIPLA\");\r\n\r\n    }*/\r\n\r\n}\r\n
+===================================================================
+--- src/test/java/com/inteltrader/advisor/tawrapper/TAWrapperTest.java	(date 1373030173000)
++++ src/test/java/com/inteltrader/advisor/tawrapper/TAWrapperTest.java	(revision )
+@@ -99,7 +99,7 @@
+ 
+                 System.out.println(s);
+             }
+-            Assert.assertEquals(wrapper.getInstrument().getSymbolName(), instrument.getSymbolName());
++            Assert.assertEquals(wrapper.getInstrument().getPortfolioName(), instrument.getPortfolioName());
+             Assert.assertEquals(1, stateSet.size());
+ 
+ 
+Index: src/main/java/com/inteltrader/dao/IPortfolioDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.inteltrader.dao;\r\n\r\nimport com.inteltrader.entity.Portfolio;\r\n\r\nimport javax.persistence.EntityManager;\r\n\r\n/**\r\n * Created with IntelliJ IDEA.\r\n * User: vvarm1\r\n * Date: 4/17/13\r\n * Time: 3:15 PM\r\n * To change this template use File | Settings | File Templates.\r\n */\r\npublic interface IPortfolioDao {\r\n    void createPortfolio(EntityManager entityManager,Portfolio portfolio);\r\n    void updatePortfolio(EntityManager entityManager,Portfolio portfolio);\r\n    void deletePortfolio(EntityManager entityManager,Portfolio portfolio);\r\n    Portfolio retrievePortfolio(EntityManager entityManager,String portfolioName);\r\n}\r\n
+===================================================================
+--- src/main/java/com/inteltrader/dao/IPortfolioDao.java	(date 1373030173000)
++++ src/main/java/com/inteltrader/dao/IPortfolioDao.java	(revision )
+@@ -3,6 +3,7 @@
+ import com.inteltrader.entity.Portfolio;
+ 
+ import javax.persistence.EntityManager;
++import java.util.List;
+ 
+ /**
+  * Created with IntelliJ IDEA.
+@@ -16,4 +17,6 @@
+     void updatePortfolio(EntityManager entityManager,Portfolio portfolio);
+     void deletePortfolio(EntityManager entityManager,Portfolio portfolio);
+     Portfolio retrievePortfolio(EntityManager entityManager,String portfolioName);
++
++    List<Portfolio> retrieveAllPortfolios(EntityManager entityManager);
+ }
+Index: src/main/java/com/inteltrader/advisor/tawrapper/TAWrapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.inteltrader.advisor.tawrapper;\r\n\r\nimport com.inteltrader.advisor.InstrumentAo;\r\nimport com.inteltrader.advisor.qlearningadvisor.State;\r\nimport com.inteltrader.entity.Instrument;\r\nimport com.inteltrader.entity.Price;\r\n\r\nimport java.io.IOException;\r\nimport java.util.Arrays;\r\nimport java.util.List;\r\n\r\n/**\r\n * Created with IntelliJ IDEA.\r\n * User: vvarm1\r\n * Date: 5/27/13\r\n * Time: 11:24 AM\r\n * To change this template use File | Settings | File Templates.\r\n */\r\npublic abstract class TAWrapper implements InstrumentWrapper  {\r\n    private InstrumentWrapper instrumentWrapper;\r\n\r\n\r\n    protected TAWrapper(InstrumentWrapper instrumentWrapper) {\r\n        this.instrumentWrapper = instrumentWrapper;\r\n\r\n    }\r\n\r\n    @Override\r\n    public InstrumentAo getInstrument() {\r\n        return instrumentWrapper.getInstrument();\r\n    }\r\n    public InstrumentWrapper getWrapper(){\r\n        return instrumentWrapper;\r\n    }\r\n    public static InstrumentWrapper WrapMaker(Instrument instrument,String[] tokens) throws IOException {\r\n        InstrumentWrapper instrumentWrapper=new InstrumentWrapperImpl(instrument);\r\n        List<String> tokenList= Arrays.asList(tokens);\r\n        if(tokenList.contains(\"MACD\"))  {\r\n            instrumentWrapper=new MACDWrapper(instrumentWrapper,\"MACD\");\r\n        }\r\n        if (tokenList.contains(\"RSI\")){\r\n            instrumentWrapper=new RSIWrapper(instrumentWrapper,\"RSI\");\r\n        }\r\n        System.out.println(tokenList.contains(\"MACD\") +\" hads bcmcbit\");\r\n        System.out.println(tokenList.contains(\"BBAND\") +\" hads bcmcbit\");\r\n        if (tokenList.contains(\"BBAND\")){\r\n            System.out.println(\"in\");\r\n            instrumentWrapper=new BBandWrapper(instrumentWrapper,\"BBAND\");\r\n        }\r\n        return instrumentWrapper;\r\n    }\r\n\r\n    public String getDesc() {\r\n        return \"ABstract\";\r\n    }\r\n}\r\n
+===================================================================
+--- src/main/java/com/inteltrader/advisor/tawrapper/TAWrapper.java	(date 1373030173000)
++++ src/main/java/com/inteltrader/advisor/tawrapper/TAWrapper.java	(revision )
+@@ -32,7 +32,7 @@
+     public InstrumentWrapper getWrapper(){
+         return instrumentWrapper;
+     }
+-    public static InstrumentWrapper WrapMaker(Instrument instrument,String[] tokens) throws IOException {
++    public static InstrumentWrapper WrapMaker(Instrument instrument,String... tokens) throws IOException {
+         InstrumentWrapper instrumentWrapper=new InstrumentWrapperImpl(instrument);
+         List<String> tokenList= Arrays.asList(tokens);
+         if(tokenList.contains("MACD"))  {
+Index: src/main/java/com/inteltrader/dao/PortfolioDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.inteltrader.dao;\r\n\r\nimport com.inteltrader.entity.Portfolio;\r\n\r\nimport javax.persistence.EntityManager;\r\n\r\n/**\r\n * Created with IntelliJ IDEA.\r\n * User: vvarm1\r\n * Date: 4/17/13\r\n * Time: 3:17 PM\r\n * To change this template use File | Settings | File Templates.\r\n */\r\npublic class PortfolioDao implements IPortfolioDao {\r\n    @Override\r\n    public void createPortfolio(EntityManager entityManager, Portfolio portfolio) {\r\n        entityManager.persist(portfolio);\r\n    }\r\n\r\n    @Override\r\n    public void updatePortfolio(EntityManager entityManager, Portfolio portfolio) {\r\n        entityManager.getTransaction().begin();\r\n        entityManager.merge(portfolio);\r\n        entityManager.getTransaction().commit();\r\n    }\r\n\r\n    @Override\r\n    public void deletePortfolio(EntityManager entityManager, Portfolio portfolio) {\r\n        entityManager.remove(portfolio);\r\n    }\r\n\r\n    @Override\r\n    public Portfolio retrievePortfolio(EntityManager entityManager, String portfolioName) {\r\n        Portfolio portfolio=entityManager.find(Portfolio.class,portfolioName);\r\n        return portfolio;\r\n    }\r\n}\r\n
+===================================================================
+--- src/main/java/com/inteltrader/dao/PortfolioDao.java	(date 1373030173000)
++++ src/main/java/com/inteltrader/dao/PortfolioDao.java	(revision )
+@@ -3,6 +3,7 @@
+ import com.inteltrader.entity.Portfolio;
+ 
+ import javax.persistence.EntityManager;
++import java.util.List;
+ 
+ /**
+  * Created with IntelliJ IDEA.
+@@ -33,5 +34,12 @@
+     public Portfolio retrievePortfolio(EntityManager entityManager, String portfolioName) {
+         Portfolio portfolio=entityManager.find(Portfolio.class,portfolioName);
+         return portfolio;
++    }
++
++    @Override
++    public List<Portfolio> retrieveAllPortfolios(EntityManager entityManager) {
++        String query="select p from Portfolio p";
++        List<Portfolio> resultList=entityManager.createQuery(query).getResultList();
++        return resultList;
+     }
+ }
+Index: src/main/java/com/inteltrader/rest/PortfolioServiceRest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.inteltrader.rest;\r\n\r\nimport com.google.gson.Gson;\r\nimport com.inteltrader.entity.Portfolio;\r\nimport com.inteltrader.service.InstrumentService;\r\nimport com.inteltrader.service.PortfolioService;\r\nimport com.inteltrader.util.RestCodes;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.http.HttpHeaders;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.stereotype.Controller;\r\nimport org.springframework.web.bind.annotation.PathVariable;\r\nimport org.springframework.web.bind.annotation.RequestMapping;\r\nimport org.springframework.web.bind.annotation.RequestMethod;\r\nimport org.springframework.web.bind.annotation.ResponseBody;\r\n\r\nimport javax.servlet.http.HttpServletRequest;\r\nimport java.io.IOException;\r\n\r\n/**\r\n * Created with IntelliJ IDEA.\r\n * User: vvarm1\r\n * Date: 4/17/13\r\n * Time: 5:09 PM\r\n * To change this template use File | Settings | File Templates.\r\n */\r\n@Controller\r\n@RequestMapping(\"/portfolio\")\r\npublic class PortfolioServiceRest {\r\n    @Autowired\r\n    private PortfolioService portfolioService;\r\n    @Autowired\r\n    private InstrumentService instrumentService;\r\n    @RequestMapping(value = \"/create/{portfolioName}\", method = RequestMethod.GET)\r\n    public\r\n    @ResponseBody\r\n    ResponseEntity<String> createPortfolio(@PathVariable(\"portfolioName\") String portfolioName, HttpServletRequest request) {\r\n\r\n        RestCodes responseCode = portfolioService.createPortfolio(portfolioName);\r\n\r\n        return new ResponseEntity<String>(responseCode.toString(),\r\n                new HttpHeaders(), HttpStatus.OK);\r\n\r\n    }\r\n    @RequestMapping(value = \"/addInvestment/{portfolioName}/{symbolName}\", method = RequestMethod.GET)\r\n     public\r\n     @ResponseBody\r\n     ResponseEntity<String> addInvestment(@PathVariable(\"portfolioName\") String portfolioName,@PathVariable(\"symbolName\") String symbolName, HttpServletRequest request) {\r\n\r\n        RestCodes responseCode = portfolioService.addToPortfolio(portfolioName,symbolName);\r\n\r\n        return new ResponseEntity<String>(responseCode.toString(),\r\n                new HttpHeaders(), HttpStatus.OK);\r\n\r\n    }\r\n    @RequestMapping(value = \"/updatePortfolio/{portfolioName}\", method = RequestMethod.GET)\r\n    public\r\n    @ResponseBody\r\n    ResponseEntity<String> updatePortfolio(@PathVariable(\"portfolioName\") String portfolioName, HttpServletRequest request) {\r\n        if (instrumentService.updateInstruments(portfolioName)!=RestCodes.NO_COMMENT){\r\n            try {\r\n                RestCodes responseCode = portfolioService.updatePortfolio(portfolioName);\r\n\r\n                return new ResponseEntity<String>(responseCode.toString(),\r\n                        new HttpHeaders(), HttpStatus.OK);\r\n            }  catch (IOException e){\r\n                return new ResponseEntity<String>(e.toString(),\r\n                        new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR)    ;\r\n            }\r\n        }else{\r\n            return new ResponseEntity<String>(\"Nothing to Update\",\r\n                    new HttpHeaders(), HttpStatus.OK);\r\n        }\r\n\r\n\r\n\r\n    }\r\n    @RequestMapping(value = \"/load/{portfolioName}\", method = RequestMethod.GET)\r\n    public\r\n    @ResponseBody\r\n    ResponseEntity<String> loadInstrument(@PathVariable(\"portfolioName\") String portfolioName, HttpServletRequest request){\r\n        Portfolio portfolio= portfolioService.retrievePortfolio(portfolioName);\r\n\r\n        return new ResponseEntity<String>(new Gson().toJson(portfolio),\r\n                new HttpHeaders(), HttpStatus.OK);\r\n    }\r\n    @RequestMapping(value = \"/pnl/{portfolioName}\", method = RequestMethod.GET)\r\n    public\r\n    @ResponseBody\r\n    ResponseEntity<String> getPortfolioPnL(@PathVariable(\"portfolioName\") String portfolioName, HttpServletRequest request){\r\n        Double pnl= portfolioService.calculatePnL(portfolioName);\r\n\r\n        return new ResponseEntity<String>(new Gson().toJson(pnl),\r\n                new HttpHeaders(), HttpStatus.OK);\r\n    }\r\n}\r\n
+===================================================================
+--- src/main/java/com/inteltrader/rest/PortfolioServiceRest.java	(date 1373030173000)
++++ src/main/java/com/inteltrader/rest/PortfolioServiceRest.java	(revision )
+@@ -2,6 +2,7 @@
+ 
+ import com.google.gson.Gson;
+ import com.inteltrader.entity.Portfolio;
++import com.inteltrader.entity.view.PortfolioVo;
+ import com.inteltrader.service.InstrumentService;
+ import com.inteltrader.service.PortfolioService;
+ import com.inteltrader.util.RestCodes;
+@@ -17,6 +18,10 @@
+ 
+ import javax.servlet.http.HttpServletRequest;
+ import java.io.IOException;
++import java.util.ArrayList;
++import java.util.HashMap;
++import java.util.List;
++import java.util.Map;
+ 
+ /**
+  * Created with IntelliJ IDEA.
+@@ -73,16 +78,29 @@
+                     new HttpHeaders(), HttpStatus.OK);
+         }
+ 
+-
+-
+     }
++    @RequestMapping(value = "/listAll",method = RequestMethod.GET)
++     public
++    @ResponseBody
++    ResponseEntity<String> listPortfolios(HttpServletRequest request){
++        List<Portfolio> portfolioStrin=portfolioService.listAllPortfolios();
++        List<PortfolioVo> portfolioVos=new ArrayList<PortfolioVo>();
++        for (Portfolio p:portfolioStrin){
++            portfolioVos.add(new PortfolioVo(p));
++        }
++        HttpHeaders headers=new HttpHeaders();
++        headers.add("Access-Control-Allow-Origin","*");
++        return new ResponseEntity<String>(new Gson().toJson(portfolioVos),
++                headers, HttpStatus.OK);
++    }
++
+     @RequestMapping(value = "/load/{portfolioName}", method = RequestMethod.GET)
+     public
+     @ResponseBody
+     ResponseEntity<String> loadInstrument(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request){
+         Portfolio portfolio= portfolioService.retrievePortfolio(portfolioName);
+-
+-        return new ResponseEntity<String>(new Gson().toJson(portfolio),
++        PortfolioVo portfolioVo=new PortfolioVo(portfolio);
++        return new ResponseEntity<String>(new Gson().toJson(portfolioVo),
+                 new HttpHeaders(), HttpStatus.OK);
+     }
+     @RequestMapping(value = "/pnl/{portfolioName}", method = RequestMethod.GET)
+Index: src/main/java/com/inteltrader/entity/view/PriceVo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.inteltrader.entity.view;\r\n\r\nimport java.util.Date;\r\n\r\n/**\r\n * Created with IntelliJ IDEA.\r\n * User: vvarm1\r\n * Date: 5/22/13\r\n * Time: 10:43 AM\r\n * To change this template use File | Settings | File Templates.\r\n */\r\npublic class PriceVo {\r\n    private Date timeStamp;\r\n    private Double closePrice,openPrice,lowPrice,highPrice,lastClosePrice;\r\n    private long totalTradedQuantity;\r\n\r\n    public PriceVo(Date timeStamp, Double closePrice, Double openPrice, Double lowPrice, Double highPrice, Double lastClosePrice, long totalTradedQuantity) {\r\n        this.timeStamp = timeStamp;\r\n        this.closePrice = closePrice;\r\n        this.openPrice = openPrice;\r\n        this.lowPrice = lowPrice;\r\n        this.highPrice = highPrice;\r\n        this.lastClosePrice = lastClosePrice;\r\n        this.totalTradedQuantity = totalTradedQuantity;\r\n    }\r\n\r\n    public Date getTimeStamp() {\r\n        return timeStamp;\r\n    }\r\n\r\n    public Double getClosePrice() {\r\n        return closePrice;\r\n    }\r\n\r\n    public Double getOpenPrice() {\r\n        return openPrice;\r\n    }\r\n\r\n    public Double getLowPrice() {\r\n        return lowPrice;\r\n    }\r\n\r\n    public Double getHighPrice() {\r\n        return highPrice;\r\n    }\r\n\r\n    public Double getLastClosePrice() {\r\n        return lastClosePrice;\r\n    }\r\n\r\n    public long getTotalTradedQuantity() {\r\n        return totalTradedQuantity;\r\n    }\r\n}\r\n
+===================================================================
+--- src/main/java/com/inteltrader/entity/view/PriceVo.java	(date 1373030173000)
++++ src/main/java/com/inteltrader/entity/view/PriceVo.java	(revision )
+@@ -1,5 +1,7 @@
+ package com.inteltrader.entity.view;
+ 
++import com.inteltrader.entity.Price;
++
+ import java.util.Date;
+ 
+ /**
+@@ -13,6 +15,16 @@
+     private Date timeStamp;
+     private Double closePrice,openPrice,lowPrice,highPrice,lastClosePrice;
+     private long totalTradedQuantity;
++
++    public PriceVo(Price price) {
++        closePrice=price.getClosePrice();
++        openPrice=price.getOpenPrice();
++        lowPrice=price.getLowPrice();
++        highPrice=price.getHighPrice();
++        lastClosePrice=price.getLastClosePrice();
++        totalTradedQuantity=price.getTotalTradedQuantity();
++        timeStamp=price.getTimeStamp().getTime();
++    }
+ 
+     public PriceVo(Date timeStamp, Double closePrice, Double openPrice, Double lowPrice, Double highPrice, Double lastClosePrice, long totalTradedQuantity) {
+         this.timeStamp = timeStamp;

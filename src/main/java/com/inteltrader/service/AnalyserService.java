@@ -17,6 +17,6 @@ import java.io.IOException;
  */
 public interface AnalyserService {
     Advice getAnalysis(String symbolName,EntityManager entityManager);
-    InstrumentWrapper getWrapper(String symbolName,String[] tokens)throws IOException;
-    void createAnalyser(String symbolName, EntityManager entityManager, Holdings.HoldingState hState) throws IOException;
+    InstrumentWrapper getWrapper(String symbolName,String[] tokens) throws IOException, NoSuchFieldException;
+    void createAnalyser(String symbolName, EntityManager entityManager, Holdings.HoldingState hState) throws IOException, NoSuchFieldException;
 }

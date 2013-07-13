@@ -3,6 +3,7 @@ package com.inteltrader.dao;
 import com.inteltrader.entity.Portfolio;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,4 +17,6 @@ public interface IPortfolioDao {
     void updatePortfolio(EntityManager entityManager,Portfolio portfolio);
     void deletePortfolio(EntityManager entityManager,Portfolio portfolio);
     Portfolio retrievePortfolio(EntityManager entityManager,String portfolioName);
+
+    List<String> retrieveAllPortfolios(EntityManager entityManager);
 }
