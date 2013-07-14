@@ -41,6 +41,7 @@ public class AdvisorPool {
         } catch (InstantiationException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+        advisorMap.put(key,advisor);
         return advisor;
     }
     public void updateAdvisor(String key) throws NoSuchFieldException, IOException {
@@ -49,5 +50,6 @@ public class AdvisorPool {
         for (Price price:newPriceList){
             advisor.updatePriceAndGetAdvice(price);
         }
+
     }
 }
