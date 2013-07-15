@@ -53,12 +53,22 @@ public class InstrumentServiceRest {
     public
     @ResponseBody
     ResponseEntity<String> loadInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request){
-        Instrument instrument = instrumentService.retrieveInstrument(symbolName);
+        Instrument instrument = null;
+        try {
+            instrument = instrumentService.retrieveInstrument(symbolName);
+
         InstrumentVo instrumentVo=new InstrumentVo(instrument);
         HttpHeaders headers=new HttpHeaders();
         headers.add("Access-Control-Allow-Origin","*");
         return new ResponseEntity<String>(new Gson().toJson(instrumentVo),
                 headers, HttpStatus.OK);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            HttpHeaders headers=new HttpHeaders();
+            headers.add("Access-Control-Allow-Origin","*");
+            return new ResponseEntity<String>("BAD SYMBOL",
+                    headers, HttpStatus.BAD_REQUEST);
+        }
     }
 
 
@@ -68,13 +78,23 @@ public class InstrumentServiceRest {
     public
     @ResponseBody
     ResponseEntity<String> loadInstrumentWhichPrice(@PathVariable("symbol") String symbolName,@PathVariable("whichPrice") String whichPrice, HttpServletRequest request){
-        Instrument instrument = instrumentService.retrieveInstrument(symbolName);
+        Instrument instrument = null;
+        try {
+            instrument = instrumentService.retrieveInstrument(symbolName);
+
         InstrumentVoSelective.WhichPrice whichPriceEnum= InstrumentVoSelective.WhichPrice.valueOf(whichPrice.toUpperCase());
         InstrumentVoSelective instrumentVoSelective = InstrumentVoSelective.buildInstrumentVo(instrument, whichPriceEnum);
         HttpHeaders headers=new HttpHeaders();
         headers.add("Access-Control-Allow-Origin","*");
         return new ResponseEntity<String>(new Gson().toJson(instrumentVoSelective),
                 headers, HttpStatus.OK);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            HttpHeaders headers=new HttpHeaders();
+            headers.add("Access-Control-Allow-Origin","*");
+            return new ResponseEntity<String>("BAD SYMBOL",
+                    headers, HttpStatus.BAD_REQUEST);
+        }
     }
     @RequestMapping(value = "/update/{portfolioName}", method = RequestMethod.GET)
     public

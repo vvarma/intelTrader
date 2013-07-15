@@ -35,8 +35,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     private Logger logger=Logger.getLogger(this.getClass());
 
     @Override
-    public RestCodes updatePortfolio(String portfolioName) throws IOException
-    {   logger.debug("Updating Portfolio..");
+    public RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException {   logger.debug("Updating Portfolio..");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
         for (Investment investment : portfolio.getInvestmentList()) {
@@ -73,7 +72,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public RestCodes addToPortfolio(String portfolioName, String symbolName) {
+    public RestCodes addToPortfolio(String portfolioName, String symbolName) throws NoSuchFieldException {
         try {
             Instrument instrument = instrumentService.retrieveInstrument(symbolName);
             EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -129,7 +128,7 @@ public class PortfolioServiceImpl implements PortfolioService {
         return portfolioDao.retrieveAllPortfolios(entityManager);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    private Price getCurrentInstrumentPrice(String symbolName) {
+    private Price getCurrentInstrumentPrice(String symbolName) throws NoSuchFieldException {
         Price price=instrumentService.retrieveInstrument(symbolName).getCurrentPrice();
         logger.fatal("Current Price is :" +price.getClosePrice());
         return price;

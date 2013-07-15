@@ -25,6 +25,7 @@ public class StatesDao implements IStatesDao {
 
     @Override
     public States retrieveStates(String symbolName) {
+        System.out.println("here1");
         EntityManager entityManager=entityManagerFactory.createEntityManager();
         return entityManager.find(States.class,symbolName);
     }

@@ -34,8 +34,14 @@ public class QLearning implements Advisor {
     public QLearning(double alpha,double gamma,int max_elements) {
         trainer=new Trainer(alpha,gamma,max_elements);
     }
+
+    public QLearning() {
+        trainer=new Trainer(0.15,0.9999,40);
+    }
+
     public void initAdvisor(Instrument instrument, String... token) throws IOException, InstantiationException {
         initWrapper(instrument,token);
+        System.out.println(wrapper.getInstrument().getSymbolName()+ "abcd");
         initStates();
     }
     public void initWrapper(Instrument instrument, String... token) throws IOException,InstantiationException {
@@ -47,14 +53,22 @@ public class QLearning implements Advisor {
     }
 
     private void initStates() {
+        if (statesDao==null){
+            System.out.println("fuckin spring");
+        }
+        System.out.println("herecew"+wrapper.getInstrument().getSymbolName() );
         states = statesDao.retrieveStates(wrapper.getInstrument().getSymbolName());
+        System.out.println("here2");
         if (states == null) {
+            System.out.println("states null");
            states=new States();
             states.setStateSet(trainer.initTrain());
             int index=wrapper.getInstrument().getPriceList().size()-1;
             states.setPresentState(wrapper.getStateBuilder(index).build());
             states.setPresentAdvice(null);
             statesDao.createState(states);
+        } else{
+            System.out.println(states);
         }
     }
     //gamma values and alpha values should be updated during iterations
@@ -80,6 +94,7 @@ public class QLearning implements Advisor {
 
         //changeTo use methods in wrapper super only. no local instance
         public Set<State> initTrain(){
+            System.out.println("TRaining");
             Holdings holdings;
             State presentState=null;
             Advice presentAdvice=null;
@@ -124,7 +139,7 @@ public class QLearning implements Advisor {
                 System.out.println("iter :" + iter + " pnl :"+pnl +"Learning rate :"+ALPHA);
             }while ((iter<=100)&&(!bool));
            //System.out.println("Holdings :" + holdings);
-
+            System.out.println("training done");
             return stateSet;
 
         }
@@ -174,5 +189,22 @@ public class QLearning implements Advisor {
     @Override
     public States getStates() {
         return states;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof QLearning)) return false;
+
+        QLearning qLearning = (QLearning) o;
+
+        if (wrapper != null ? !wrapper.equals(qLearning.wrapper) : qLearning.wrapper != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return wrapper != null ? wrapper.hashCode() : 0;
     }
 }

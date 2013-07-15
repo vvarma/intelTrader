@@ -26,6 +26,16 @@ public class QLearningAdvisorImpl2 implements Advisor {
     private Advice presentAdvice;
     private Logger logger = Logger.getLogger(QLearningAdvisorImpl2.class);
 
+    @Override
+    public void initAdvisor(Instrument instrument, String... token) throws IOException, InstantiationException {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public InstrumentWrapper getWrapper() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public QLearningAdvisorImpl2(States states, Instrument instrument, Holdings.HoldingState hState, String... token) throws IOException {
         instrumentWrapper = TAWrapper.WrapMaker(instrument, token);
         stateSet = states.getStateSet();

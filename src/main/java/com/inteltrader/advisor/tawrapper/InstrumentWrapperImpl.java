@@ -109,4 +109,21 @@ public class InstrumentWrapperImpl implements InstrumentWrapper {
     public InstrumentAo getInstrument() {
         return instrumentAo;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InstrumentWrapperImpl)) return false;
+
+        InstrumentWrapperImpl that = (InstrumentWrapperImpl) o;
+
+        if (instrumentAo != null ? !instrumentAo.equals(that.instrumentAo) : that.instrumentAo != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return instrumentAo != null ? instrumentAo.hashCode() : 0;
+    }
 }

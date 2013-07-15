@@ -53,10 +53,18 @@ public class PortfolioServiceRest {
      @ResponseBody
      ResponseEntity<String> addInvestment(@PathVariable("portfolioName") String portfolioName,@PathVariable("symbolName") String symbolName, HttpServletRequest request) {
 
-        RestCodes responseCode = portfolioService.addToPortfolio(portfolioName,symbolName);
+        RestCodes responseCode = null;
+        try {
+            responseCode = portfolioService.addToPortfolio(portfolioName,symbolName);
+
 
         return new ResponseEntity<String>(responseCode.toString(),
                 new HttpHeaders(), HttpStatus.OK);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return new ResponseEntity<String>("BAD SYMBOL",
+                    new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        }
 
     }
     @RequestMapping(value = "/updatePortfolio/{portfolioName}", method = RequestMethod.GET)
@@ -72,6 +80,10 @@ public class PortfolioServiceRest {
             }  catch (IOException e){
                 return new ResponseEntity<String>(e.toString(),
                         new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR)    ;
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                return new ResponseEntity<String>("BAD SYMBOL",
+                        new HttpHeaders(), HttpStatus.BAD_REQUEST)    ;
             }
         }else{
             return new ResponseEntity<String>("Nothing to Update",

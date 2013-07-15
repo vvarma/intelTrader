@@ -2,9 +2,10 @@ package com.inteltrader.advisor.tawrapper;
 
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.qlearningadvisor.State;
-import com.inteltrader.com.inteltrader.indicators.CalculatorMACD;
+import com.inteltrader.indicators.CalculatorMACD;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
+import com.inteltrader.indicators.CalculatorMACD;
 import com.inteltrader.service.InstrumentService;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -30,7 +31,7 @@ public class TAWrapperTest {
     InstrumentService instrumentService;
 
     @Test
-    public void shouldRetrieveInstrumentAndCreateWrapperCheckBySymbolName() {
+    public void shouldRetrieveInstrumentAndCreateWrapperCheckBySymbolName() throws NoSuchFieldException {
         Instrument instrument = instrumentService.retrieveInstrument("CIPLA");
         try {
             InstrumentWrapper wrapper = TAWrapper.WrapMaker(instrument, "");
@@ -41,7 +42,7 @@ public class TAWrapperTest {
     }
 
     @Test
-    public void shouldRetrieveInstrumentCreateWrapperAddPriceAndGetState() {
+    public void shouldRetrieveInstrumentCreateWrapperAddPriceAndGetState() throws NoSuchFieldException {
         Instrument instrument = instrumentService.retrieveInstrument("CIPLA");
         try {
             InstrumentWrapper wrapper = TAWrapper.WrapMaker(instrument, "MACD");

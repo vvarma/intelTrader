@@ -68,7 +68,7 @@ public class AnalyserServiceImpl implements AnalyserService {
     }
 
     @Override
-    public InstrumentWrapper getWrapper(String symbolName,String[] tokens) throws IOException, NoSuchFieldException {
+    public InstrumentWrapper getWrapper(String symbolName,String... tokens) throws IOException, NoSuchFieldException {
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
 
         InstrumentWrapper taWrapper=TAWrapper.WrapMaker(instrument,tokens);

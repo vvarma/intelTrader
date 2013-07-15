@@ -34,10 +34,10 @@ public class AnalyserServiceRest {
     @RequestMapping(value = "/load/{symbol}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> loadInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request){
+    ResponseEntity<String> loadInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) throws NoSuchFieldException {
         try{
             String[] tokens={"MACD","RSI","BBAND"};
-            InstrumentWrapper taWrapper=analyserService.getWrapper(symbolName,tokens);
+            InstrumentWrapper taWrapper=analyserService.getWrapper(symbolName, tokens);
             InstrumentVo instrumentVo=new InstrumentVo(taWrapper);
             HttpHeaders headers=new HttpHeaders();
             headers.add("Access-Control-Allow-Origin","*");

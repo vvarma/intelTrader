@@ -62,9 +62,16 @@ public class TestServiceRest {
     public
     @ResponseBody
     ResponseEntity<String> addToPortfolioTest(@PathVariable("portfolioName") String portfolioName, @PathVariable("symbolName") String symbolName, HttpServletRequest request) {
-        portfolioService.addToPortfolio(portfolioName, symbolName);
+        try {
+            portfolioService.addToPortfolio(portfolioName, symbolName);
+
         return new ResponseEntity<String>("yo",
                 new HttpHeaders(), HttpStatus.OK);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return new ResponseEntity<String>("BAD SYMBOL",
+                    new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        }
 
     }
 
@@ -94,6 +101,10 @@ public class TestServiceRest {
             e.printStackTrace();
             return new ResponseEntity<String>(e.toString(),
                     new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return new ResponseEntity<String>("BAD SYMBOL",
+                    new HttpHeaders(), HttpStatus.BAD_REQUEST);
         }
 
 

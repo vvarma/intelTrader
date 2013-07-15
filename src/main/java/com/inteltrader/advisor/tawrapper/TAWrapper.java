@@ -53,4 +53,22 @@ public abstract class TAWrapper implements InstrumentWrapper  {
     public String getDesc() {
         return "ABstract";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TAWrapper)) return false;
+
+        TAWrapper taWrapper = (TAWrapper) o;
+
+        if (instrumentWrapper != null ? !instrumentWrapper.equals(taWrapper.instrumentWrapper) : taWrapper.instrumentWrapper != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return instrumentWrapper != null ? instrumentWrapper.hashCode() : 0;
+    }
 }

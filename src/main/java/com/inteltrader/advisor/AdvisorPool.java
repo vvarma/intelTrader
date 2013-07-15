@@ -5,6 +5,8 @@ import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
 import com.inteltrader.service.InstrumentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -28,7 +30,8 @@ public class AdvisorPool {
         Advisor advisor=advisorMap.get(key);
         if (advisor!=null)
             return advisor;
-        advisor=new QLearning(0.15,0.9999,40);
+        advisor=(Advisor)new ClassPathXmlApplicationContext().getBean("advisor");
+        //advisor=new QLearning(0.15,0.9999,40);
         String[] keys=key.split("#");
         String symbolName=keys[0];
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
@@ -37,6 +40,10 @@ public class AdvisorPool {
             tokens[i-1]=keys[i];
         }
         try {
+            System.out.println("callin initAdvisor "+instrument.getSymbolName()+ "tokens");
+            for (String s:tokens){
+                System.out.println(s);
+            }
             advisor.initAdvisor(instrument,tokens);
         } catch (InstantiationException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
