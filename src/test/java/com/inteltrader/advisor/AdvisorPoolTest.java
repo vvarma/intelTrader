@@ -26,7 +26,7 @@ public class AdvisorPoolTest  {
     @Autowired
     AdvisorPool advisorPool;
 
-    @Test
+
     public void checkMultipleAdvisor() throws NoSuchFieldException, IOException {
         Calendar cal=new GregorianCalendar();
         cal.set(2013,06,15);

@@ -25,9 +25,7 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 public class QLearning implements Advisor {
-    @Autowired
-    private IStatesDao statesDao;
-    private States states;
+     private States states;
     private InstrumentWrapper wrapper;
     private Trainer trainer;
 
@@ -39,7 +37,7 @@ public class QLearning implements Advisor {
         trainer=new Trainer(0.15,0.9999,40);
     }
 
-    public void initAdvisor(Instrument instrument, String... token) throws IOException, InstantiationException {
+    public void initAdvisor(Instrument instrument,States states, String... token) throws IOException, InstantiationException {
         initWrapper(instrument,token);
         System.out.println(wrapper.getInstrument().getSymbolName()+ "abcd");
         initStates();
@@ -53,15 +51,14 @@ public class QLearning implements Advisor {
     }
 
     private void initStates() {
-        states = statesDao.retrieveStates(wrapper.getInstrument().getSymbolName());
-       if (states == null) {
+        if (states == null) {
             System.out.println("states null");
            states=new States();
             states.setStateSet(trainer.initTrain());
             int index=wrapper.getInstrument().getPriceList().size()-1;
             states.setPresentState(wrapper.getStateBuilder(index).build());
             states.setPresentAdvice(null);
-            statesDao.createState(states);
+
         } else{
             System.out.println(states);
         }
@@ -179,7 +176,6 @@ public class QLearning implements Advisor {
         states.setPresentState(wrapper.updateWrapperAndGetStateBuilder(price).build());
         states.setPresentAdvice(states.getPresentState().getGreedyAdvice());
         //update?
-        statesDao.createState(states);
        return states.getPresentAdvice();
     }
 

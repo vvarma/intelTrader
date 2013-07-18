@@ -44,19 +44,15 @@ public class AnalyserServiceImpl implements AnalyserService {
     }
 
     @Override
-    public void createAnalyser(String symbolName, EntityManager entityManager, Holdings.HoldingState hState) throws IOException, NoSuchFieldException {
-        logger.debug("Creating Analyser for symbol "+symbolName+" and HState +"+hState);
+    public void createAnalyser(String symbolName, String... tokens) throws IOException, NoSuchFieldException {
+        logger.debug("Creating Analyser for symbol ");
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
         States states=statesDao.retrieveStates(symbolName);
-        if (states==null){
-            logger.debug("Creating Advisor first time..");
-
-
-        }else{
-            logger.debug("States exist, creating advisor from retrieved states");
-
+        try {
+            advisor.initAdvisor(instrument,states,tokens);
+        } catch (InstantiationException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        states=advisor.getStates();
         logger.debug("Saving states to db..");
         logger.debug("Present State is :"+states.getPresentState() +'\n'+
         "Present Advice is :"+states.getPresentAdvice() );

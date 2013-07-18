@@ -41,7 +41,8 @@ public class PortfolioServiceImpl implements PortfolioService {
         for (Investment investment : portfolio.getInvestmentList()) {
             Holdings.HoldingState hState = investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
             logger.debug("Updating Investment :"+investment.getSymbolName()+investment.getCurrentPrice().getClosePrice());
-            analyserService.createAnalyser(investment.getSymbolName(),entityManager,hState);
+            analyserService.createAnalyser(investment.getSymbolName(),"MACD","RSI");
+
             investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName(), entityManager), investment);
 
         }
