@@ -53,13 +53,8 @@ public class QLearning implements Advisor {
     }
 
     private void initStates() {
-        if (statesDao==null){
-            System.out.println("fuckin spring");
-        }
-        System.out.println("herecew"+wrapper.getInstrument().getSymbolName() );
         states = statesDao.retrieveStates(wrapper.getInstrument().getSymbolName());
-        System.out.println("here2");
-        if (states == null) {
+       if (states == null) {
             System.out.println("states null");
            states=new States();
             states.setStateSet(trainer.initTrain());
