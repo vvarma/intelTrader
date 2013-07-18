@@ -168,6 +168,7 @@ public class QLearning implements Advisor {
         return wrapper;
     }
 
+
     @Override
     public Advice getAdvice() {
         return states.getPresentAdvice();  //To change body of implemented methods use File | Settings | File Templates.
@@ -175,8 +176,11 @@ public class QLearning implements Advisor {
 
     @Override
     public Advice updatePriceAndGetAdvice(Price price) throws IOException {
-
-       return null;
+        states.setPresentState(wrapper.updateWrapperAndGetStateBuilder(price).build());
+        states.setPresentAdvice(states.getPresentState().getGreedyAdvice());
+        //update?
+        statesDao.createState(states);
+       return states.getPresentAdvice();
     }
 
 

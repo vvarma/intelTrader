@@ -37,53 +37,10 @@ public class InstrumentWrapperImpl implements InstrumentWrapper {
     }
 
     @Override
-    public void updateHoldings(Advice advice) {
-        switch (advice) {
-            case BUY:
-                int buy=1;
-                int presentQusnt=holdings.getQuantity();
-                if (presentQusnt<0)
-                    buy=buy-presentQusnt;
-                holdings.addQuantity(buy);
-                break;
-            case SELL:
-                int sell=-1;
-                int presentQuant=holdings.getQuantity();
-                if (presentQuant>0)
-                    sell=sell-presentQuant;
-                holdings.addQuantity(sell);
-                break;
-            case HOLD:
-                break;
-        }
-    }
-
-    @Override
     public State.Builder getStateBuilder(int i) throws IndexOutOfBoundsException {
         if (i>=getInstrument().getPriceList().size())
             throw new IndexOutOfBoundsException();
         return new State.Builder();
-    }
-
-    @Override
-    public State.Builder getStateBuilder(Holdings.HoldingState hState) throws IOException {
-        return new State.Builder();
-    }
-
-    @Override
-    public State.Builder updateWrapperAndGetStateBuilder(Price price, Holdings.HoldingState holdingState) throws IOException {
-        updateWrapper(price);
-        return new State.Builder();
-    }
-
-    @Override
-    public State.Builder updateWrapperAndGetStateBuilder(Price price, State presentState, Advice presentAdvice) {
-        double reward = calcReward(holdings.getQuantity(), holdings.getCurrentPrice(), price.getClosePrice());
-        presentState.updateReward(presentAdvice, reward);
-        System.out.println(holdings +" "+ presentAdvice  + presentState);
-        State.Builder stateBuilderToReturn = new State.Builder();
-        updateWrapper(price);
-        return stateBuilderToReturn;
     }
 
     private double calcReward(int quantity, double lastPrice, double currentPrice) {
@@ -95,7 +52,7 @@ public class InstrumentWrapperImpl implements InstrumentWrapper {
     }
 
 
-    public State.Builder updateWrapper(Price price) {
+    public State.Builder updateWrapperAndGetStateBuilder(Price price) {
         if (instrumentAo.getPriceList().size() < MAX_SIZE) {
             instrumentAo.getPriceList().add(price);
         } else {

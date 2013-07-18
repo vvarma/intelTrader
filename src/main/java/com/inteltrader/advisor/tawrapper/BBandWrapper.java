@@ -1,7 +1,5 @@
 package com.inteltrader.advisor.tawrapper;
 
-import com.inteltrader.advisor.Advice;
-import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import com.inteltrader.advisor.qlearningadvisor.State;
 import com.inteltrader.indicators.CalculatorBollingerBands;
 import com.inteltrader.entity.Price;
@@ -53,31 +51,10 @@ public class BBandWrapper extends TAWrapper {
     public State.Builder getStateBuilder(int i) throws IndexOutOfBoundsException {
         return this.getWrapper().getStateBuilder(i).bband(calculator.getBBandState(upperBand.get(i),middleBand.get(i),lowerBand.get(i),getInstrument().getPriceList().get(i).getClosePrice()));  //To change body of implemented methods use File | Settings | File Templates.
     }
-
     @Override
-    public State.Builder updateWrapperAndGetStateBuilder(Price price, State presentState, Advice presentAdvice) throws IOException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+    public State.Builder updateWrapperAndGetStateBuilder(Price price) throws IOException {
 
-    @Override
-    public State.Builder updateWrapperAndGetStateBuilder(Price price, Holdings.HoldingState holdingState) throws IOException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public State.Builder getStateBuilder(Holdings.HoldingState hState) throws IOException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void updateHoldings(Advice advice) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public State.Builder updateWrapper(Price price) throws IOException {
-
-        return this.getWrapper().updateWrapper(price).bband(updateBBandAndGetState());  //To change body of implemented methods use File | Settings | File Templates.
+        return this.getWrapper().updateWrapperAndGetStateBuilder(price).bband(updateBBandAndGetState());  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     private CalculatorBollingerBands.BBandState updateBBandAndGetState() {

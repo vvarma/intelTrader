@@ -16,10 +16,11 @@ import java.util.Set;
  * Time: 9:40 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface Advisor {
+ public interface Advisor {
     Advice getAdvice();
     Advice updatePriceAndGetAdvice(Price price) throws IOException;
     States getStates();
     void initAdvisor(Instrument instrument, String... token) throws IOException, InstantiationException;
     InstrumentWrapper getWrapper();
+    //no reward as of now... meaning no online trainingS
 }

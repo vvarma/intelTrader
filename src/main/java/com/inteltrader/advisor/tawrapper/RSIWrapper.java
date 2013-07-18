@@ -1,7 +1,5 @@
 package com.inteltrader.advisor.tawrapper;
 
-import com.inteltrader.advisor.Advice;
-import com.inteltrader.advisor.qlearningadvisor.Holdings;
 import com.inteltrader.advisor.qlearningadvisor.State;
 import com.inteltrader.indicators.CalculatorRSI;
 import com.inteltrader.entity.Price;
@@ -59,16 +57,6 @@ public class RSIWrapper extends TAWrapper {
         return calculator.getRSIState(rsiList.get(index));  //To change body of created methods use File | Settings | File Templates.
     }
 
-    @Override
-    public State.Builder updateWrapperAndGetStateBuilder(Price price, State presentState, Advice presentAdvice) throws IOException {
-        return this.getWrapper().updateWrapperAndGetStateBuilder(price, presentState, presentAdvice).rsi(updateWrapperAndReturnState());
-    }
-
-    @Override
-    public State.Builder updateWrapperAndGetStateBuilder(Price price, Holdings.HoldingState holdingState) throws IOException {
-        return this.getWrapper().updateWrapperAndGetStateBuilder(price, holdingState).rsi(updateWrapperAndReturnState());
-    }
-
     private CalculatorRSI.RSIState updateWrapperAndReturnState() throws IOException{
         updateRsiWrapper();
         int index = rsiList.size() - 1;
@@ -76,26 +64,13 @@ public class RSIWrapper extends TAWrapper {
         return rsiState;
     }
 
-    @Override
-    public State.Builder getStateBuilder(Holdings.HoldingState hState) throws IOException {
-        int index = rsiList.size() - 1;
-        CalculatorRSI.RSIState rsiState = calculator.getRSIState(rsiList.get(index));
-
-        return this.getWrapper().getStateBuilder(hState).rsi(rsiState);
-    }
-
-    @Override
-    public void updateHoldings(Advice advice) {
-        this.getWrapper().updateHoldings(advice);
-    }
-
     public List<Double> getRsiList() {
         return rsiList;
     }
 
     @Override
-    public State.Builder updateWrapper(Price price) throws IOException {
-        return this.getWrapper().updateWrapper(price).rsi(updateWrapperAndReturnState());
+    public State.Builder updateWrapperAndGetStateBuilder(Price price) throws IOException {
+        return this.getWrapper().updateWrapperAndGetStateBuilder(price).rsi(updateWrapperAndReturnState());
     }
 
     @Override

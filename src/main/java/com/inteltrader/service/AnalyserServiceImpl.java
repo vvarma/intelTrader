@@ -3,7 +3,6 @@ package com.inteltrader.service;
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.Advisor;
 import com.inteltrader.advisor.qlearningadvisor.Holdings;
-import com.inteltrader.advisor.qlearningadvisor.QLearningAdvisorImpl2;
 import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
 import com.inteltrader.advisor.tawrapper.TAWrapper;
 import com.inteltrader.dao.IStatesDao;
@@ -11,7 +10,6 @@ import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.States;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -52,11 +50,11 @@ public class AnalyserServiceImpl implements AnalyserService {
         States states=statesDao.retrieveStates(symbolName);
         if (states==null){
             logger.debug("Creating Advisor first time..");
-            advisor=new QLearningAdvisorImpl2(instrument,hState,"MACD","RSI");
+
 
         }else{
             logger.debug("States exist, creating advisor from retrieved states");
-           advisor=new QLearningAdvisorImpl2(states,instrument,hState,"MACD","RSI");
+
         }
         states=advisor.getStates();
         logger.debug("Saving states to db..");

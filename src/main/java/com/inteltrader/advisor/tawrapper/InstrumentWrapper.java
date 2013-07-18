@@ -17,11 +17,7 @@ import java.io.IOException;
  */
 public interface InstrumentWrapper {
     public InstrumentAo getInstrument();
-    public State.Builder updateWrapperAndGetStateBuilder(Price price, State presentState, Advice presentAdvice)throws IOException;
-    public State.Builder updateWrapperAndGetStateBuilder(Price price,Holdings.HoldingState holdingState)throws IOException;
-    public State.Builder getStateBuilder(Holdings.HoldingState hState)throws IOException;
-    public void updateHoldings(Advice advice);
     public State.Builder getStateBuilder(int i) throws IndexOutOfBoundsException;
-    public State.Builder updateWrapper(Price price) throws IOException;
+    public State.Builder updateWrapperAndGetStateBuilder(Price price) throws IOException;
 
 }
