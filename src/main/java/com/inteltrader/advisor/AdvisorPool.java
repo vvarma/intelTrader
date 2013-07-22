@@ -39,15 +39,11 @@ public class AdvisorPool {
         for (int i=1;i<keys.length;i++){
             tokens[i-1]=keys[i];
         }
-        try {
-            System.out.println("callin initAdvisor "+instrument.getSymbolName()+ "tokens");
-            for (String s:tokens){
-                System.out.println(s);
-            }
-            advisor.initAdvisor(instrument,tokens);
-        } catch (InstantiationException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        System.out.println("callin initAdvisor "+instrument.getSymbolName()+ "tokens");
+        for (String s:tokens){
+            System.out.println(s);
         }
+        advisor.initAdvisor(instrument,null,tokens);
         advisorMap.put(key,advisor);
         return advisor;
     }

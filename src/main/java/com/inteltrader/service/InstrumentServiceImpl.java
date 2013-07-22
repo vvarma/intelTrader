@@ -49,8 +49,8 @@ public class InstrumentServiceImpl implements InstrumentService {
             }
 
         }
-        if (instrument==null)
-            throw new NoSuchFieldException(symbolName +" not found");
+        if (instrument == null)
+            throw new NoSuchFieldException(symbolName + " not found");
 
         //not closed because its amazingly lazy mofo
         return instrument;
@@ -64,71 +64,72 @@ public class InstrumentServiceImpl implements InstrumentService {
         Portfolio portfolio = portfolioService.retrievePortfolio(portfolioName);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-            logger.debug("Retreive Investments from portfolio :" + portfolioName);
-            for (Investment investment : portfolio.getInvestmentList()) {
-                symbolNameList.add(investment.getSymbolName());
-                logger.debug("Investment :" + investment.getSymbolName());
-            }
-            logger.trace("Updating investments..");
-            for (String symbolName : symbolNameList) {
-                Instrument instrument = instrumentDao.retrieveInstrument(entityManager, symbolName);
-                Calendar startDate = instrument.getCurrentPrice().getTimeStamp();
-                Calendar endDate = (GregorianCalendar) Global.getCalendar().clone();
-                for (Calendar calendar = startDate; calendar.before(endDate); calendar.add(Calendar.DATE, 1)) {
-                    String fileName = properties.getProperty("DATA_PATH");
-                    if (isWeekDay(calendar)) {
-                        String genFileName = createFilenamGivenDate(calendar);
-                        File file = new File(fileName + genFileName);
-                        try {
-                            if (file.exists()) {
-                                fileName = fileName + genFileName;
-                            } else {
-                                fileName = fileName
-                                        + createUrlDownloadAndExtractFileGivenDate(calendar);
-                            }
-                            Price instrPrice = null;
-                            instrPrice = ReadPriceCsv.readPrice(fileName, symbolName, (Calendar) calendar.clone());
-                            logger.trace(symbolName + ": New Price :" + instrPrice.getClosePrice());
-                            if (instrPrice == null) {
-                                logger.debug("Nothing to update");
-                                return RestCodes.NO_COMMENT;
-                            }
-                            instrument.getPriceList().add(instrPrice);
-                        } catch (IOException e) {
-                            logger.debug("Public Holiday" + calendar.getTime());
+        logger.debug("Retreive Investments from portfolio :" + portfolioName);
+        for (Investment investment : portfolio.getInvestmentList()) {
+            symbolNameList.add(investment.getSymbolName());
+            logger.debug("Investment :" + investment.getSymbolName());
+        }
+        logger.trace("Updating investments..");
+        for (String symbolName : symbolNameList) {
+            Instrument instrument = instrumentDao.retrieveInstrument(entityManager, symbolName);
+            Calendar startDate = instrument.getCurrentPrice().getTimeStamp();
+            Calendar endDate = (GregorianCalendar) Global.getCalendar().clone();
+            for (Calendar calendar = startDate; calendar.before(endDate); calendar.add(Calendar.DATE, 1)) {
+                String fileName = properties.getProperty("DATA_PATH");
+                if (isWeekDay(calendar)) {
+                    String genFileName = createFilenamGivenDate(calendar);
+                    File file = new File(fileName + genFileName);
+                    try {
+                        if (file.exists()) {
+                            fileName = fileName + genFileName;
+                        } else {
+                            fileName = fileName
+                                    + createUrlDownloadAndExtractFileGivenDate(calendar);
                         }
-
+                        Price instrPrice = null;
+                        instrPrice = ReadPriceCsv.readPrice(fileName, symbolName, (Calendar) calendar.clone());
+                        logger.trace(symbolName + ": New Price :" + instrPrice.getClosePrice());
+                        if (instrPrice == null) {
+                            logger.debug("Nothing to update");
+                            return RestCodes.NO_COMMENT;
+                        }
+                        instrument.getPriceList().add(instrPrice);
+                    } catch (IOException e) {
+                        logger.debug("Public Holiday" + calendar.getTime());
                     }
-                }
-                entityManager.getTransaction().begin();
-                try {
-                    logger.trace("Writing instrument to Dao");
-                    instrumentDao.updateInstrument(entityManager, instrument);
-                    logger.trace("Success.");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    logger.error("Update Failed");
-                    return RestCodes.FAILURE;
-                } finally {
-                    entityManager.getTransaction().commit();
-                    entityManager.close();
+
                 }
             }
-            return RestCodes.SUCCESS;
+            entityManager.getTransaction().begin();
+            try {
+                logger.trace("Writing instrument to Dao");
+                instrumentDao.updateInstrument(entityManager, instrument);
+                logger.trace("Success.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.error("Update Failed");
+                return RestCodes.FAILURE;
+            } finally {
+                entityManager.getTransaction().commit();
+
+            }
+        }
+        entityManager.close();
+        return RestCodes.SUCCESS;
 
     }
 
     @Override
     public List<Price> getNewPrices(String symbolName, Price currentPrice) throws NoSuchFieldException {
 
-        Instrument instrument=retrieveInstrument(symbolName);
-        List<Price> priceList=instrument.getPriceList();
-        int index=priceList.indexOf(currentPrice);
-        int maxIndex=priceList.size()-1;
-        if (index>=maxIndex)
+        Instrument instrument = retrieveInstrument(symbolName);
+        List<Price> priceList = instrument.getPriceList();
+        int index = priceList.indexOf(currentPrice);
+        int maxIndex = priceList.size() - 1;
+        if (index >= maxIndex)
             return new ArrayList<Price>();
 
-        return new ArrayList<Price>(priceList.subList(index+1,maxIndex+1));
+        return new ArrayList<Price>(priceList.subList(index + 1, maxIndex + 1));
     }
 
     @Override
@@ -148,10 +149,6 @@ public class InstrumentServiceImpl implements InstrumentService {
             System.out.println(instrument);
             instrumentDao.createInstrument(entityManager, instrument);
             return RestCodes.SUCCESS;
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            return RestCodes.FAILURE;
         } catch (RuntimeException e) {
             e.printStackTrace();
 
@@ -165,7 +162,7 @@ public class InstrumentServiceImpl implements InstrumentService {
     }
 
     private Instrument getSingleInstrumentGivenDateAndName(
-            Calendar startDate, Calendar endDate, String symbol) throws IOException {
+            Calendar startDate, Calendar endDate, String symbol) {
         Instrument instrument = new Instrument(symbol);
         for (Calendar calendar = startDate; calendar.before(endDate); calendar.add(Calendar.DATE, 1)) {
             String fileName = properties.getProperty("DATA_PATH");
@@ -188,7 +185,7 @@ public class InstrumentServiceImpl implements InstrumentService {
 
                     Price instrPrice = ReadPriceCsv.readPrice(fileName, symbol, (Calendar) calendar.clone());
                     instrument.getPriceList().add(instrPrice);
-                } catch (FileNotFoundException e) {
+                } catch (IOException e) {
                     System.err.println("Public Holiday" + calendar.getTime());
                 }
 

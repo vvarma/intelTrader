@@ -20,7 +20,7 @@ import java.util.Set;
     Advice getAdvice();
     Advice updatePriceAndGetAdvice(Price price) throws IOException;
     States getStates();
-    void initAdvisor(Instrument instrument,States states, String... token) throws IOException, InstantiationException;
+    void initAdvisor(Instrument instrument,States states, String... token) throws IOException;
     InstrumentWrapper getWrapper();
     //no reward as of now... meaning no online trainingS
 }

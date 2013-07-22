@@ -16,7 +16,7 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public interface AnalyserService {
-    Advice getAnalysis(String symbolName,EntityManager entityManager);
+    Advice getAnalysis(String symbolName,String... token) throws NoSuchFieldException, IOException;
     InstrumentWrapper getWrapper(String symbolName,String... tokens) throws IOException, NoSuchFieldException;
     void createAnalyser(String symbolName,String... tokens) throws IOException, NoSuchFieldException;
 }

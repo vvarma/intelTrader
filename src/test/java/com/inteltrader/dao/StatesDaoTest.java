@@ -1,5 +1,6 @@
 package com.inteltrader.dao;
 
+import com.inteltrader.advisor.Advice;
 import com.inteltrader.entity.States;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -26,5 +27,15 @@ public class StatesDaoTest {
         States states=statesDao.retrieveStates("ABCDS");
 
         Assert.assertNull(states);
+    }
+    @Test
+    public void shouldPersistTestStates(){
+        States test=new States();
+        test.setSymbolNamme("test");
+        test.setPresentAdvice(Advice.BUY);
+        statesDao.createState(test);
+        States states=statesDao.retrieveStates("test");
+
+        Assert.assertEquals(states,test);
     }
 }

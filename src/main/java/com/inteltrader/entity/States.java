@@ -78,4 +78,28 @@ public class States {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof States)) return false;
+
+        States states = (States) o;
+
+        if (presentAdvice != states.presentAdvice) return false;
+        if (presentState != null ? !presentState.equals(states.presentState) : states.presentState != null)
+            return false;
+        if (stateSet != null ? !stateSet.equals(states.stateSet) : states.stateSet != null) return false;
+        if (!symbolNamme.equals(states.symbolNamme)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = symbolNamme.hashCode();
+        result = 31 * result + (stateSet != null ? stateSet.hashCode() : 0);
+        result = 31 * result + (presentState != null ? presentState.hashCode() : 0);
+        result = 31 * result + (presentAdvice != null ? presentAdvice.hashCode() : 0);
+        return result;
+    }
 }

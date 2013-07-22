@@ -37,31 +37,34 @@ public class QLearning implements Advisor {
         trainer=new Trainer(0.15,0.9999,40);
     }
 
-    public void initAdvisor(Instrument instrument,States states, String... token) throws IOException, InstantiationException {
+    public void initAdvisor(Instrument instrument,States states, String... token) throws IOException {
         initWrapper(instrument,token);
         System.out.println(wrapper.getInstrument().getSymbolName()+ "abcd");
-        initStates();
+        initStates(states);
     }
-    public void initWrapper(Instrument instrument, String... token) throws IOException,InstantiationException {
-        if (wrapper!=null){
-            System.out.println(wrapper);
-            throw new InstantiationException();
-        }
+    public void initWrapper(Instrument instrument, String... token) throws IOException {
+       wrapper=null;
         wrapper = TAWrapper.WrapMaker(instrument, token);
     }
 
-    private void initStates() {
+    private void initStates(States states) {
         if (states == null) {
             System.out.println("states null");
            states=new States();
             states.setStateSet(trainer.initTrain());
-            int index=wrapper.getInstrument().getPriceList().size()-1;
-            states.setPresentState(wrapper.getStateBuilder(index).build());
-            states.setPresentAdvice(null);
-
-        } else{
-            System.out.println(states);
+            states.setSymbolNamme(wrapper.getInstrument().getSymbolName());
         }
+        int index=wrapper.getInstrument().getPriceList().size()-1;
+        State prState=  wrapper.getStateBuilder(index).build();
+        for (State s:states.getStateSet()){
+            if(prState.equals(s)){
+                prState=s;
+                break;
+            }
+        }
+        states.setPresentState(prState);
+        states.setPresentAdvice(states.getPresentState().getGreedyAdvice());
+        this.states=states;
     }
     //gamma values and alpha values should be updated during iterations
     //number of iterations to stabilise? some parameter of error

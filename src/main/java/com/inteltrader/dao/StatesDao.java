@@ -19,8 +19,9 @@ public class StatesDao implements IStatesDao {
     @Override
     public void createState(States states) {
         EntityManager entityManager=entityManagerFactory.createEntityManager();
-
+        entityManager.getTransaction().begin();
         entityManager.merge(states);
+        entityManager.getTransaction().commit();
     }
 
     @Override

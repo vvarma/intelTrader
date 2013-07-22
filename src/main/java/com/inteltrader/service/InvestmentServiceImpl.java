@@ -27,25 +27,25 @@ public class InvestmentServiceImpl implements InvestmentService {
     public void makeInvestment(Advice advice, Investment investment) {
         logger.debug("Making Investment..");
         int tradeQuantity=Integer.parseInt(properties.getProperty("TRADE_QUANTITY"));
+        int actTradeQuantity=0;
          switch (advice){
             case BUY:
                 if (investment.getQuantity()<0)
-                    investment.setQuantity(0);
+                    actTradeQuantity=tradeQuantity-investment.getQuantity();
                 else
-                    investment.setQuantity(investment.getQuantity()+tradeQuantity);
-                investment.getTransactionsList().add(new Transactions(tradeQuantity,investment.getCurrentPrice())) ;
+                    actTradeQuantity=tradeQuantity;
+
                 break;
             case SELL:
                 if (investment.getQuantity()>0)
-                    investment.setQuantity(0);
+                    actTradeQuantity=-tradeQuantity-investment.getQuantity();
                 else
-                    investment.setQuantity(investment.getQuantity()- tradeQuantity);
-                investment.getTransactionsList().add(new Transactions(-tradeQuantity,investment.getCurrentPrice())) ;
+                    actTradeQuantity=-tradeQuantity;
                 break;
             default:break;
-
-
         }
+        investment.setQuantity(investment.getQuantity()+actTradeQuantity);
+        investment.getTransactionsList().add(new Transactions(actTradeQuantity,investment.getCurrentPrice())) ;
         logger.debug("Investment :"+investment.getSymbolName() +" advice :"+advice+
                 " present quantity :"+investment.getQuantity()+" present price :"+investment.getCurrentPrice().getClosePrice());
     }

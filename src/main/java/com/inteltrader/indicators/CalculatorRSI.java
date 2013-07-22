@@ -1,6 +1,7 @@
 package com.inteltrader.indicators;
 
 import com.inteltrader.advisor.InstrumentAo;
+import com.inteltrader.entity.Instrument;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
@@ -26,6 +27,9 @@ public class CalculatorRSI {
 
     public enum RSIState{
         ABOVE_THRESHOLD,BETWEEN_THRESHOLD,BELOW_THRESHOLD;
+    }
+    public RetCode calcRSI(Instrument instrument,double rsi){
+       return null;
     }
     public RetCode calcRSI(InstrumentAo instrumentAo,List<Double> resultList){
         noOutEle= instrumentAo.getPriceList().size();

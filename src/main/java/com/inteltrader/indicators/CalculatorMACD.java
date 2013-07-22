@@ -1,6 +1,7 @@
 package com.inteltrader.indicators;
 
 import com.inteltrader.advisor.InstrumentAo;
+import com.inteltrader.entity.Instrument;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
@@ -45,7 +46,29 @@ public class CalculatorMACD {
     public enum MACDState {
         POSITIVE_ABOVE_THRESHOLD, POSITIVE_BELOW_THRESHOLD, NEGETIVE_ABOVE_THRESHOLD, NEGETIVE_BELOW_THRESHOLD,START;
     }
+    public RetCode calcMACD(Instrument instrument, int index,double macd,double macdSignal,double macdHist){
+        int noOutEle=1;
+        int endIndex = instrument.getPriceList().size() - 1;
+        int startIndex = endIndex - noOutEle + 1;
+        double[] macdResult = new double[endIndex + 1];
+        double[] macdHistResult = new double[endIndex + 1];
+        double[] macdSignalResult = new double[endIndex + 1];
+        double[] closePriceInput = new double[endIndex + 1];
+        MInteger strtOutIndex = new MInteger();
+        strtOutIndex.value = startIndex;
+        MInteger outNb = new MInteger();
+        outNb.value = noOutEle;
+        for (int i = 0; i <= endIndex; i++) {
+            closePriceInput[i] = instrument.getPriceList().get(i).getClosePrice();
 
+        }
+        RetCode retCode = core.macd(startIndex, endIndex, closePriceInput, fastPeriod, slowPeriod, signalPeriod,
+                strtOutIndex, outNb, macdResult, macdSignalResult, macdHistResult);
+        macd=macdResult[0];
+        macdHist=macdHistResult[0];
+        macdSignal=macdSignalResult[0];
+        return retCode;
+    }
     public RetCode calcMACD(InstrumentAo instrumentAo,List<Double> macdList,List<Double> macdSignalList,List<Double> macdHistList) {
         //System.out.println("43232"+noOutEle);
         if(noOutEle==Integer.MAX_VALUE){

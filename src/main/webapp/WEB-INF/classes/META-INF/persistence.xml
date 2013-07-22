@@ -31,7 +31,7 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
             <property name="hibernate.connection.provider_class"
                       value="org.hibernate.connection.C3P0ConnectionProvider"/>
 
-            <property name="hibernate.c3p0.max_size" value="100"/>
+            <property name="hibernate.c3p0.max_size" value="500"/>
             <property name="hibernate.c3p0.min_size" value="0"/>
             <property name="hibernate.c3p0.acquire_increment" value="1"/>
             <property name="hibernate.c3p0.idle_test_period" value="300"/>

@@ -36,14 +36,13 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException {   logger.debug("Updating Portfolio..");
+        String[] token={"MACD","RSI","BBAND"};
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
         for (Investment investment : portfolio.getInvestmentList()) {
             Holdings.HoldingState hState = investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
             logger.debug("Updating Investment :"+investment.getSymbolName()+investment.getCurrentPrice().getClosePrice());
-            analyserService.createAnalyser(investment.getSymbolName(),"MACD","RSI");
-
-            investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName(), entityManager), investment);
+            investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName(),token), investment);
 
         }
         logger.debug("Updating portfolio dao..");
@@ -74,11 +73,12 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public RestCodes addToPortfolio(String portfolioName, String symbolName) throws NoSuchFieldException {
+        String[] token={"MACD","RSI","BBAND"};
         try {
-            Instrument instrument = instrumentService.retrieveInstrument(symbolName);
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             Investment investment = new Investment(symbolName);
-            Holdings.HoldingState hState = investment.setCurrentPrice(instrument.getCurrentPrice());
+            investment.setCurrentPrice(getCurrentInstrumentPrice(symbolName));
+            investmentService.makeInvestment(analyserService.getAnalysis(symbolName,token),investment);
             entityManager.getTransaction().begin();
             Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
             System.out.println(portfolio);
@@ -88,13 +88,10 @@ public class PortfolioServiceImpl implements PortfolioService {
             entityManager.getTransaction().commit();
             entityManager.close();
             return RestCodes.SUCCESS;
-        } catch (RuntimeException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return RestCodes.FAILURE;
-        }/* catch (IOException e) {
-            e.printStackTrace();
-            return RestCodes.FAILURE;
-        }*/
+        }
     }
 
     @Override

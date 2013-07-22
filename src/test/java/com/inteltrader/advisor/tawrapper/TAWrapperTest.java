@@ -49,7 +49,7 @@ public class TAWrapperTest {
             Price price = wrapper.getInstrument().getCurrentPrice();
             wrapper.getInstrument().getPriceList().remove(wrapper.getInstrument().getPriceList().size() - 1);
             State preState = new State.Builder().build();
-            State state = wrapper.updateWrapperAndGetStateBuilder(price, preState, Advice.BUY).build();
+            State state = wrapper.updateWrapperAndGetStateBuilder(price).build();
             System.out.println(state);
             Assert.assertEquals(wrapper.getInstrument().getSymbolName(), instrument.getSymbolName());
 

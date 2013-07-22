@@ -37,8 +37,12 @@ public class AnalyserServiceImpl implements AnalyserService {
     private Logger logger=Logger.getLogger(this.getClass());
 
     @Override
-    public Advice getAnalysis(String symbolName, EntityManager entityManager) {
+    public Advice getAnalysis(String symbolName,String... token) throws NoSuchFieldException, IOException {
         States states=statesDao.retrieveStates(symbolName);
+        Instrument instrument=instrumentService.retrieveInstrument(symbolName);
+        advisor.initAdvisor(instrument,states,token);
+        states=advisor.getStates();
+        statesDao.createState(states);
         logger.debug("Get Analysis .. present Advice :" +states.getPresentAdvice());
         return states.getPresentAdvice();
     }
@@ -48,11 +52,7 @@ public class AnalyserServiceImpl implements AnalyserService {
         logger.debug("Creating Analyser for symbol ");
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
         States states=statesDao.retrieveStates(symbolName);
-        try {
-            advisor.initAdvisor(instrument,states,tokens);
-        } catch (InstantiationException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+        advisor.initAdvisor(instrument,states,tokens);
         logger.debug("Saving states to db..");
         logger.debug("Present State is :"+states.getPresentState() +'\n'+
         "Present Advice is :"+states.getPresentAdvice() );
