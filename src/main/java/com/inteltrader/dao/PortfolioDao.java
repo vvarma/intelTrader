@@ -20,9 +20,7 @@ public class PortfolioDao implements IPortfolioDao {
 
     @Override
     public void updatePortfolio(EntityManager entityManager, Portfolio portfolio) {
-        entityManager.getTransaction().begin();
         entityManager.merge(portfolio);
-        entityManager.getTransaction().commit();
     }
 
     @Override

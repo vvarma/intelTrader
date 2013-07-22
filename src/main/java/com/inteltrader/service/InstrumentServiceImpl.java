@@ -8,9 +8,11 @@ import com.inteltrader.entity.Price;
 import com.inteltrader.util.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,9 +27,10 @@ import java.util.*;
  * Time: 12:18 PM
  * To change this template use File | Settings | File Templates.
  */
+@Transactional
 public class InstrumentServiceImpl implements InstrumentService {
-    @PersistenceUnit
-    EntityManagerFactory entityManagerFactory;
+    @PersistenceContext
+    EntityManager entityManager;
     @Autowired
     private IInstrumentDao instrumentDao;
     private Properties properties = new Properties();
@@ -38,7 +41,6 @@ public class InstrumentServiceImpl implements InstrumentService {
     @Override
     public Instrument retrieveInstrument(String symbolName) throws NoSuchFieldException {
         logger.trace("Retrieve Instruments..");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         Instrument instrument = instrumentDao.retrieveInstrument(entityManager, symbolName);
         if (instrument == null) {
             logger.trace("Instrument does not exist in database.. Creating Instrument.");
@@ -62,8 +64,6 @@ public class InstrumentServiceImpl implements InstrumentService {
         logger.debug("Updating Instruments..");
         List<String> symbolNameList = new ArrayList<String>();
         Portfolio portfolio = portfolioService.retrievePortfolio(portfolioName);
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-
         logger.debug("Retreive Investments from portfolio :" + portfolioName);
         for (Investment investment : portfolio.getInvestmentList()) {
             symbolNameList.add(investment.getSymbolName());
@@ -71,7 +71,12 @@ public class InstrumentServiceImpl implements InstrumentService {
         }
         logger.trace("Updating investments..");
         for (String symbolName : symbolNameList) {
-            Instrument instrument = instrumentDao.retrieveInstrument(entityManager, symbolName);
+            Instrument instrument = null;
+            try {
+                instrument = retrieveInstrument(symbolName);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
             Calendar startDate = instrument.getCurrentPrice().getTimeStamp();
             Calendar endDate = (GregorianCalendar) Global.getCalendar().clone();
             for (Calendar calendar = startDate; calendar.before(endDate); calendar.add(Calendar.DATE, 1)) {
@@ -100,8 +105,7 @@ public class InstrumentServiceImpl implements InstrumentService {
 
                 }
             }
-            entityManager.getTransaction().begin();
-            try {
+           try {
                 logger.trace("Writing instrument to Dao");
                 instrumentDao.updateInstrument(entityManager, instrument);
                 logger.trace("Success.");
@@ -109,12 +113,8 @@ public class InstrumentServiceImpl implements InstrumentService {
                 e.printStackTrace();
                 logger.error("Update Failed");
                 return RestCodes.FAILURE;
-            } finally {
-                entityManager.getTransaction().commit();
-
             }
         }
-        entityManager.close();
         return RestCodes.SUCCESS;
 
     }
@@ -134,10 +134,7 @@ public class InstrumentServiceImpl implements InstrumentService {
 
     @Override
     public RestCodes createInstrument(String symbolName, Calendar startDate) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-
-        Calendar endDate = Global.getCalendar();
+       Calendar endDate = Global.getCalendar();
         /*Calendar endDate = (Calendar) startDate.clone();
         endDate.add(Calendar.YEAR, 2);*/
         //endDate.add(Calendar.MONTH, -2);
@@ -153,9 +150,6 @@ public class InstrumentServiceImpl implements InstrumentService {
             e.printStackTrace();
 
             return RestCodes.FAILURE;
-        } finally {
-            entityManager.getTransaction().commit();
-            entityManager.close();
         }
 
 
@@ -257,15 +251,7 @@ public class InstrumentServiceImpl implements InstrumentService {
         properties.load(new FileInputStream("intel.properties"));
     }
 
-    public EntityManagerFactory getEntityManagerFactory() {
-        return entityManagerFactory;
-    }
-
-    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
-    }
-
-    public IInstrumentDao getInstrumentDao() {
+     public IInstrumentDao getInstrumentDao() {
         return instrumentDao;
     }
 

@@ -4,6 +4,7 @@ import com.inteltrader.entity.States;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 
 /**
@@ -14,20 +15,17 @@ import javax.persistence.PersistenceUnit;
  * To change this template use File | Settings | File Templates.
  */
 public class StatesDao implements IStatesDao {
-    @PersistenceUnit
-    EntityManagerFactory entityManagerFactory;
+    @PersistenceContext
+    EntityManager entityManager;
     @Override
     public void createState(States states) {
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.merge(states);
-        entityManager.getTransaction().commit();
+       entityManager.merge(states);
+
     }
 
     @Override
     public States retrieveStates(String symbolName) {
         System.out.println("here1");
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
         return entityManager.find(States.class,symbolName);
     }
 }

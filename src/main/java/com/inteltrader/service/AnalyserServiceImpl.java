@@ -10,6 +10,7 @@ import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.States;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,15 +24,13 @@ import java.io.IOException;
  * Time: 11:08 AM
  * To change this template use File | Settings | File Templates.
  */
+@Transactional
 public class AnalyserServiceImpl implements AnalyserService {
     @Autowired
     InstrumentService instrumentService;
 
     @Autowired
     private Advisor advisor;
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
-
     @Autowired
     private IStatesDao statesDao;
     private Logger logger=Logger.getLogger(this.getClass());
