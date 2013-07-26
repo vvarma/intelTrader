@@ -1,13 +1,11 @@
-package com.inteltrader.advisor.newqlearning;
+package com.inteltrader.advisor.qlearning;
 
 
-import com.inteltrader.advisor.qlearningadvisor.State;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.service.InstrumentService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runner.Runner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

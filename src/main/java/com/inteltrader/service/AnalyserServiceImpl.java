@@ -2,19 +2,16 @@ package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.Advisor;
-import com.inteltrader.advisor.qlearningadvisor.Holdings;
-import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
+import com.inteltrader.advisor.InstrumentWrapper;
 import com.inteltrader.advisor.tawrapper.TAWrapper;
 import com.inteltrader.dao.IStatesDao;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.States;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import java.io.IOException;
 
 /**
@@ -24,7 +21,7 @@ import java.io.IOException;
  * Time: 11:08 AM
  * To change this template use File | Settings | File Templates.
  */
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 public class AnalyserServiceImpl implements AnalyserService {
     @Autowired
     InstrumentService instrumentService;

@@ -11,7 +11,7 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
         <class>com.inteltrader.entity.Portfolio</class>
         <class>com.inteltrader.entity.Investment</class>
         <class>com.inteltrader.entity.States</class>
-        <class>com.inteltrader.advisor.qlearningadvisor.State</class>
+        <class>com.inteltrader.advisor.qlearning.State</class>
         <class>com.inteltrader.advisor.Advice</class>
         <properties>
             <property name="hibernate.connection.driver_class"

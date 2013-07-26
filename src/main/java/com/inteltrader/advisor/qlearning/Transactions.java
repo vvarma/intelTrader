@@ -1,4 +1,4 @@
-package com.inteltrader.advisor.qlearningadvisor;
+package com.inteltrader.advisor.qlearning;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;

@@ -1,6 +1,7 @@
 package com.inteltrader.advisor.tawrapper;
 
-import com.inteltrader.advisor.qlearningadvisor.State;
+import com.inteltrader.advisor.InstrumentWrapper;
+import com.inteltrader.advisor.qlearning.State;
 import com.inteltrader.indicators.CalculatorBollingerBands;
 import com.inteltrader.entity.Price;
 

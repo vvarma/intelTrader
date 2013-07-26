@@ -1,9 +1,9 @@
 package com.inteltrader.advisor.tawrapper;
 
 import com.inteltrader.advisor.InstrumentAo;
-import com.inteltrader.advisor.qlearningadvisor.State;
+import com.inteltrader.advisor.InstrumentWrapper;
+import com.inteltrader.advisor.InstrumentWrapperImpl;
 import com.inteltrader.entity.Instrument;
-import com.inteltrader.entity.Price;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.List;
  * Time: 11:24 AM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class TAWrapper implements InstrumentWrapper  {
+public abstract class TAWrapper implements InstrumentWrapper {
     private InstrumentWrapper instrumentWrapper;
 
 

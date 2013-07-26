@@ -26,12 +26,46 @@ public class Portfolio  implements Serializable {
     @Id
     @Column(name="PORTFOLIO_NAME")
     private String portfolioName;
+    @Column(name ="STRATEGY")
+    private String desc;
     @OneToMany(mappedBy = "associatedPortfolio",cascade = CascadeType.ALL,targetEntity = com.inteltrader.entity.Investment.class)
     private Set<Investment> investmentList=new HashSet<Investment>();
 
-    public Portfolio(String portfolioName) {
+    public Portfolio(String portfolioName, String desc) {
         this.portfolioName = portfolioName;
 
+        this.desc = desc;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Portfolio)) return false;
+
+        Portfolio portfolio = (Portfolio) o;
+
+        if (!desc.equals(portfolio.desc)) return false;
+        if (!investmentList.equals(portfolio.investmentList)) return false;
+        if (!portfolioName.equals(portfolio.portfolioName)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = portfolioName.hashCode();
+        result = 31 * result + desc.hashCode();
+        result = 31 * result + investmentList.hashCode();
+        return result;
+    }
+
+    public String getDesc() {
+
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public Portfolio() {
@@ -58,6 +92,7 @@ public class Portfolio  implements Serializable {
     public String toString() {
         return "Portfolio{" +
                 "portfolioName='" + portfolioName + '\'' +
+                ", desc='" + desc + '\'' +
                 ", investmentList=" + investmentList +
                 '}';
     }

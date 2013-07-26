@@ -1,16 +1,12 @@
-package com.inteltrader.advisor.newqlearning;
+package com.inteltrader.advisor.qlearning;
 
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.Advisor;
-import com.inteltrader.advisor.qlearningadvisor.Holdings;
-import com.inteltrader.advisor.qlearningadvisor.State;
-import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
+import com.inteltrader.advisor.InstrumentWrapper;
 import com.inteltrader.advisor.tawrapper.TAWrapper;
-import com.inteltrader.dao.IStatesDao;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
 import com.inteltrader.entity.States;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.HashSet;

@@ -48,11 +48,11 @@ public class TestServiceRest {
 
     }
 
-    @RequestMapping(value = "/portfolio/create/{portfolioName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/portfolio/create/{portfolioName}/{token}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> createPortfolioTest(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request) {
-        portfolioService.createPortfolio(portfolioName);
+    ResponseEntity<String> createPortfolioTest(@PathVariable("portfolioName") String portfolioName, @PathVariable("token") String token,HttpServletRequest request) {
+        portfolioService.createPortfolio(portfolioName,token);
         return new ResponseEntity<String>("yo",
                 new HttpHeaders(), HttpStatus.OK);
 
@@ -79,6 +79,8 @@ public class TestServiceRest {
     public
     @ResponseBody
     ResponseEntity<String> updatePortfolioTest(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request) {
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin","*");
         StringBuilder builder = new StringBuilder();
         Calendar today = new GregorianCalendar();
         Calendar fake = Global.getCalendar();
@@ -96,15 +98,15 @@ public class TestServiceRest {
 
             }
             return new ResponseEntity<String>(builder.toString(),
-                    new HttpHeaders(), HttpStatus.OK);
+                    headers, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
             return new ResponseEntity<String>(e.toString(),
-                    new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+                    headers, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             return new ResponseEntity<String>("BAD SYMBOL",
-                    new HttpHeaders(), HttpStatus.BAD_REQUEST);
+                    headers, HttpStatus.BAD_REQUEST);
         }
 
 

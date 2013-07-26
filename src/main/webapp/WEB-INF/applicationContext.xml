@@ -17,8 +17,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven/>
     <context:annotation-config/>
+    <aop:aspectj-autoproxy/>
     <!--<aop:aspectj-autoproxy/>-->
-    <tx:annotation-driven />
+    <tx:annotation-driven/>
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/WEB-INF/views/"/>
@@ -26,8 +27,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     </beans:bean>
 
     <!--Analyser-->
-   <!-- <beans:bean id="analyser" class="com.inteltrader.advisor.simpleadvisor.SimpleAdvisor">
-    </beans:bean>-->
     <!-- DAO LAYER -->
     <beans:bean id="instrumentDao" class="com.inteltrader.dao.InstrumentDao">
     </beans:bean>
@@ -36,7 +35,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <beans:bean id="statesDao" class="com.inteltrader.dao.StatesDao">
     </beans:bean>
 
- <!-- Application Service Layer -->
+    <!-- Application Service Layer -->
     <beans:bean id="instrumentService" class="com.inteltrader.service.InstrumentServiceImpl">
     </beans:bean>
     <beans:bean id="portfolioService" class="com.inteltrader.service.PortfolioServiceImpl">
@@ -46,12 +45,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <beans:bean id="analyserService" class="com.inteltrader.service.AnalyserServiceImpl">
     </beans:bean>
     <!-- Advisor-->
-    <beans:bean id="advisor" class="com.inteltrader.advisor.newqlearning.QLearning">
+    <beans:bean id="advisor" class="com.inteltrader.advisor.qlearning.QLearning">
     </beans:bean>
-    <beans:bean id="qLearning" class="com.inteltrader.advisor.newqlearning.QLearning">
+    <beans:bean id="qLearning" class="com.inteltrader.advisor.qlearning.QLearning">
     </beans:bean>
-    <beans:bean id="advisorPool" class="com.inteltrader.advisor.AdvisorPool">
-    </beans:bean>
+
 
     <!-- ENTITY MANAGER... BEANIFY ENTITY MANAGER FACTORY -->
     <beans:bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -80,6 +78,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
     <!--for logging before and after using AOP-->
     <beans:bean id="aroundMethod" class="com.inteltrader.util.BeforeAndAfterLogger"/>
+    <beans:bean id="reporter" class="com.inteltrader.util.Reporter"/>
 
     <aop:config>
         <aop:aspect id="serviceAspect" ref="aroundMethod">
@@ -91,7 +90,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
             <aop:around method="aroundMethod" pointcut-ref="daoPointCutBefore"/>
         </aop:aspect>
         <aop:aspect id="analyserAspect" ref="aroundMethod">
-            <aop:pointcut id="analyserPointCutBefore" expression="execution(* com.inteltrader.advisor.qlearningadvisor.*.*(..))"/>
+            <aop:pointcut id="analyserPointCutBefore"
+                          expression="execution(* com.inteltrader.advisor.qlearningadvisor.*.*(..))"/>
             <aop:around method="aroundMethod" pointcut-ref="analyserPointCutBefore"/>
         </aop:aspect>
     </aop:config>

@@ -1,17 +1,16 @@
 package com.inteltrader.service;
 
-import com.inteltrader.advisor.qlearningadvisor.Holdings;
+import com.inteltrader.advisor.qlearning.Holdings;
 import com.inteltrader.dao.IPortfolioDao;
 import com.inteltrader.entity.*;
 import com.inteltrader.util.RestCodes;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,7 +21,7 @@ import java.util.List;
  * Time: 3:20 PM
  * To change this template use File | Settings | File Templates.
  */
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 public class PortfolioServiceImpl implements PortfolioService {
     @PersistenceContext
     EntityManager entityManager;
@@ -38,8 +37,8 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException {   logger.debug("Updating Portfolio..");
-        String[] token={"MACD","RSI","BBAND"};
-       Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
+        Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
+        String[] token=portfolio.getDesc().split("-");
         for (Investment investment : portfolio.getInvestmentList()) {
             Holdings.HoldingState hState = investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
             logger.debug("Updating Investment :"+investment.getSymbolName()+investment.getCurrentPrice().getClosePrice());
@@ -53,27 +52,29 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public RestCodes createPortfolio(String portfolioName) {
+    public RestCodes createPortfolio(String portfolioName, String desc) {
         try {
-            Portfolio portfolio = new Portfolio(portfolioName);
+            Portfolio portfolio = new Portfolio(portfolioName, desc);
             portfolioDao.createPortfolio(entityManager, portfolio);
             return RestCodes.SUCCESS;
         } catch (RuntimeException e) {
             e.printStackTrace();
             return RestCodes.FAILURE;
         }
-
     }
+
+
 
     @Override
     public RestCodes addToPortfolio(String portfolioName, String symbolName) throws NoSuchFieldException {
-        String[] token={"MACD","RSI","BBAND"};
+
         try {
+            Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
+            String[] token=portfolio.getDesc().split("-");
             Investment investment = new Investment(symbolName);
             investment.setCurrentPrice(getCurrentInstrumentPrice(symbolName));
             investmentService.makeInvestment(analyserService.getAnalysis(symbolName, token), investment);
-            Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
-            System.out.println(portfolio);
+
             if (!portfolio.getInvestmentList().contains(investment))
                 portfolio.getInvestmentList().add(investment);
             investment.setAssociatedPortfolio(portfolio);
@@ -97,13 +98,7 @@ public class PortfolioServiceImpl implements PortfolioService {
        Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
         double pnl=0.0;
         for (Investment investment : portfolio.getInvestmentList()) {
-            double invested = 0.0;
-            double value=0.0;
-            for (Transactions transactions : investment.getTransactionsList()) {
-                invested += transactions.getQuantity() * transactions.getTransactionPrice().getClosePrice();
-            }
-            value+=investment.getQuantity()*investment.getCurrentPrice().getClosePrice();
-            pnl+=(value-invested);
+            pnl+=investment.calcPnl();
         }
         return pnl;
     }

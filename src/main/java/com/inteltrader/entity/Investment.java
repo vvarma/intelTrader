@@ -1,6 +1,6 @@
 package com.inteltrader.entity;
 
-import com.inteltrader.advisor.qlearningadvisor.Holdings;
+import com.inteltrader.advisor.qlearning.Holdings;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -141,6 +141,17 @@ public class Investment implements Serializable {
         int result = investmentId;
         result = 31 * result + symbolName.hashCode();
         return result;
+    }
+    public double calcPnl(){
+        double pnl=0.0;
+        double invested = 0.0;
+        double value=0.0;
+        for (Transactions transactions : this.getTransactionsList()) {
+            invested += transactions.getQuantity() * transactions.getTransactionPrice().getClosePrice();
+        }
+        value+=this.getQuantity()*this.getCurrentPrice().getClosePrice();
+        pnl+=(value-invested);
+        return pnl;
     }
 /*
 

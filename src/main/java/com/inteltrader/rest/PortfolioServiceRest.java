@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +31,7 @@ import java.util.Map;
  * Time: 5:09 PM
  * To change this template use File | Settings | File Templates.
  */
+@Transactional
 @Controller
 @RequestMapping("/portfolio")
 public class PortfolioServiceRest {
@@ -37,33 +39,34 @@ public class PortfolioServiceRest {
     private PortfolioService portfolioService;
     @Autowired
     private InstrumentService instrumentService;
-    @RequestMapping(value = "/create/{portfolioName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/create/{portfolioName}/{token}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> createPortfolio(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request) {
-
-        RestCodes responseCode = portfolioService.createPortfolio(portfolioName);
-
+    ResponseEntity<String> createPortfolio(@PathVariable("portfolioName") String portfolioName,@PathVariable("token") String token, HttpServletRequest request) {
+        RestCodes responseCode = portfolioService.createPortfolio(portfolioName,token);
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin","*");
         return new ResponseEntity<String>(responseCode.toString(),
-                new HttpHeaders(), HttpStatus.OK);
+                headers, HttpStatus.OK);
 
     }
     @RequestMapping(value = "/addInvestment/{portfolioName}/{symbolName}", method = RequestMethod.GET)
      public
      @ResponseBody
      ResponseEntity<String> addInvestment(@PathVariable("portfolioName") String portfolioName,@PathVariable("symbolName") String symbolName, HttpServletRequest request) {
-
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin","*");
         RestCodes responseCode = null;
         try {
             responseCode = portfolioService.addToPortfolio(portfolioName,symbolName);
 
 
         return new ResponseEntity<String>(responseCode.toString(),
-                new HttpHeaders(), HttpStatus.OK);
+                headers, HttpStatus.OK);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             return new ResponseEntity<String>("BAD SYMBOL",
-                    new HttpHeaders(), HttpStatus.BAD_REQUEST);
+                    headers, HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -71,23 +74,25 @@ public class PortfolioServiceRest {
     public
     @ResponseBody
     ResponseEntity<String> updatePortfolio(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request) {
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin","*");
         if (instrumentService.updateInstruments(portfolioName)!=RestCodes.NO_COMMENT){
             try {
                 RestCodes responseCode = portfolioService.updatePortfolio(portfolioName);
 
                 return new ResponseEntity<String>(responseCode.toString(),
-                        new HttpHeaders(), HttpStatus.OK);
+                        headers, HttpStatus.OK);
             }  catch (IOException e){
                 return new ResponseEntity<String>(e.toString(),
-                        new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR)    ;
+                        headers, HttpStatus.INTERNAL_SERVER_ERROR)    ;
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 return new ResponseEntity<String>("BAD SYMBOL",
-                        new HttpHeaders(), HttpStatus.BAD_REQUEST)    ;
+                        headers, HttpStatus.BAD_REQUEST)    ;
             }
         }else{
             return new ResponseEntity<String>("Nothing to Update",
-                    new HttpHeaders(), HttpStatus.OK);
+                    headers, HttpStatus.OK);
         }
 
     }
@@ -110,9 +115,11 @@ public class PortfolioServiceRest {
                 headers, HttpStatus.OK);
     }
 
+
     @RequestMapping(value = "/load/{portfolioName}", method = RequestMethod.GET)
     public
     @ResponseBody
+
     ResponseEntity<String> loadInstrument(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request){
         Portfolio portfolio= portfolioService.retrievePortfolio(portfolioName);
         PortfolioVo portfolioVo=new PortfolioVo(portfolio);
@@ -126,8 +133,9 @@ public class PortfolioServiceRest {
     @ResponseBody
     ResponseEntity<String> getPortfolioPnL(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request){
         Double pnl= portfolioService.calculatePnL(portfolioName);
-
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin","*");
         return new ResponseEntity<String>(new Gson().toJson(pnl),
-                new HttpHeaders(), HttpStatus.OK);
+                headers, HttpStatus.OK);
     }
 }

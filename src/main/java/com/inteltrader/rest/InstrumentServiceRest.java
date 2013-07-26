@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +29,7 @@ import java.util.GregorianCalendar;
  * Time: 3:13 PM
  * To change this template use File | Settings | File Templates.
  */
+@Transactional
 @Controller
 @RequestMapping("/instrument")
 public class InstrumentServiceRest {

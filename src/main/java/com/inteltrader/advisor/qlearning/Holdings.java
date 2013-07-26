@@ -1,4 +1,4 @@
-package com.inteltrader.advisor.qlearningadvisor;
+package com.inteltrader.advisor.qlearning;
 
 import com.inteltrader.advisor.Advice;
 

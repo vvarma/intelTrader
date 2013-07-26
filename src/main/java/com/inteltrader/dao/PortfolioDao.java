@@ -1,6 +1,8 @@
 package com.inteltrader.dao;
 
 import com.inteltrader.entity.Portfolio;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
  * Time: 3:17 PM
  * To change this template use File | Settings | File Templates.
  */
+@Transactional(propagation = Propagation.MANDATORY)
 public class PortfolioDao implements IPortfolioDao {
     @Override
     public void createPortfolio(EntityManager entityManager, Portfolio portfolio) {

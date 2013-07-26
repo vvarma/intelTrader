@@ -1,11 +1,8 @@
 package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
-import com.inteltrader.advisor.qlearningadvisor.Holdings;
-import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
-import com.inteltrader.advisor.tawrapper.TAWrapper;
+import com.inteltrader.advisor.InstrumentWrapper;
 
-import javax.persistence.EntityManager;
 import java.io.IOException;
 
 /**

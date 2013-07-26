@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface PortfolioService {
     RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException;
-    RestCodes createPortfolio(String portfolioName);
+    RestCodes createPortfolio(String portfolioName,String desc);
     RestCodes addToPortfolio(String portfolioName, String symbolName) throws NoSuchFieldException;
     Portfolio retrievePortfolio(String portfolioName);
     Double calculatePnL(String portfolioName);

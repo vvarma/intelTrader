@@ -1,13 +1,10 @@
 package com.inteltrader.advisor;
 
-import com.inteltrader.advisor.qlearningadvisor.State;
-import com.inteltrader.advisor.tawrapper.InstrumentWrapper;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
 import com.inteltrader.entity.States;
 
 import java.io.IOException;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.

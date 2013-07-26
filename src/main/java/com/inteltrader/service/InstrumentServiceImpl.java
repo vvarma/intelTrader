@@ -8,6 +8,7 @@ import com.inteltrader.entity.Price;
 import com.inteltrader.util.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -27,7 +28,7 @@ import java.util.*;
  * Time: 12:18 PM
  * To change this template use File | Settings | File Templates.
  */
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 public class InstrumentServiceImpl implements InstrumentService {
     @PersistenceContext
     EntityManager entityManager;

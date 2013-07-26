@@ -1,13 +1,9 @@
-package com.inteltrader.advisor.tawrapper;
+package com.inteltrader.advisor;
 
-import com.inteltrader.advisor.Advice;
-import com.inteltrader.advisor.InstrumentAo;
-import com.inteltrader.advisor.qlearningadvisor.Holdings;
-import com.inteltrader.advisor.qlearningadvisor.State;
+import com.inteltrader.advisor.qlearning.Holdings;
+import com.inteltrader.advisor.qlearning.State;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
-
-import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA.

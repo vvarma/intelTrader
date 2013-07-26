@@ -1,7 +1,7 @@
 package com.inteltrader.entity;
 
 import com.inteltrader.advisor.Advice;
-import com.inteltrader.advisor.qlearningadvisor.State;
+import com.inteltrader.advisor.qlearning.State;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;

@@ -1,5 +1,6 @@
 package com.inteltrader.entity.view;
 
+import com.inteltrader.advisor.InstrumentWrapper;
 import com.inteltrader.advisor.tawrapper.*;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
