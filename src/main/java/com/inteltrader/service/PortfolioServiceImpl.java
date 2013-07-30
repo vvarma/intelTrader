@@ -2,7 +2,10 @@ package com.inteltrader.service;
 
 import com.inteltrader.advisor.qlearning.Holdings;
 import com.inteltrader.dao.IPortfolioDao;
-import com.inteltrader.entity.*;
+import com.inteltrader.entity.Investment;
+import com.inteltrader.entity.Portfolio;
+import com.inteltrader.entity.Price;
+import com.inteltrader.util.Global;
 import com.inteltrader.util.RestCodes;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -33,6 +37,8 @@ public class PortfolioServiceImpl implements PortfolioService {
     private InvestmentService investmentService;
     @Autowired
     private InstrumentService instrumentService;
+    @Autowired
+    private Global global;
     private Logger logger=Logger.getLogger(this.getClass());
 
     @Override
@@ -46,6 +52,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 
         }
         logger.debug("Updating portfolio dao..");
+        portfolio.setLastUpdatedOn(global.getCalendar());
         portfolioDao.updatePortfolio(entityManager, portfolio);
         return RestCodes.SUCCESS;
 
@@ -54,7 +61,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     @Override
     public RestCodes createPortfolio(String portfolioName, String desc) {
         try {
-            Portfolio portfolio = new Portfolio(portfolioName, desc);
+            Portfolio portfolio = new Portfolio(portfolioName, desc,global.getCalendar());
             portfolioDao.createPortfolio(entityManager, portfolio);
             return RestCodes.SUCCESS;
         } catch (RuntimeException e) {
@@ -78,7 +85,7 @@ public class PortfolioServiceImpl implements PortfolioService {
             if (!portfolio.getInvestmentList().contains(investment))
                 portfolio.getInvestmentList().add(investment);
             investment.setAssociatedPortfolio(portfolio);
-
+            portfolio.setLastUpdatedOn(global.getCalendar());
             return RestCodes.SUCCESS;
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,6 +118,12 @@ public class PortfolioServiceImpl implements PortfolioService {
         }
 
 
+    }
+
+    @Override
+    public Calendar lastUpdatedOn(String portfolioName) {
+        Portfolio portfolio=retrievePortfolio(portfolioName);
+        return portfolio.getLastUpdatedOn();
     }
 
     private Price getCurrentInstrumentPrice(String symbolName) throws NoSuchFieldException {

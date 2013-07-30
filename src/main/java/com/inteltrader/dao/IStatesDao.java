@@ -2,8 +2,6 @@ package com.inteltrader.dao;
 
 import com.inteltrader.entity.States;
 
-import javax.persistence.EntityManager;
-
 /**
  * Created with IntelliJ IDEA.
  * User: vvarm1

@@ -1,7 +1,5 @@
 package com.inteltrader.advisor;
 
-import javax.persistence.Embeddable;
-
 /**
  * Created with IntelliJ IDEA.
  * User: Vinay

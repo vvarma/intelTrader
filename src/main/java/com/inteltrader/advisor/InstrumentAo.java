@@ -1,11 +1,8 @@
 package com.inteltrader.advisor;
 
 
-
 import com.inteltrader.entity.Price;
-import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;

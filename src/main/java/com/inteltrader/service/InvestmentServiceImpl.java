@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -23,13 +22,14 @@ import java.util.Properties;
 @Transactional
 public class InvestmentServiceImpl implements InvestmentService {
     @Autowired
+    Global global;
+    @Autowired
     private InstrumentService instrumentService;
-    private Properties properties=new Properties();
     private Logger logger=Logger.getLogger(this.getClass());
     @Override
     public void makeInvestment(Advice advice, Investment investment) {
         logger.debug("Making Investment..");
-        int tradeQuantity=Integer.parseInt(properties.getProperty("TRADE_QUANTITY"));
+        int tradeQuantity=Integer.parseInt(global.getProperties().getProperty("TRADE_QUANTITY"));
         int actTradeQuantity=0;
          switch (advice){
             case BUY:
@@ -48,7 +48,7 @@ public class InvestmentServiceImpl implements InvestmentService {
             default:break;
         }
         investment.setQuantity(investment.getQuantity()+actTradeQuantity);
-        investment.getTransactionsList().add(new Transactions(actTradeQuantity,investment.getCurrentPrice(), Global.getCalendar().getTime())) ;
+        investment.getTransactionsList().add(new Transactions(actTradeQuantity,investment.getCurrentPrice(), global.getCalendar().getTime())) ;
         logger.debug("Investment :"+investment.getSymbolName() +" advice :"+advice+
                 " present quantity :"+investment.getQuantity()+" present price :"+investment.getCurrentPrice().getClosePrice());
     }
@@ -59,7 +59,6 @@ public class InvestmentServiceImpl implements InvestmentService {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public InvestmentServiceImpl() throws IOException {
-        properties.load(new FileInputStream("intel.properties"));
+    public InvestmentServiceImpl() {
     }
 }

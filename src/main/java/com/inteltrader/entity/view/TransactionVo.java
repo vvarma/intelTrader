@@ -1,6 +1,5 @@
 package com.inteltrader.entity.view;
 
-import com.inteltrader.entity.Price;
 import com.inteltrader.entity.Transactions;
 
 import java.text.SimpleDateFormat;

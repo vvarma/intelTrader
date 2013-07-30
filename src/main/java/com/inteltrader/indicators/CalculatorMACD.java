@@ -2,6 +2,7 @@ package com.inteltrader.indicators;
 
 import com.inteltrader.advisor.InstrumentAo;
 import com.inteltrader.entity.Instrument;
+import com.inteltrader.util.Global;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
@@ -21,7 +22,6 @@ import java.util.Properties;
 public class CalculatorMACD {
 
     private Core core = new Core();
-    private Properties properties = new Properties();
     int fastPeriod;
     int slowPeriod;
     int signalPeriod;
@@ -30,10 +30,12 @@ public class CalculatorMACD {
     double result;
 
     public CalculatorMACD(int noOutEle, double threshold) throws IOException {
-        properties.load(new FileInputStream("intel.properties"));
-        fastPeriod = Integer.parseInt(properties.getProperty("MACD_FastPeriod"));
+        /*fastPeriod = Integer.parseInt(properties.getProperty("MACD_FastPeriod"));
         slowPeriod = Integer.parseInt(properties.getProperty("MACD_SlowPeriod"));
-        signalPeriod = Integer.parseInt(properties.getProperty("MACD_SignalPeriod"));
+        signalPeriod = Integer.parseInt(properties.getProperty("MACD_SignalPeriod"));*/
+        fastPeriod=Integer.MIN_VALUE;
+        slowPeriod=Integer.MIN_VALUE;
+        signalPeriod=Integer.MIN_VALUE;
         this.noOutEle = noOutEle;
         this.threshold = threshold;
     }

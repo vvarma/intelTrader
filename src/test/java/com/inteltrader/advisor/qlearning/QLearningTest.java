@@ -42,12 +42,8 @@ public class QLearningTest {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         try{
-            try {
-                System.out.println("token" + token);
-                qLearning.initWrapper(instrument,token);
-            } catch (InstantiationException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
+            System.out.println("token" + token);
+            qLearning.initWrapper(instrument,token);
             Assert.assertEquals(qLearning.getWrapper().getInstrument().getSymbolName(), symbolName);
         }catch (IOException e){
             e.printStackTrace();
@@ -63,11 +59,7 @@ public class QLearningTest {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         try {
-            try {
-                qLearning.initWrapper(instrument,token);
-            } catch (InstantiationException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
+            qLearning.initWrapper(instrument,token);
             int index=qLearning.getWrapper().getInstrument().getPriceList().size()-1;
             Assert.assertEquals(qLearning.getWrapper().getStateBuilder(index).build().getClass(),State.class);
             Assert.assertEquals(qLearning.getWrapper().getStateBuilder(0).build().getClass(),State.class);
@@ -86,11 +78,7 @@ public class QLearningTest {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         try {
-            try {
-                qLearning.initWrapper(instrument,token);
-            }  catch (InstantiationException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
+            qLearning.initWrapper(instrument,token);
             int index=qLearning.getWrapper().getInstrument().getPriceList().size()-1;
             qLearning.getWrapper().getStateBuilder(index+1);
         }catch (IOException e) {
@@ -108,11 +96,7 @@ public class QLearningTest {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         try {
-            try {
-                qLearning.initWrapper(instrument,token);
-            }  catch (InstantiationException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
+            qLearning.initWrapper(instrument,token);
             QLearning.Trainer trainer= qLearning.new Trainer(0.15,0.9999,40);
             Set<State> stateSet=trainer.initTrain();
             System.out.println(stateSet);

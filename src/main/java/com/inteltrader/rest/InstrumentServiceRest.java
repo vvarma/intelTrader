@@ -34,6 +34,8 @@ import java.util.GregorianCalendar;
 @RequestMapping("/instrument")
 public class InstrumentServiceRest {
     @Autowired
+    Global global;
+    @Autowired
     private InstrumentService instrumentService;
 
 
@@ -43,7 +45,7 @@ public class InstrumentServiceRest {
     @ResponseBody
     ResponseEntity<String> createInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) {
 
-        Calendar strtDate=(GregorianCalendar) Global.getCalendar().clone();
+        Calendar strtDate=(GregorianCalendar) global.getCalendar().clone();
         strtDate.add(Calendar.YEAR,-4);
         RestCodes responseCode = instrumentService.createInstrument(symbolName,strtDate);
 

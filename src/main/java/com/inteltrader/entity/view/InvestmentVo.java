@@ -1,7 +1,6 @@
 package com.inteltrader.entity.view;
 
 import com.inteltrader.entity.Investment;
-import com.inteltrader.entity.Price;
 import com.inteltrader.entity.Transactions;
 
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ public class InvestmentVo {
     private Integer quantity=0;
     private PriceVo currentPrice;
     private List<TransactionVo> transactionList;
+    private double pnl;
 
     public String getSymbolName() {
         return symbolName;
@@ -36,7 +36,12 @@ public class InvestmentVo {
         return transactionList;
     }
 
+    public double getPnl() {
+        return pnl;
+    }
+
     public InvestmentVo(Investment investment) {
+        pnl=investment.calcPnl();
         transactionList=new ArrayList<TransactionVo>(investment.getTransactionsList().size());
         symbolName=investment.getSymbolName();
         quantity=investment.getQuantity();

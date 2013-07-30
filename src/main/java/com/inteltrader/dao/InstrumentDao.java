@@ -5,9 +5,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.criteria.*;
-import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +85,7 @@ public class PortfolioServiceRest {
                 return new ResponseEntity<String>(e.toString(),
                         headers, HttpStatus.INTERNAL_SERVER_ERROR)    ;
             } catch (NoSuchFieldException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
                 return new ResponseEntity<String>("BAD SYMBOL",
                         headers, HttpStatus.BAD_REQUEST)    ;
             }

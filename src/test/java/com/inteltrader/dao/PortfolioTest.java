@@ -1,7 +1,5 @@
 package com.inteltrader.dao;
 
-import com.inteltrader.entity.Portfolio;
-import org.hibernate.type.ListType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

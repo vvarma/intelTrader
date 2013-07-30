@@ -2,8 +2,8 @@ package com.inteltrader.advisor.tawrapper;
 
 import com.inteltrader.advisor.InstrumentWrapper;
 import com.inteltrader.advisor.qlearning.State;
-import com.inteltrader.indicators.CalculatorMACD;
 import com.inteltrader.entity.Price;
+import com.inteltrader.indicators.CalculatorMACD;
 
 import java.io.IOException;
 import java.util.ArrayList;

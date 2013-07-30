@@ -1,15 +1,13 @@
 package com.inteltrader.entity;
 
 
-
-
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,19 +19,21 @@ import java.util.Set;
  */
 @Repository
 @Entity
-@Table(name="PORTFOLIO",schema = "TRADER_DB")
-public class Portfolio  implements Serializable {
+@Table(name = "PORTFOLIO", schema = "TRADER_DB")
+public class Portfolio implements Serializable {
     @Id
-    @Column(name="PORTFOLIO_NAME")
+    @Column(name = "PORTFOLIO_NAME")
     private String portfolioName;
-    @Column(name ="STRATEGY")
+    @Column(name = "STRATEGY")
     private String desc;
-    @OneToMany(mappedBy = "associatedPortfolio",cascade = CascadeType.ALL,targetEntity = com.inteltrader.entity.Investment.class)
-    private Set<Investment> investmentList=new HashSet<Investment>();
+    @OneToMany(mappedBy = "associatedPortfolio", cascade = CascadeType.ALL, targetEntity = com.inteltrader.entity.Investment.class)
+    private Set<Investment> investmentList = new HashSet<Investment>();
+    @Column(name = "LAST_UPDATED_ON")
+    private Calendar lastUpdatedOn;
 
-    public Portfolio(String portfolioName, String desc) {
+    public Portfolio(String portfolioName, String desc, Calendar timestamp) {
         this.portfolioName = portfolioName;
-
+        this.lastUpdatedOn = timestamp;
         this.desc = desc;
     }
 
@@ -57,6 +57,14 @@ public class Portfolio  implements Serializable {
         result = 31 * result + desc.hashCode();
         result = 31 * result + investmentList.hashCode();
         return result;
+    }
+
+    public Calendar getLastUpdatedOn() {
+        return lastUpdatedOn;
+    }
+
+    public void setLastUpdatedOn(Calendar lastUpdatedOn) {
+        this.lastUpdatedOn = lastUpdatedOn;
     }
 
     public String getDesc() {

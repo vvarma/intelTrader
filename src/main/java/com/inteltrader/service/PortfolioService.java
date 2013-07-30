@@ -1,10 +1,10 @@
 package com.inteltrader.service;
 
-import com.inteltrader.entity.Investment;
 import com.inteltrader.entity.Portfolio;
 import com.inteltrader.util.RestCodes;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -21,4 +21,5 @@ public interface PortfolioService {
     Portfolio retrievePortfolio(String portfolioName);
     Double calculatePnL(String portfolioName);
     List<String> listAllPortfolios();
+    Calendar lastUpdatedOn(String portfolioName);
 }

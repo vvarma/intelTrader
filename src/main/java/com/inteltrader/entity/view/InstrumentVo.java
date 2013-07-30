@@ -1,7 +1,10 @@
 package com.inteltrader.entity.view;
 
 import com.inteltrader.advisor.InstrumentWrapper;
-import com.inteltrader.advisor.tawrapper.*;
+import com.inteltrader.advisor.tawrapper.BBandWrapper;
+import com.inteltrader.advisor.tawrapper.MACDWrapper;
+import com.inteltrader.advisor.tawrapper.RSIWrapper;
+import com.inteltrader.advisor.tawrapper.TAWrapper;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
 

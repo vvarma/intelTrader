@@ -8,17 +8,17 @@ import com.inteltrader.entity.Price;
 import com.inteltrader.util.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -30,11 +30,13 @@ import java.util.*;
  */
 @Transactional(propagation = Propagation.REQUIRED)
 public class InstrumentServiceImpl implements InstrumentService {
+    @Autowired
+    Global global;
     @PersistenceContext
     EntityManager entityManager;
     @Autowired
     private IInstrumentDao instrumentDao;
-    private Properties properties = new Properties();
+    private Properties properties;
     @Autowired
     private PortfolioService portfolioService;
     private Logger logger = Logger.getLogger(this.getClass());
@@ -45,7 +47,7 @@ public class InstrumentServiceImpl implements InstrumentService {
         Instrument instrument = instrumentDao.retrieveInstrument(entityManager, symbolName);
         if (instrument == null) {
             logger.trace("Instrument does not exist in database.. Creating Instrument.");
-            Calendar startDate = (GregorianCalendar) Global.getCalendar().clone();
+            Calendar startDate = (GregorianCalendar) global.getCalendar().clone();
             startDate.add(Calendar.YEAR, -5);
             if (createInstrument(symbolName, startDate) == RestCodes.SUCCESS) {
                 instrument = instrumentDao.retrieveInstrument(entityManager, symbolName);
@@ -79,9 +81,10 @@ public class InstrumentServiceImpl implements InstrumentService {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
             Calendar startDate = instrument.getCurrentPrice().getTimeStamp();
-            Calendar endDate = (GregorianCalendar) Global.getCalendar().clone();
+            Calendar endDate = (GregorianCalendar) global.getCalendar().clone();
+            String path = global.getProperties().getProperty("DATA_PATH");
             for (Calendar calendar = startDate; calendar.before(endDate); calendar.add(Calendar.DATE, 1)) {
-                String fileName = properties.getProperty("DATA_PATH");
+                String fileName = path;
                 if (isWeekDay(calendar)) {
                     String genFileName = createFilenamGivenDate(calendar);
                     File file = new File(fileName + genFileName);
@@ -106,7 +109,7 @@ public class InstrumentServiceImpl implements InstrumentService {
 
                 }
             }
-           try {
+            try {
                 logger.trace("Writing instrument to Dao");
                 instrumentDao.updateInstrument(entityManager, instrument);
                 logger.trace("Success.");
@@ -135,7 +138,7 @@ public class InstrumentServiceImpl implements InstrumentService {
 
     @Override
     public RestCodes createInstrument(String symbolName, Calendar startDate) {
-       Calendar endDate = Global.getCalendar();
+        Calendar endDate = global.getCalendar();
         /*Calendar endDate = (Calendar) startDate.clone();
         endDate.add(Calendar.YEAR, 2);*/
         //endDate.add(Calendar.MONTH, -2);
@@ -159,8 +162,9 @@ public class InstrumentServiceImpl implements InstrumentService {
     private Instrument getSingleInstrumentGivenDateAndName(
             Calendar startDate, Calendar endDate, String symbol) {
         Instrument instrument = new Instrument(symbol);
+        String path = global.getProperties().getProperty("DATA_PATH");
         for (Calendar calendar = startDate; calendar.before(endDate); calendar.add(Calendar.DATE, 1)) {
-            String fileName = properties.getProperty("DATA_PATH");
+            String fileName = path;
             System.out.println("in for loop");
             if (isWeekDay(calendar)) {
                 try {
@@ -241,18 +245,17 @@ public class InstrumentServiceImpl implements InstrumentService {
     private String createUrlDownloadAndExtractFileGivenDate(Calendar i)
             throws IOException {
         String url;
-        DownloadZip downloadZip = new DownloadZip();
-        ExtractZipFile extractZip = new ExtractZipFile();
+        DownloadZip downloadZip = new DownloadZip(global.getProperties());
+        ExtractZipFile extractZip = new ExtractZipFile(global.getProperties());
         url = createUrlGivenDate(i);
         downloadZip.downloadZip(url);
         return extractZip.extractTemp();
     }
 
-    public InstrumentServiceImpl() throws IOException {
-        properties.load(new FileInputStream("intel.properties"));
+    public InstrumentServiceImpl() {
     }
 
-     public IInstrumentDao getInstrumentDao() {
+    public IInstrumentDao getInstrumentDao() {
         return instrumentDao;
     }
 

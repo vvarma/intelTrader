@@ -2,7 +2,6 @@ package com.inteltrader.advisor.qlearning;
 
 import com.inteltrader.advisor.Advice;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

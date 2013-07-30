@@ -3,7 +3,6 @@ package com.inteltrader.dao;
 import com.inteltrader.entity.Instrument;
 
 import javax.persistence.EntityManager;
-import java.util.Calendar;
 
 /**
  * Created with IntelliJ IDEA.

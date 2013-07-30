@@ -2,6 +2,7 @@ package com.inteltrader.indicators;
 
 import com.inteltrader.advisor.InstrumentAo;
 import com.inteltrader.entity.Instrument;
+import com.inteltrader.util.Global;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
@@ -20,7 +21,6 @@ import java.util.Properties;
  */
 public class CalculatorRSI {
     private Core core=new Core();
-    private Properties properties=new Properties();
     private int rsiPeriod;
     int noOutEle;
     double result;
@@ -57,9 +57,8 @@ public class CalculatorRSI {
          return retCode;
     }
 
-    public CalculatorRSI(int noOutEle) throws IOException {
-        properties.load(new FileInputStream("intel.properties"));
-        rsiPeriod=Integer.parseInt(properties.getProperty("RSI_Period"));
+    public CalculatorRSI(int noOutEle) {
+        rsiPeriod=14;
         this.noOutEle=noOutEle;
     }
     public RSIState getRSIState(Double result){

@@ -16,6 +16,11 @@ import java.util.Set;
 public class PortfolioVo {
     private String portfolioName;
     private Set<InvestmentVo> investmentList=new HashSet<InvestmentVo>();
+    private String[] desc;
+
+    public String[] getDesc() {
+        return desc;
+    }
 
     public PortfolioVo(String portfolioName) {
         this.portfolioName=portfolioName;
@@ -35,5 +40,7 @@ public class PortfolioVo {
         for (Investment investment:portfolio.getInvestmentList()){
             investmentList.add(new InvestmentVo(investment));
         }
+        desc=portfolio.getDesc().split("-");
+
     }
 }

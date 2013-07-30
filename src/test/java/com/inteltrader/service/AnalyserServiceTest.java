@@ -26,6 +26,8 @@ public class AnalyserServiceTest {
 
     @Autowired
     AnalyserService analyserService;
+    @Autowired
+    Global global;
     @Test
     public void shouldGetAdvice(){
         try {
@@ -43,7 +45,7 @@ public class AnalyserServiceTest {
     public void shouldGetAdviceUpdateAlso(){
         try {
             Calendar cal=new GregorianCalendar(2013,06,01);
-            Global.setCalendar(cal);
+            global.setCalendar(cal);
             Advice advice=analyserService.getAnalysis("SBIN","MACD","BBAND","RSI");
             Assert.assertNotNull(advice);
             System.out.println(advice);

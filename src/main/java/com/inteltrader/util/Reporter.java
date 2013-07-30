@@ -1,8 +1,6 @@
+/*
 package com.inteltrader.util;
 
-import com.inteltrader.advisor.Advice;
-import com.inteltrader.entity.Investment;
-import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -12,23 +10,22 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+*/
 /**
  * Created with IntelliJ IDEA.
  * User: vvarm1
  * Date: 7/23/13
  * Time: 6:49 PM
  * To change this template use File | Settings | File Templates.
- */
+ *//*
+
 @Aspect
 public class Reporter {
 
@@ -146,3 +143,4 @@ public class Reporter {
       }
 
 }
+*/

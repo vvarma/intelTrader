@@ -3,9 +3,9 @@ package com.inteltrader.advisor.tawrapper;
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.InstrumentWrapper;
 import com.inteltrader.advisor.qlearning.State;
-import com.inteltrader.indicators.CalculatorMACD;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
+import com.inteltrader.indicators.CalculatorMACD;
 import com.inteltrader.service.InstrumentService;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -15,7 +15,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
