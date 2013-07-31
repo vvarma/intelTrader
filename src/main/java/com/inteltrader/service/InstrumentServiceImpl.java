@@ -137,7 +137,7 @@ public class InstrumentServiceImpl implements InstrumentService {
     }
 
     @Override
-    public RestCodes createInstrument(String symbolName, Calendar startDate) {
+    public RestCodes createInstrument(String symbolName, Calendar startDate) throws NoSuchFieldException {
         Calendar endDate = global.getCalendar();
         /*Calendar endDate = (Calendar) startDate.clone();
         endDate.add(Calendar.YEAR, 2);*/
@@ -160,7 +160,7 @@ public class InstrumentServiceImpl implements InstrumentService {
     }
 
     private Instrument getSingleInstrumentGivenDateAndName(
-            Calendar startDate, Calendar endDate, String symbol) {
+            Calendar startDate, Calendar endDate, String symbol) throws NoSuchFieldException {
         Instrument instrument = new Instrument(symbol);
         String path = global.getProperties().getProperty("DATA_PATH");
         for (Calendar calendar = startDate; calendar.before(endDate); calendar.add(Calendar.DATE, 1)) {
@@ -183,6 +183,9 @@ public class InstrumentServiceImpl implements InstrumentService {
 
 
                     Price instrPrice = ReadPriceCsv.readPrice(fileName, symbol, (Calendar) calendar.clone());
+                    if(instrPrice==null){
+                        throw new  NoSuchFieldException(symbol + " not found");
+                    }
                     instrument.getPriceList().add(instrPrice);
                 } catch (IOException e) {
                     System.err.println("Public Holiday" + calendar.getTime());

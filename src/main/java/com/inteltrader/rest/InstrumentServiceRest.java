@@ -47,7 +47,12 @@ public class InstrumentServiceRest {
 
         Calendar strtDate=(GregorianCalendar) global.getCalendar().clone();
         strtDate.add(Calendar.YEAR,-4);
-        RestCodes responseCode = instrumentService.createInstrument(symbolName,strtDate);
+        RestCodes responseCode = null;
+        try {
+            responseCode = instrumentService.createInstrument(symbolName,strtDate);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
         return new ResponseEntity<String>(responseCode.toString(),
                 new HttpHeaders(), HttpStatus.OK);

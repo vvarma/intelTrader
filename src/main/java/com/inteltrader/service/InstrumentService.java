@@ -18,7 +18,7 @@ import java.util.List;
 public interface InstrumentService  {
 
     Instrument retrieveInstrument(String symbolName) throws NoSuchFieldException;
-    RestCodes createInstrument(String symbolName,Calendar startDate);
+    RestCodes createInstrument(String symbolName,Calendar startDate) throws NoSuchFieldException;
     RestCodes updateInstruments(String portfolioName);
 
 
