@@ -28,7 +28,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
             <beans:bean class="com.inteltrader.rest.ResponseHeaderInterceptor"/>
         </interceptor>
     </mvc:interceptors>
-    <aop:aspectj-autoproxy/>
+    <!--<aop:aspectj-autoproxy/>-->
     <tx:annotation-driven/>
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -74,16 +74,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
         <beans:property name="entityManagerFactory" ref="entityManagerFactory"/>
     </beans:bean>
 
-    <!--<aop:config>
-        <aop:pointcut id="allDaoMethods" expression="execution(* com.inteltrader.dao.*.*(..))"/>
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="allDaoMethods"/>
-    </aop:config>
 
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="*" propagation="SUPPORTS" read-only="true"/>
-        </tx:attributes>
-    </tx:advice>-->
 
 
     <context:component-scan base-package="com.inteltrader"/>
@@ -92,10 +83,6 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
     <beans:bean id="aroundMethod" class="com.inteltrader.util.BeforeAndAfterLogger"/>
 
     <aop:config>
-        <aop:aspect id="restAspect" ref="aroundMethod">
-            <aop:pointcut id="restPointCutBefore" expression="execution(* com.inteltrader.rest.*.*(..))"/>
-            <aop:around method="aroundMethod" pointcut-ref="restPointCutBefore"/>
-        </aop:aspect>
         <aop:aspect id="serviceAspect" ref="aroundMethod">
             <aop:pointcut id="servicePointCutBefore" expression="execution(* com.inteltrader.service.*.*(..))"/>
             <aop:around method="aroundMethod" pointcut-ref="servicePointCutBefore"/>

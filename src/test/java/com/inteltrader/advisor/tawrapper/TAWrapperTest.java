@@ -13,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -27,7 +29,9 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
+@ContextConfiguration(locations = {"file:src/test/resources/test-Context.xml"})
+@TransactionConfiguration(defaultRollback = true)
+@Transactional
 public class TAWrapperTest {
     @Autowired
     InstrumentService instrumentService;
@@ -35,12 +39,8 @@ public class TAWrapperTest {
     @Test
     public void shouldRetrieveInstrumentAndCreateWrapperCheckBySymbolName() throws NoSuchFieldException {
         Instrument instrument = instrumentService.retrieveInstrument("CIPLA");
-        try {
-            InstrumentWrapper wrapper = TAWrapper.WrapMaker(instrument, "");
-            Assert.assertEquals(wrapper.getInstrument().getSymbolName(), instrument.getSymbolName());
-        } catch (IOException e) {
-            Assert.assertTrue(false);
-        }
+        InstrumentWrapper wrapper = TAWrapper.WrapMaker(instrument, "");
+        Assert.assertEquals(wrapper.getInstrument().getSymbolName(), instrument.getSymbolName());
     }
 
     @Test

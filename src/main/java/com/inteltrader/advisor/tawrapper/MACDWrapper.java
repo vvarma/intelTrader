@@ -23,17 +23,15 @@ public class MACDWrapper extends TAWrapper {
     private List<Double> macdHistList;
     private CalculatorMACD  calculator;
 
-    public MACDWrapper(InstrumentWrapper instrumentWrapper, String desc) throws IOException {
+    public MACDWrapper(InstrumentWrapper instrumentWrapper, String desc)  {
         super(instrumentWrapper);
         this.desc=desc;
         macdHistList = new ArrayList<Double>();
         macdList = new ArrayList<Double>();
         macdSignalList = new ArrayList<Double>();
         calculator = new CalculatorMACD(Integer.MAX_VALUE, 0.20);
-        //calculator=new CalculatorMACD();
         calculator.calcMACD(getInstrument(), macdList, macdSignalList, macdHistList);
         zeroBitwise();    //not a permanent solution
-        //logger.debug("Macd Result is :" + macdHistList);
     }
 
     private void zeroBitwise() {

@@ -19,7 +19,7 @@ import java.util.Set;
  */
 @Repository
 @Entity
-@Table(name = "PORTFOLIO", schema = "TRADER_DB")
+@Table(name = "PORTFOLIO")
 public class Portfolio implements Serializable {
     @Id
     @Column(name = "PORTFOLIO_NAME")

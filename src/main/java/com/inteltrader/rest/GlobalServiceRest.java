@@ -1,6 +1,7 @@
 package com.inteltrader.rest;
 
 import com.google.gson.Gson;
+import com.inteltrader.service.PortfolioService;
 import com.inteltrader.util.Global;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -29,53 +32,64 @@ import java.util.*;
 public class GlobalServiceRest {
     @Autowired
     Global global;
+    @Autowired
+    PortfolioService portfolioService;
 
     @RequestMapping(value = "/setTime/{today}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> setGlobalTime(@PathVariable("today") String today, HttpServletRequest request) {
-        HttpHeaders headers=new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin","*");
-        try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(today);
-            Calendar cal = new GregorianCalendar();
-            cal.setTime(date);
-            if (cal.before(global.getCalendar())){
-                return new ResponseEntity<String>("Irretrievable Past",
-                        headers, HttpStatus.BAD_REQUEST);
-            }
-            System.out.println(date.toString());
-            global.setCalendar(cal);
-            return new ResponseEntity<String>("yo",
-                    headers, HttpStatus.OK);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return new ResponseEntity<String>("FORMAT DATE",
-                    headers, HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<String> setGlobalTime(@PathVariable("today") String today, HttpServletRequest request) throws ParseException, OperationNotSupportedException {
+        Calendar cal = parseToday(today);
+        global.setCalendar(cal);
+        return new ResponseEntity<String>("yo",
+                new HttpHeaders(), HttpStatus.OK);
     }
+
     @RequestMapping(value = "/addTime", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> incrementDate( HttpServletRequest request) {
-        HttpHeaders headers=new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin","*");
+    ResponseEntity<String> incrementDate(HttpServletRequest request) throws OperationNotSupportedException {
         global.addCalendar();
         return new ResponseEntity<String>("yo",
-                headers, HttpStatus.OK);
+                new HttpHeaders(), HttpStatus.OK);
     }
+
     @RequestMapping(value = "/getTime", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> getGlobalTime( HttpServletRequest request) {
-        HttpHeaders headers=new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin","*");
-        Calendar today=global.getCalendar();
+    ResponseEntity<String> getGlobalTime(HttpServletRequest request) {
+        Calendar today = global.getCalendar();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String todayString = sdf.format(today.getTime());
-        Map<String,String> retMap=new HashMap<String, String>();
-        retMap.put("today",todayString);
+        Map<String, String> retMap = new HashMap<String, String>();
+        retMap.put("today", todayString);
         return new ResponseEntity<String>(new Gson().toJson(retMap),
-                headers, HttpStatus.OK);
+                new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/roll/{rollDate}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseEntity<String> rollTodayTo(@PathVariable("rollDate") String rollDate, HttpServletRequest request) throws ParseException, OperationNotSupportedException, NoSuchFieldException, IOException {
+        StringBuilder builder = new StringBuilder();
+        Calendar cal = parseToday(rollDate);
+        while(global.getCalendar().before(cal)||global.getCalendar().equals(cal)){
+            global.addCalendar();
+            Calendar c=global.getCalendar();
+            if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+                    || c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                continue;
+            }
+            portfolioService.updateAllPortfolio();
+        }
+        return new ResponseEntity<String>(builder.toString(),
+                new HttpHeaders(), HttpStatus.OK);
+    }
+
+    Calendar parseToday(String todayString) throws ParseException {
+        Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(todayString);
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        return cal;
     }
 }

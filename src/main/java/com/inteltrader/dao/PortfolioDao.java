@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -16,29 +17,35 @@ import java.util.List;
  */
 @Transactional(propagation = Propagation.MANDATORY)
 public class PortfolioDao implements IPortfolioDao {
+    @PersistenceContext
+    EntityManager entityManager;
     @Override
-    public void createPortfolio(EntityManager entityManager, Portfolio portfolio) {
+    public void createPortfolio(Portfolio portfolio) {
         entityManager.persist(portfolio);
+
     }
 
     @Override
-    public void updatePortfolio(EntityManager entityManager, Portfolio portfolio) {
+    public void updatePortfolio(Portfolio portfolio) {
         entityManager.merge(portfolio);
     }
 
     @Override
-    public void deletePortfolio(EntityManager entityManager, Portfolio portfolio) {
+    public void deletePortfolio(Portfolio portfolio) {
         entityManager.remove(portfolio);
     }
 
     @Override
-    public Portfolio retrievePortfolio(EntityManager entityManager, String portfolioName) {
+    public Portfolio retrievePortfolio(String portfolioName) throws NoSuchFieldException {
         Portfolio portfolio=entityManager.find(Portfolio.class,portfolioName);
+        if (portfolio==null){
+            throw new NoSuchFieldException(portfolioName + " not found");
+        }
         return portfolio;
     }
 
     @Override
-    public List<String> retrieveAllPortfolios(EntityManager entityManager) {
+    public List<String> retrieveAllPortfolios() {
         String query="select p.portfolioName from Portfolio p";
         List<String> resultList=entityManager.createQuery(query).getResultList();
         return resultList;

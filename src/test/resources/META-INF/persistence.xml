@@ -21,13 +21,13 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
             <property name="hibernate.connection.password"
                       value="root"/>
             <property name="hibernate.connection.url"
-                      value="jdbc:mysql://localhost:3306/TRADER_DB"/>
+                      value="jdbc:mysql://localhost:3306/TRADER_DB_TEST"/>
             <property name="hibernate.dialect"
                       value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.show_sql"
                       value="true"/>
             <property name="hibernate.hbm2ddl.auto"
-                      value="update"/>
+                      value="create-drop"/>
             <property name="hibernate.connection.provider_class"
                       value="org.hibernate.connection.C3P0ConnectionProvider"/>
 

@@ -33,12 +33,12 @@ public class QLearning implements Advisor {
         trainer=new Trainer(0.15,0.9999,40);
     }
 
-    public void initAdvisor(Instrument instrument,States states, String... token) throws IOException {
+    public void initAdvisor(Instrument instrument,States states, String... token){
         initWrapper(instrument,token);
         System.out.println(wrapper.getInstrument().getSymbolName()+ "abcd");
         initStates(states);
     }
-    public void initWrapper(Instrument instrument, String... token) throws IOException {
+    public void initWrapper(Instrument instrument, String... token) {
        wrapper=null;
         wrapper = TAWrapper.WrapMaker(instrument, token);
     }

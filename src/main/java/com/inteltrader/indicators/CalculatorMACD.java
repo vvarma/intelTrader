@@ -29,10 +29,7 @@ public class CalculatorMACD {
     double threshold;
     double result;
 
-    public CalculatorMACD(int noOutEle, double threshold) throws IOException {
-        /*fastPeriod = Integer.parseInt(properties.getProperty("MACD_FastPeriod"));
-        slowPeriod = Integer.parseInt(properties.getProperty("MACD_SlowPeriod"));
-        signalPeriod = Integer.parseInt(properties.getProperty("MACD_SignalPeriod"));*/
+    public CalculatorMACD(int noOutEle, double threshold){
         fastPeriod=Integer.MIN_VALUE;
         slowPeriod=Integer.MIN_VALUE;
         signalPeriod=Integer.MIN_VALUE;

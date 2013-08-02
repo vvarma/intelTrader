@@ -1,5 +1,6 @@
 package com.inteltrader.util;
 
+import javax.naming.OperationNotSupportedException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.Properties;
  * To change this template use File | Settings | File Templates.
  */
 public class Global {
-    private Calendar calendar;
+    private final Calendar calendar;
     private Properties properties;
 
     public Global() throws IOException {
@@ -27,16 +28,20 @@ public class Global {
     }
 
     public Calendar getCalendar() {
-        return (Calendar)calendar;
+        return (Calendar)calendar.clone();
     }
 
-    public void setCalendar(Calendar calendar2) {
-        calendar = calendar2;
+    public void setCalendar(Calendar calendar2) throws OperationNotSupportedException {
+        if(calendar2.before(calendar)||calendar2.after(new GregorianCalendar())){
+            throw new OperationNotSupportedException("Not a valid date.");
+        }
+        calendar.setTime(calendar2.getTime());
     }
-    public void updateCalendar(){
-        calendar=new GregorianCalendar();
-    }
-    public void addCalendar(){
+
+    public void addCalendar() throws OperationNotSupportedException {
+        if (calendar.equals(new GregorianCalendar())){
+            throw new OperationNotSupportedException("Not a valid operation");
+        }
         calendar.add(Calendar.DATE,1);
     }
 

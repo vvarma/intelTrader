@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Repository
 @Entity
-@Table(name = "INVESTMENT",schema = "TRADER_DB")
+@Table(name = "INVESTMENT")
 public class Investment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,7 +33,6 @@ public class Investment implements Serializable {
     @ElementCollection(targetClass = com.inteltrader.entity.Transactions.class)
     @JoinTable(
             name="INVESTMENT_TRANSACTION",
-            schema="TRADER_DB",
             joinColumns=@JoinColumn(name="INVESTMENT_ID")
     )
     private List<Transactions> transactionsList=new ArrayList<Transactions>();

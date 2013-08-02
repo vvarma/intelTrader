@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Repository
 @Entity
-@Table(name="INSTRUMENT",schema = "TRADER_DB")
+@Table(name="INSTRUMENT")
 
 public class Instrument implements Serializable {
     @Id
@@ -26,7 +26,6 @@ public class Instrument implements Serializable {
     @ElementCollection(targetClass=com.inteltrader.entity.Price.class)
     @JoinTable(
             name="INSTRUMENT_PRICE",
-            schema="TRADER_DB",
             joinColumns=@JoinColumn(name="SYMBOL_NAME")
     )
     private List<Price> priceList=new ArrayList<Price>();

@@ -33,38 +33,26 @@ import java.util.Map;
 public class AnalyserServiceRest {
     @Autowired
     private AnalyserService analyserService;
+
     @RequestMapping(value = "/load/{symbol}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> loadInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) throws NoSuchFieldException {
-        try{
-            String[] tokens={"MACD","RSI","BBAND"};
-            InstrumentWrapper taWrapper=analyserService.getWrapper(symbolName, tokens);
-            InstrumentVo instrumentVo=new InstrumentVo(taWrapper);
-            HttpHeaders headers=new HttpHeaders();
-            headers.add("Access-Control-Allow-Origin","*");
-            return new ResponseEntity<String>(new Gson().toJson(instrumentVo),
-                    headers, HttpStatus.OK);
-        } catch (IOException exception){
-            return new ResponseEntity<String>("error io",
-                    new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-
+    ResponseEntity<String> loadInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) throws NoSuchFieldException, IOException {
+        String[] tokens = {"MACD", "RSI", "BBAND"};
+        InstrumentWrapper taWrapper = analyserService.getWrapper(symbolName, tokens);
+        InstrumentVo instrumentVo = new InstrumentVo(taWrapper);
+        return new ResponseEntity<String>(new Gson().toJson(instrumentVo),
+                new HttpHeaders(), HttpStatus.OK);
     }
+
     @RequestMapping(value = "/legalIndicators", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> getLegalIndicators( HttpServletRequest request) throws NoSuchFieldException {
-         String indicatorArr[]={"MACD","BBAND","RSI"};
-        Map<String,String[]> indicatorMap=new HashMap<String, String[]>();
-        indicatorMap.put("indicators",indicatorArr);
-            HttpHeaders headers=new HttpHeaders();
-            headers.add("Access-Control-Allow-Origin","*");
-            return new ResponseEntity<String>(new Gson().toJson(indicatorMap),
-                    headers, HttpStatus.OK);
-
-
-
+    ResponseEntity<String> getLegalIndicators(HttpServletRequest request) throws NoSuchFieldException {
+        String indicatorArr[] = {"MACD", "BBAND", "RSI"};
+        Map<String, String[]> indicatorMap = new HashMap<String, String[]>();
+        indicatorMap.put("indicators", indicatorArr);
+        return new ResponseEntity<String>(new Gson().toJson(indicatorMap),
+                new HttpHeaders(), HttpStatus.OK);
     }
 }

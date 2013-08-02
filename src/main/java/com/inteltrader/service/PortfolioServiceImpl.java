@@ -27,8 +27,7 @@ import java.util.List;
  */
 @Transactional(propagation = Propagation.REQUIRED)
 public class PortfolioServiceImpl implements PortfolioService {
-    @PersistenceContext
-    EntityManager entityManager;
+
     @Autowired
     private IPortfolioDao portfolioDao;
     @Autowired
@@ -39,100 +38,87 @@ public class PortfolioServiceImpl implements PortfolioService {
     private InstrumentService instrumentService;
     @Autowired
     private Global global;
-    private Logger logger=Logger.getLogger(this.getClass());
+    private Logger logger = Logger.getLogger(this.getClass());
 
     @Override
-    public RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException {   logger.debug("Updating Portfolio..");
-        Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
-        String[] token=portfolio.getDesc().split("-");
+    public RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException {
+        logger.debug("Updating Portfolio..");
+        Portfolio portfolio = portfolioDao.retrievePortfolio(portfolioName);
+        String[] token = portfolio.getDesc().split("-");
         for (Investment investment : portfolio.getInvestmentList()) {
-            Holdings.HoldingState hState = investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
-            logger.debug("Updating Investment :"+investment.getSymbolName()+investment.getCurrentPrice().getClosePrice());
-            investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName(),token), investment);
-
+            if (instrumentService.updateInstruments(investment.getSymbolName()) == RestCodes.SUCCESS||instrumentService.retrieveInstrument(investment.getSymbolName()).getCurrentPrice().getTimeStamp().after(portfolio.getLastUpdatedOn())) {
+                Holdings.HoldingState hState = investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
+                logger.debug("Updating Investment :" + investment.getSymbolName() + investment.getCurrentPrice().getClosePrice());
+                investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName(), token), investment);
+            }
         }
         logger.debug("Updating portfolio dao..");
         portfolio.setLastUpdatedOn(global.getCalendar());
-        portfolioDao.updatePortfolio(entityManager, portfolio);
+        portfolioDao.updatePortfolio(portfolio);
         return RestCodes.SUCCESS;
-
     }
 
     @Override
     public RestCodes createPortfolio(String portfolioName, String desc) {
-        try {
-            Portfolio portfolio = new Portfolio(portfolioName, desc,global.getCalendar());
-            portfolioDao.createPortfolio(entityManager, portfolio);
-            return RestCodes.SUCCESS;
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            return RestCodes.FAILURE;
-        }
+        Portfolio portfolio = new Portfolio(portfolioName, desc, global.getCalendar());
+        portfolioDao.createPortfolio(portfolio);
+        return RestCodes.SUCCESS;
     }
-
-
 
     @Override
     public RestCodes addToPortfolio(String portfolioName, String symbolName) throws NoSuchFieldException {
-
-        try {
-            Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
-            String[] token=portfolio.getDesc().split("-");
-            Investment investment = new Investment(symbolName);
-            investment.setCurrentPrice(getCurrentInstrumentPrice(symbolName));
-            investmentService.makeInvestment(analyserService.getAnalysis(symbolName, token), investment);
-
-            if (!portfolio.getInvestmentList().contains(investment))
-                portfolio.getInvestmentList().add(investment);
-            investment.setAssociatedPortfolio(portfolio);
-            portfolio.setLastUpdatedOn(global.getCalendar());
-            return RestCodes.SUCCESS;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return RestCodes.FAILURE;
-        }
+        Portfolio portfolio = portfolioDao.retrievePortfolio(portfolioName);
+        String[] token = portfolio.getDesc().split("-");
+        Investment investment = new Investment(symbolName);
+        investment.setCurrentPrice(getCurrentInstrumentPrice(symbolName));
+        investmentService.makeInvestment(analyserService.getAnalysis(symbolName, token), investment);
+        if (!portfolio.getInvestmentList().contains(investment))
+            portfolio.getInvestmentList().add(investment);
+        investment.setAssociatedPortfolio(portfolio);
+        portfolio.setLastUpdatedOn(global.getCalendar());
+        return RestCodes.SUCCESS;
     }
 
     @Override
-    public Portfolio retrievePortfolio(String portfolioName) {
-        Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
-
+    public Portfolio retrievePortfolio(String portfolioName) throws NoSuchFieldException {
+        Portfolio portfolio = portfolioDao.retrievePortfolio(portfolioName);
         return portfolio;
     }
 
     @Override
-    public Double calculatePnL(String portfolioName) {
-       Portfolio portfolio = portfolioDao.retrievePortfolio(entityManager, portfolioName);
-        double pnl=0.0;
+    public Double calculatePnL(String portfolioName) throws NoSuchFieldException {
+        Portfolio portfolio = portfolioDao.retrievePortfolio(portfolioName);
+        double pnl = 0.0;
         for (Investment investment : portfolio.getInvestmentList()) {
-            pnl+=investment.calcPnl();
+            pnl += investment.calcPnl();
         }
         return pnl;
     }
 
     @Override
     public List<String> listAllPortfolios() {
-        try{
-            return portfolioDao.retrieveAllPortfolios(entityManager);
-        }    finally {
-        }
-
-
+        return portfolioDao.retrieveAllPortfolios();
     }
 
     @Override
-    public Calendar lastUpdatedOn(String portfolioName) {
-        Portfolio portfolio=retrievePortfolio(portfolioName);
+    public Calendar lastUpdatedOn(String portfolioName) throws NoSuchFieldException {
+        Portfolio portfolio = retrievePortfolio(portfolioName);
         return portfolio.getLastUpdatedOn();
     }
 
-    private Price getCurrentInstrumentPrice(String symbolName) throws NoSuchFieldException {
-        Price price=instrumentService.retrieveInstrument(symbolName).getCurrentPrice();
-        logger.fatal("Current Price is :" +price.getClosePrice());
-        return price;
-
+    @Override
+    public RestCodes updateAllPortfolio() throws IOException, NoSuchFieldException {
+        for (String portfolioName : listAllPortfolios()) {
+            updatePortfolio(portfolioName);
+        }
+        return RestCodes.SUCCESS;
     }
 
+    private Price getCurrentInstrumentPrice(String symbolName) throws NoSuchFieldException {
+        Price price = instrumentService.retrieveInstrument(symbolName).getCurrentPrice();
+        logger.fatal("Current Price is :" + price.getClosePrice());
+        return price;
+    }
 
 
     public IPortfolioDao getPortfolioDao() {

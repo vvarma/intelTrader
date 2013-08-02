@@ -13,10 +13,9 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface IPortfolioDao {
-    void createPortfolio(EntityManager entityManager,Portfolio portfolio);
-    void updatePortfolio(EntityManager entityManager,Portfolio portfolio);
-    void deletePortfolio(EntityManager entityManager,Portfolio portfolio);
-    Portfolio retrievePortfolio(EntityManager entityManager,String portfolioName);
-
-    List<String> retrieveAllPortfolios(EntityManager entityManager);
+    void createPortfolio(Portfolio portfolio);
+    void updatePortfolio(Portfolio portfolio);
+    void deletePortfolio(Portfolio portfolio);
+    Portfolio retrievePortfolio(String portfolioName) throws NoSuchFieldException;
+    List<String> retrieveAllPortfolios();
 }

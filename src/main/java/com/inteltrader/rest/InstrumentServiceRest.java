@@ -38,79 +38,34 @@ public class InstrumentServiceRest {
     @Autowired
     private InstrumentService instrumentService;
 
-
-
-    @RequestMapping(value = "/create/{symbol}", method = RequestMethod.GET)
+   @RequestMapping(value = "/create/{symbol}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> createInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) {
-
-        Calendar strtDate=(GregorianCalendar) global.getCalendar().clone();
-        strtDate.add(Calendar.YEAR,-4);
+    ResponseEntity<String> createInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) throws NoSuchFieldException {
+        Calendar strtDate = (GregorianCalendar) global.getCalendar().clone();
+        strtDate.add(Calendar.YEAR, -4);
         RestCodes responseCode = null;
-        try {
-            responseCode = instrumentService.createInstrument(symbolName,strtDate);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-
+        responseCode = instrumentService.createInstrument(symbolName, strtDate);
         return new ResponseEntity<String>(responseCode.toString(),
                 new HttpHeaders(), HttpStatus.OK);
-
     }
+
     @RequestMapping(value = "/load/{symbol}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> loadInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request){
+    ResponseEntity<String> loadInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) throws NoSuchFieldException {
         Instrument instrument = null;
-        try {
-            instrument = instrumentService.retrieveInstrument(symbolName);
-
-        InstrumentVo instrumentVo=new InstrumentVo(instrument);
-        HttpHeaders headers=new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin","*");
+        instrument = instrumentService.retrieveInstrument(symbolName);
+        InstrumentVo instrumentVo = new InstrumentVo(instrument);
         return new ResponseEntity<String>(new Gson().toJson(instrumentVo),
-                headers, HttpStatus.OK);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            HttpHeaders headers=new HttpHeaders();
-            headers.add("Access-Control-Allow-Origin","*");
-            return new ResponseEntity<String>("BAD SYMBOL",
-                    headers, HttpStatus.BAD_REQUEST);
-        }
+                new HttpHeaders(), HttpStatus.OK);
     }
 
-
-
-    //not required..  handled
-    @RequestMapping(value = "/loadWhich/{whichPrice}/{symbol}", method = RequestMethod.GET)
+    @RequestMapping(value = "/update/{symbolName}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> loadInstrumentWhichPrice(@PathVariable("symbol") String symbolName,@PathVariable("whichPrice") String whichPrice, HttpServletRequest request){
-        Instrument instrument = null;
-        try {
-            instrument = instrumentService.retrieveInstrument(symbolName);
-
-        InstrumentVoSelective.WhichPrice whichPriceEnum= InstrumentVoSelective.WhichPrice.valueOf(whichPrice.toUpperCase());
-        InstrumentVoSelective instrumentVoSelective = InstrumentVoSelective.buildInstrumentVo(instrument, whichPriceEnum);
-        HttpHeaders headers=new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin","*");
-        return new ResponseEntity<String>(new Gson().toJson(instrumentVoSelective),
-                headers, HttpStatus.OK);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            HttpHeaders headers=new HttpHeaders();
-            headers.add("Access-Control-Allow-Origin","*");
-            return new ResponseEntity<String>("BAD SYMBOL",
-                    headers, HttpStatus.BAD_REQUEST);
-        }
-    }
-    @RequestMapping(value = "/update/{portfolioName}", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    ResponseEntity<String> updateInstruments(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request){
-        RestCodes responseCode = instrumentService.updateInstruments(portfolioName);
-
+    ResponseEntity<String> updateInstruments(@PathVariable("symbolName") String symbolName, HttpServletRequest request) throws NoSuchFieldException {
+        RestCodes responseCode = instrumentService.updateInstruments(symbolName);
         return new ResponseEntity<String>(responseCode.toString(),
                 new HttpHeaders(), HttpStatus.OK);
     }

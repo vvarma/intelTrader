@@ -18,8 +18,10 @@ public interface PortfolioService {
     RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException;
     RestCodes createPortfolio(String portfolioName,String desc);
     RestCodes addToPortfolio(String portfolioName, String symbolName) throws NoSuchFieldException;
-    Portfolio retrievePortfolio(String portfolioName);
-    Double calculatePnL(String portfolioName);
+    Portfolio retrievePortfolio(String portfolioName) throws NoSuchFieldException;
+    Double calculatePnL(String portfolioName) throws NoSuchFieldException;
     List<String> listAllPortfolios();
-    Calendar lastUpdatedOn(String portfolioName);
+    Calendar lastUpdatedOn(String portfolioName) throws NoSuchFieldException;
+
+    RestCodes updateAllPortfolio() throws IOException, NoSuchFieldException;
 }

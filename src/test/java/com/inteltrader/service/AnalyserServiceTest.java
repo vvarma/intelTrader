@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.naming.OperationNotSupportedException;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -21,7 +22,7 @@ import java.util.GregorianCalendar;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
+@ContextConfiguration(locations = {"file:src/test/resources/test-Context.xml"})
 public class AnalyserServiceTest {
 
     @Autowired
@@ -36,8 +37,6 @@ public class AnalyserServiceTest {
             System.out.println(advice);
         } catch (NoSuchFieldException e) {
             Assert.assertTrue(e.getMessage(),false);
-        } catch (IOException e) {
-            Assert.assertTrue(e.getMessage(), false);
         }
 
     }
@@ -55,8 +54,8 @@ public class AnalyserServiceTest {
             System.out.println(advice);
         } catch (NoSuchFieldException e) {
             Assert.assertTrue(e.getMessage(),false);
-        } catch (IOException e) {
-            Assert.assertTrue(e.getMessage(), false);
+        } catch (OperationNotSupportedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
     }

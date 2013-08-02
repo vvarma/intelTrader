@@ -21,7 +21,7 @@
                 <configuration>
                     <path>/</path>
                     <port>8080</port>
-                    <warFile>${project.basedir}/wesplit.war</warFile>
+                    <warFile>${project.basedir}/intelTrader.war</warFile>
                 </configuration>
 
             </plugin>

@@ -33,7 +33,7 @@ public class AnalyserServiceImpl implements AnalyserService {
     private Logger logger=Logger.getLogger(this.getClass());
 
     @Override
-    public Advice getAnalysis(String symbolName,String... token) throws NoSuchFieldException, IOException {
+    public Advice getAnalysis(String symbolName,String... token) throws NoSuchFieldException {
         States states=statesDao.retrieveStates(symbolName);
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
         advisor.initAdvisor(instrument,states,token);

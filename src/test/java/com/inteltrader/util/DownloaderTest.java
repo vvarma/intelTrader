@@ -19,7 +19,7 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
+@ContextConfiguration(locations = {"file:src/test/resources/test-Context.xml"})
 public class DownloaderTest implements IConstants{
     @Autowired
     Global global;

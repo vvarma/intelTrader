@@ -21,7 +21,7 @@ public class RSIWrapper extends TAWrapper {
     private List<Double> rsiList;
     CalculatorRSI calculator;
 
-    public RSIWrapper(InstrumentWrapper instrumentWrapper, String desc) throws IOException {
+    public RSIWrapper(InstrumentWrapper instrumentWrapper, String desc) {
         super(instrumentWrapper);
         this.desc=desc;
         rsiList = new ArrayList<Double>();
