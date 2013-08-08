@@ -11,12 +11,13 @@ import java.util.Calendar;
  * To change this template use File | Settings | File Templates.
  */
 @Embeddable
-public class Price {
+public class Price implements Cloneable{
 
     private long priceId;
     private Calendar timeStamp;
     private Double closePrice,openPrice,lowPrice,highPrice,lastClosePrice;
     private long totalTradedQuantity;
+
 
 
     public Price(Calendar timeStamp, Double closePrice, Double openPrice, Double lowPrice, Double highPrice, Double lastClosePrice, long totalTradedQuantity) {
@@ -96,6 +97,10 @@ public class Price {
     public Price() {
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();    //To change body of overridden methods use File | Settings | File Templates.
+    }
 
     @Override
     public String toString() {

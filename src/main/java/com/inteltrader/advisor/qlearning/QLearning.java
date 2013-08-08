@@ -7,10 +7,13 @@ import com.inteltrader.advisor.tawrapper.TAWrapper;
 import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Price;
 import com.inteltrader.entity.States;
+import com.inteltrader.util.Global;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -21,139 +24,152 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 public class QLearning implements Advisor {
-     private States states;
+    @Autowired
+    Global global;
+    private States states;
     private InstrumentWrapper wrapper;
     private Trainer trainer;
 
-    public QLearning(double alpha,double gamma,int max_elements) {
-        trainer=new Trainer(alpha,gamma,max_elements);
+    public QLearning(double alpha, double gamma, int max_elements, double brokRate) {
+        trainer = new Trainer(alpha, gamma, max_elements, brokRate);
     }
 
     public QLearning() {
-        trainer=new Trainer(0.15,0.9999,40);
+
     }
 
-    public void initAdvisor(Instrument instrument,States states, String... token){
-        initWrapper(instrument,token);
-        System.out.println(wrapper.getInstrument().getSymbolName()+ "abcd");
-        initStates(states);
+    public void init() {
+        System.out.println("in the initMethod");
+        Properties properties = global.getProperties();
+        double ALPHA = Double.parseDouble(properties.getProperty("LEARNING_RATE"));
+        double GAMMA = Double.parseDouble(properties.getProperty("DECAY_RATE"));
+        double brok = Double.parseDouble(properties.getProperty("BROKERAGE"));
+        trainer = new Trainer(ALPHA, GAMMA, 40, brok);
     }
+
+    public void initAdvisor(Instrument instrument, States states, String token) {
+        initWrapper(instrument, token.split("-"));
+        initStates(states,token);
+    }
+
     public void initWrapper(Instrument instrument, String... token) {
-       wrapper=null;
+        wrapper = null;
         wrapper = TAWrapper.WrapMaker(instrument, token);
     }
 
-    private void initStates(States states) {
+    private void initStates(States states,String token) {
         if (states == null) {
             System.out.println("states null");
-           states=new States();
+            states = new States();
             states.setStateSet(trainer.initTrain());
-            states.setSymbolNamme(wrapper.getInstrument().getSymbolName());
+            states.setSymbolNamme(wrapper.getInstrument().getSymbolName()+"-"+token);
         }
-        int index=wrapper.getInstrument().getPriceList().size()-1;
-        State prState=  wrapper.getStateBuilder(index).build();
-        for (State s:states.getStateSet()){
-            if(prState.equals(s)){
-                prState=s;
+        int index = wrapper.getInstrument().getPriceList().size() - 1;
+        State prState = wrapper.getStateBuilder(index).build();
+        for (State s : states.getStateSet()) {
+            if (prState.equals(s)) {
+                prState = s;
                 break;
             }
         }
         states.setPresentState(prState);
         states.setPresentAdvice(states.getPresentState().getGreedyAdvice());
-        this.states=states;
+        this.states = states;
     }
     //gamma values and alpha values should be updated during iterations
     //number of iterations to stabilise? some parameter of error
 
     public class Trainer {
-        private double ALPHA, GAMMA,ALPHA_VAL;
+        private double ALPHA, GAMMA, ALPHA_VAL, brokRate;
         private int MAX_ELE_START;
 
-        public Trainer(double ALPHA, double GAMMA, int MAX_ELE_START) {
+        public Trainer(double ALPHA, double GAMMA, int MAX_ELE_START, double brokerage) {
             this.ALPHA = ALPHA;
-            this.ALPHA_VAL=ALPHA;
+            this.ALPHA_VAL = ALPHA;
             this.GAMMA = GAMMA;
             this.MAX_ELE_START = MAX_ELE_START;
+            this.brokRate = brokerage;
         }
 
         public Trainer() {
-            ALPHA=0.5;
-            ALPHA_VAL=ALPHA;
-            GAMMA=0.5;
-            MAX_ELE_START=40;
+            ALPHA = 0.5;
+            ALPHA_VAL = ALPHA;
+            GAMMA = 0.5;
+            MAX_ELE_START = 40;
         }
 
         //changeTo use methods in wrapper super only. no local instance
-        public Set<State> initTrain(){
+        public Set<State> initTrain() {
             System.out.println("TRaining");
             Holdings holdings;
-            State presentState=null;
-            Advice presentAdvice=null;
-            Set<State> stateSet=new HashSet<State>();
-            int index=wrapper.getInstrument().getPriceList().size()-1;
-            int iter=0;
-            double pnl=0;
-            boolean bool=false;
-            do{
-                ALPHA=ALPHA_VAL/(1+iter);
-                holdings=new Holdings();
-                holdings.setCurrentPrice(wrapper.getInstrument().getPriceList().get(MAX_ELE_START-1).getClosePrice());
+            State presentState = null;
+            Advice presentAdvice = null;
+            Set<State> stateSet = new HashSet<State>();
+            int index = wrapper.getInstrument().getPriceList().size() - 1;
+            int iter = 0;
+            double pnl = 0;
+            boolean bool = false;
+            do {
+                ALPHA = ALPHA_VAL / (1 + iter);
+                holdings = new Holdings();
+                holdings.setCurrentPrice(wrapper.getInstrument().getPriceList().get(MAX_ELE_START - 1).getClosePrice());
                 iter++;
-                for (int i=MAX_ELE_START;i<=index;i++){
-                    State state=wrapper.getStateBuilder(i).build();
-                    Iterator<State> stateIterator=stateSet.iterator();
-                    boolean doesntContain=true;
-                    while (stateIterator.hasNext()){
-                        State s=stateIterator.next();
-                        if (s.equals(state)){
-                            state=s;
-                            doesntContain=false;
+                for (int i = MAX_ELE_START; i <= index; i++) {
+                    State state = wrapper.getStateBuilder(i).build();
+                    Iterator<State> stateIterator = stateSet.iterator();
+                    boolean doesntContain = true;
+                    while (stateIterator.hasNext()) {
+                        State s = stateIterator.next();
+                        if (s.equals(state)) {
+                            state = s;
+                            doesntContain = false;
                             break;
                         }
                     }
-                    if (doesntContain){
+                    if (doesntContain) {
                         stateSet.add(state);
                     }
-                    if (presentState!=null){
-                        updateReward(presentState,Advice.BUY,state,i);
-                        updateReward(presentState,Advice.SELL,state,i);
-                        updateReward(presentState,Advice.HOLD,state,i);
+                    if (presentState != null) {
+                        updateReward(presentState, Advice.BUY, state, i);
+                        updateReward(presentState, Advice.SELL, state, i);
+                        updateReward(presentState, Advice.HOLD, state, i);
                     }
-                    presentState=state;
+                    presentState = state;
                     //changeTo
-                    presentAdvice=presentState.getGreedyAdvice();
+                    presentAdvice = presentState.getGreedyAdvice();
                     holdings.setCurrentPrice(wrapper.getInstrument().getPriceList().get(i).getClosePrice());
                     holdings.updateHoldings(presentAdvice);
                 }
-                bool=holdings.calcPnl()==pnl;
-                pnl=holdings.calcPnl();
-                System.out.println("iter :" + iter + " pnl :"+pnl +"Learning rate :"+ALPHA);
-            }while ((iter<=100)&&(!bool));
-           //System.out.println("Holdings :" + holdings);
+                bool = holdings.calcPnl() == pnl;
+                pnl = holdings.calcPnl();
+                System.out.println("iter :" + iter + " pnl :" + pnl + "Learning rate :" + ALPHA);
+            } while ((iter <= 100) && (!bool));
+            //System.out.println("Holdings :" + holdings);
             System.out.println("training done");
             return stateSet;
 
         }
 
         private void updateReward(State state, Advice advice, State nextState, int index) {
-            double reward=0;
-            double sample=0;
-            sample=calcRewards(index,advice)+GAMMA*nextState.getRewardForAdvice(nextState.getGreedyAdvice());
-            reward=state.getRewardForAdvice(advice) + ALPHA*(sample-state.getRewardForAdvice(advice));
-            state.updateReward(advice,reward);
+            double reward = 0;
+            double sample = 0;
+            sample = calcRewards(index, advice) + GAMMA * nextState.getRewardForAdvice(nextState.getGreedyAdvice());
+            reward = state.getRewardForAdvice(advice) + ALPHA * (sample - state.getRewardForAdvice(advice));
+            state.updateReward(advice, reward);
         }
 
         private double calcRewards(int index, Advice advice) {
-            double ret=wrapper.getInstrument().getPriceList().get(index).getClosePrice()-wrapper.getInstrument().getPriceList().get(index-1).getClosePrice();
-            switch (advice){
+            double ret = wrapper.getInstrument().getPriceList().get(index).getClosePrice() - wrapper.getInstrument().getPriceList().get(index - 1).getClosePrice();
+            double brokerage = ret < 0 ? -ret * brokRate : ret * brokRate;
+            switch (advice) {
                 case BUY:
-                    return ret;
+                    return ret - brokerage;
                 case SELL:
-                    return -ret;
+                    return -ret - brokerage;
                 case HOLD:
                     return 0;
             }
-            return 0;  //To change body of created methods use File | Settings | File Templates.
+            return 0;
         }
 
 
@@ -175,9 +191,8 @@ public class QLearning implements Advisor {
         states.setPresentState(wrapper.updateWrapperAndGetStateBuilder(price).build());
         states.setPresentAdvice(states.getPresentState().getGreedyAdvice());
         //update?
-       return states.getPresentAdvice();
+        return states.getPresentAdvice();
     }
-
 
 
     @Override
