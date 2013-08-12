@@ -67,7 +67,7 @@ public class TestServiceRest {
     @RequestMapping(value = "/portfolio/addToPortfolio/{portfolioName}/{symbolName}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> addToPortfolioTest(@PathVariable("portfolioName") String portfolioName, @PathVariable("symbolName") String symbolName, HttpServletRequest request) throws NoSuchFieldException {
+    ResponseEntity<String> addToPortfolioTest(@PathVariable("portfolioName") String portfolioName, @PathVariable("symbolName") String symbolName, HttpServletRequest request) throws NoSuchFieldException, CloneNotSupportedException {
         portfolioService.addToPortfolio(portfolioName, symbolName);
         return new ResponseEntity<String>("yo",
                 new HttpHeaders(), HttpStatus.OK);
@@ -77,7 +77,7 @@ public class TestServiceRest {
     @RequestMapping(value = "/portfolio/updatePortfolio/{portfolioName}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> updatePortfolioTest(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request) throws NoSuchFieldException, OperationNotSupportedException, IOException {
+    ResponseEntity<String> updatePortfolioTest(@PathVariable("portfolioName") String portfolioName, HttpServletRequest request) throws NoSuchFieldException, OperationNotSupportedException, IOException, CloneNotSupportedException {
         StringBuilder builder = new StringBuilder();
         Calendar today = new GregorianCalendar();
         Calendar fake = global.getCalendar();

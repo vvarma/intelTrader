@@ -1,6 +1,10 @@
 package com.inteltrader.entity;
 
+<<<<<<< HEAD
 import com.inteltrader.advisor.qlearning.Holdings;
+=======
+
+>>>>>>> a52d2c21c50f2d5fe0ce3e8d7299acd27b9df49e
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
