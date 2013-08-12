@@ -2,6 +2,7 @@ package com.inteltrader.entity;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,13 +17,24 @@ public class Transactions implements Serializable {
     private Long transactionId;
     private Integer quantity;
     private Price transactionPrice;
+    private Date transactionDate;
+
+    public Transactions(Integer quantity, Price transactionPrice, Date transactionDate) {
+        this.quantity = quantity;
+        this.transactionPrice = transactionPrice;
+        this.transactionDate = transactionDate;
+    }
+
 
     public Transactions() {
     }
 
-    public Transactions(Integer quantity, Price transactionPrice) {
-        this.quantity = quantity;
-        this.transactionPrice = transactionPrice;
+    public Date getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
     public Long getTransactionId() {
@@ -55,6 +67,7 @@ public class Transactions implements Serializable {
                 "transactionId=" + transactionId +
                 ", quantity=" + quantity +
                 ", transactionPrice=" + transactionPrice +
+                ", transactionDate=" + transactionDate +
                 '}';
     }
 }

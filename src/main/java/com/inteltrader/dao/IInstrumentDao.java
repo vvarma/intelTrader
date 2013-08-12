@@ -12,8 +12,9 @@ import javax.persistence.EntityManager;
  * To change this template use File | Settings | File Templates.
  */
 public interface IInstrumentDao {
-    void createInstrument(EntityManager entityManager,Instrument instrument);
-    Instrument retrieveInstrument(EntityManager entityManager,String symbolName);
-    void updateInstrument(EntityManager entityManager,Instrument instrument);
-    void deleteInstrument(EntityManager entityManager,Instrument instrument);
+    void createInstrument(Instrument instrument);
+    Instrument retrieveInstrument(String symbolName) throws NoSuchFieldException;
+    void updateInstrument(Instrument instrument);
+    void deleteInstrument(Instrument instrument);
+
 }

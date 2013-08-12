@@ -12,4 +12,5 @@ import com.inteltrader.entity.Investment;
  */
 public interface InvestmentService {
     void makeInvestment(Advice advice,Investment investment);
+    double calcPnl();
 }

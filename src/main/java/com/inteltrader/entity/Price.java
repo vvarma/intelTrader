@@ -11,12 +11,13 @@ import java.util.Calendar;
  * To change this template use File | Settings | File Templates.
  */
 @Embeddable
-public class Price {
+public class Price implements Cloneable{
 
     private long priceId;
     private Calendar timeStamp;
     private Double closePrice,openPrice,lowPrice,highPrice,lastClosePrice;
     private long totalTradedQuantity;
+
 
 
     public Price(Calendar timeStamp, Double closePrice, Double openPrice, Double lowPrice, Double highPrice, Double lastClosePrice, long totalTradedQuantity) {
@@ -96,12 +97,16 @@ public class Price {
     public Price() {
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();    //To change body of overridden methods use File | Settings | File Templates.
+    }
 
     @Override
     public String toString() {
         return "Price{" +
                 "priceId=" + priceId +
-                ", timeStamp=" + timeStamp +
+                ", timeStamp=" + timeStamp.getTime() +
                 ", closePrice=" + closePrice +
                 ", openPrice=" + openPrice +
                 ", lowPrice=" + lowPrice +
@@ -109,5 +114,25 @@ public class Price {
                 ", lastClosePrice=" + lastClosePrice +
                 ", totalTradedQuantity=" + totalTradedQuantity +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Price)) return false;
+
+        Price price = (Price) o;
+
+        if (priceId != price.priceId) return false;
+        if (!timeStamp.equals(price.timeStamp)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (priceId ^ (priceId >>> 32));
+        result = 31 * result + timeStamp.hashCode();
+        return result;
     }
 }

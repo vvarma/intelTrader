@@ -3,6 +3,7 @@ package com.inteltrader.dao;
 import com.inteltrader.entity.Portfolio;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,8 +13,9 @@ import javax.persistence.EntityManager;
  * To change this template use File | Settings | File Templates.
  */
 public interface IPortfolioDao {
-    void createPortfolio(EntityManager entityManager,Portfolio portfolio);
-    void updatePortfolio(EntityManager entityManager,Portfolio portfolio);
-    void deletePortfolio(EntityManager entityManager,Portfolio portfolio);
-    Portfolio retrievePortfolio(EntityManager entityManager,String portfolioName);
+    void createPortfolio(Portfolio portfolio);
+    void updatePortfolio(Portfolio portfolio);
+    void deletePortfolio(Portfolio portfolio);
+    Portfolio retrievePortfolio(String portfolioName) throws NoSuchFieldException;
+    List<String> retrieveAllPortfolios();
 }

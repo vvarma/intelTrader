@@ -1,17 +1,21 @@
 package com.inteltrader.service;
 
-import com.inteltrader.advisor.Advice;
+import com.inteltrader.advisor.qlearning.Holdings;
 import com.inteltrader.dao.IPortfolioDao;
-import com.inteltrader.entity.Instrument;
 import com.inteltrader.entity.Investment;
 import com.inteltrader.entity.Portfolio;
 import com.inteltrader.entity.Price;
+import com.inteltrader.util.Global;
 import com.inteltrader.util.RestCodes;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
+import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -21,9 +25,8 @@ import java.util.List;
  * Time: 3:20 PM
  * To change this template use File | Settings | File Templates.
  */
+@Transactional(propagation = Propagation.REQUIRED)
 public class PortfolioServiceImpl implements PortfolioService {
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
 
     @Autowired
     private IPortfolioDao portfolioDao;
@@ -33,86 +36,89 @@ public class PortfolioServiceImpl implements PortfolioService {
     private InvestmentService investmentService;
     @Autowired
     private InstrumentService instrumentService;
+    @Autowired
+    private Global global;
+    private Logger logger = Logger.getLogger(this.getClass());
 
     @Override
-    public RestCodes updatePortfolio(String portfolioName) {
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
-        Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
-        for (Investment investment:portfolio.getInvestmentList()){
-            investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
-            investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName()),investment);
-
+    public RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException, CloneNotSupportedException {
+        logger.debug("Updating Portfolio..");
+        Portfolio portfolio = portfolioDao.retrievePortfolio(portfolioName);
+        for (Investment investment : portfolio.getInvestmentList()) {
+            /*||instrumentService.retrieveInstrument(investment.getSymbolName()).getCurrentPrice().getTimeStamp().after(portfolio.getLastUpdatedOn())*/
+            if (instrumentService.updateInstruments(investment.getSymbolName()) == RestCodes.SUCCESS) {
+                investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
+                logger.debug("Updating Investment :" + investment.getSymbolName() + investment.getCurrentPrice().getClosePrice());
+                investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName(), portfolio.getDesc()), investment);
+            }
         }
-        entityManager.getTransaction().begin();
-        portfolioDao.updatePortfolio(entityManager, portfolio);
-        entityManager.getTransaction().commit();
+        logger.debug("Updating portfolio dao..");
+        portfolio.setLastUpdatedOn(global.getCalendar());
+        portfolioDao.updatePortfolio(portfolio);
         return RestCodes.SUCCESS;
-
     }
 
     @Override
-    public RestCodes createPortfolio(String portfolioName) {
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        try{
-            Portfolio portfolio=new Portfolio(portfolioName);
-            portfolioDao.createPortfolio(entityManager,portfolio);
-            return RestCodes.SUCCESS;
-        }catch (RuntimeException e){
-             e.printStackTrace();
-            return RestCodes.FAILURE;
-        }finally {
-            entityManager.getTransaction().commit();
-        }
-
+    public RestCodes createPortfolio(String portfolioName, String desc) {
+        Portfolio portfolio = new Portfolio(portfolioName, desc, global.getCalendar());
+        portfolioDao.createPortfolio(portfolio);
+        return RestCodes.SUCCESS;
     }
 
     @Override
-    public RestCodes addToPortfolio(String portfolioName,String symbolName) {
-        try{
-            Instrument instrument=instrumentService.retrieveInstrument(symbolName);
-            EntityManager entityManager=entityManagerFactory.createEntityManager();
-            Investment investment=new Investment(symbolName);
-            investment.setCurrentPrice(instrument.getCurrentPrice());
-            entityManager.getTransaction().begin();
-            Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
-            System.out.println(portfolio);
+    public RestCodes addToPortfolio(String portfolioName, String symbolName) throws NoSuchFieldException, CloneNotSupportedException {
+        Portfolio portfolio = portfolioDao.retrievePortfolio(portfolioName);
+        Investment investment = new Investment(symbolName);
+        investment.setCurrentPrice(getCurrentInstrumentPrice(symbolName));
+        investmentService.makeInvestment(analyserService.getAnalysis(symbolName, portfolio.getDesc()), investment);
+        if (!portfolio.getInvestmentList().contains(investment))
             portfolio.getInvestmentList().add(investment);
-            investment.setAssociatedPortfolio(portfolio);
-            System.out.println(portfolio);
-            //portfolioDao.updatePortfolio(entityManager,portfolio);
-            entityManager.getTransaction().commit();
-            return RestCodes.SUCCESS;
-        }catch (RuntimeException e){
-            e.printStackTrace();
-            return RestCodes.FAILURE;
-        }
-     }
+        investment.setAssociatedPortfolio(portfolio);
+        portfolio.setLastUpdatedOn(global.getCalendar());
+        return RestCodes.SUCCESS;
+    }
 
     @Override
-    public Portfolio retrievePortfolio(String portfolioName) {
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
-        Portfolio portfolio=portfolioDao.retrievePortfolio(entityManager,portfolioName);
-        //System.out.println(portfolio);
+    public Portfolio retrievePortfolio(String portfolioName) throws NoSuchFieldException {
+        Portfolio portfolio = portfolioDao.retrievePortfolio(portfolioName);
         return portfolio;
     }
 
     @Override
-    public Double calculatePnL(String portfolioName) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Double calculatePnL(String portfolioName) throws NoSuchFieldException {
+        Portfolio portfolio = portfolioDao.retrievePortfolio(portfolioName);
+        double pnl = 0.0;
+        for (Investment investment : portfolio.getInvestmentList()) {
+            pnl += investment.calcPnl();
+        }
+        return pnl;
     }
 
-    private Price getCurrentInstrumentPrice(String symbolName){
-        return instrumentService.retrieveInstrument(symbolName).getCurrentPrice();
-
-    }
-    public EntityManagerFactory getEntityManagerFactory() {
-        return entityManagerFactory;
+    @Override
+    public List<String> listAllPortfolios() {
+        return portfolioDao.retrieveAllPortfolios();
     }
 
-    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
+    @Override
+    public Calendar lastUpdatedOn(String portfolioName) throws NoSuchFieldException {
+        Portfolio portfolio = retrievePortfolio(portfolioName);
+        return portfolio.getLastUpdatedOn();
     }
+
+    @Override
+    public RestCodes updateAllPortfolio() throws IOException, NoSuchFieldException, CloneNotSupportedException {
+        for (String portfolioName : listAllPortfolios()) {
+            updatePortfolio(portfolioName);
+        }
+        return RestCodes.SUCCESS;
+    }
+
+    private Price getCurrentInstrumentPrice(String symbolName) throws NoSuchFieldException, CloneNotSupportedException {
+        Price price = instrumentService.retrieveInstrument(symbolName).getCurrentPrice();
+        logger.fatal("Current Price is :" + price.getClosePrice());
+        return (Price) price.clone();
+    }
+
 
     public IPortfolioDao getPortfolioDao() {
         return portfolioDao;

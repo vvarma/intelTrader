@@ -1,8 +1,11 @@
 package com.inteltrader.util;
 
+import org.apache.log4j.Logger;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -14,32 +17,32 @@ import java.util.zip.ZipInputStream;
  * Time: 5:59 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ExtractZipFile {
-    private Properties properties=new Properties();
-    public ExtractZipFile() throws IOException{
-        properties.load(new FileInputStream("intel.properties"));
-
+public class ExtractZipFile  {
+    Logger logger=Logger.getLogger(getClass());
+    Properties properties;
+    public ExtractZipFile(Properties properties) {
+        this.properties=properties;
     }
 
     public String extractTemp() throws IOException {
+
         String fName = properties.getProperty("TEMP_PATH");
-        String entryName="";
+        String entryName = "";
         byte[] buf = new byte[1024];
         ZipInputStream zinstream = new ZipInputStream(
                 new FileInputStream(fName));
         ZipEntry zentry = zinstream.getNextEntry();
-        //Logger.info("Name of current Zip Entry : " + zentry + "\n");
+        String path = properties.getProperty("DATA_PATH");
+        logger.debug(path);
         while (zentry != null) {
             entryName = zentry.getName();
-            //Logger.info("Name of  Zip Entry : " + entryName);
-            FileOutputStream outstream = new FileOutputStream(properties.getProperty("DATA_PATH")+entryName);
+            FileOutputStream outstream = new FileOutputStream(path +'/'+ entryName);
             int n;
 
             while ((n = zinstream.read(buf, 0, 1024)) > -1) {
                 outstream.write(buf, 0, n);
 
             }
-           // Logger.info("Successfully Extracted File Name : "                  + entryName);
             outstream.close();
 
             zinstream.closeEntry();
