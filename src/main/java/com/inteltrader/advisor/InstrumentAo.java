@@ -20,15 +20,13 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-public class InstrumentVo implements Serializable {
 public class InstrumentAo implements Serializable {
 
     private String symbolName;
     private List<Price> priceList;
 
 
-  public void setPriceList(List<Price> priceList) {
-        this.priceList = priceList;
+
   public void setPriceList(Collection<Price> priceList) {
 
         this.priceList = new ArrayList<Price>(priceList);
@@ -45,13 +43,11 @@ public class InstrumentAo implements Serializable {
         return priceList;
     }
 
-    public InstrumentVo() {
+
     public InstrumentAo() {
     }
 
-    public InstrumentVo(String symbolName) {
-        this.symbolName = symbolName;
-    }
+
     public InstrumentAo(String symbolName) {
         this.symbolName = symbolName;
     }
