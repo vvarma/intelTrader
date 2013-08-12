@@ -41,15 +41,15 @@ public class PortfolioServiceImpl implements PortfolioService {
     private Logger logger = Logger.getLogger(this.getClass());
 
     @Override
-    public RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException {
+    public RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException, CloneNotSupportedException {
         logger.debug("Updating Portfolio..");
         Portfolio portfolio = portfolioDao.retrievePortfolio(portfolioName);
-        String[] token = portfolio.getDesc().split("-");
         for (Investment investment : portfolio.getInvestmentList()) {
-            if (instrumentService.updateInstruments(investment.getSymbolName()) == RestCodes.SUCCESS||instrumentService.retrieveInstrument(investment.getSymbolName()).getCurrentPrice().getTimeStamp().after(portfolio.getLastUpdatedOn())) {
-                Holdings.HoldingState hState = investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
+            /*||instrumentService.retrieveInstrument(investment.getSymbolName()).getCurrentPrice().getTimeStamp().after(portfolio.getLastUpdatedOn())*/
+            if (instrumentService.updateInstruments(investment.getSymbolName()) == RestCodes.SUCCESS) {
+                investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
                 logger.debug("Updating Investment :" + investment.getSymbolName() + investment.getCurrentPrice().getClosePrice());
-                investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName(), token), investment);
+                investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName(), portfolio.getDesc()), investment);
             }
         }
         logger.debug("Updating portfolio dao..");
@@ -66,12 +66,11 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public RestCodes addToPortfolio(String portfolioName, String symbolName) throws NoSuchFieldException {
+    public RestCodes addToPortfolio(String portfolioName, String symbolName) throws NoSuchFieldException, CloneNotSupportedException {
         Portfolio portfolio = portfolioDao.retrievePortfolio(portfolioName);
-        String[] token = portfolio.getDesc().split("-");
         Investment investment = new Investment(symbolName);
         investment.setCurrentPrice(getCurrentInstrumentPrice(symbolName));
-        investmentService.makeInvestment(analyserService.getAnalysis(symbolName, token), investment);
+        investmentService.makeInvestment(analyserService.getAnalysis(symbolName, portfolio.getDesc()), investment);
         if (!portfolio.getInvestmentList().contains(investment))
             portfolio.getInvestmentList().add(investment);
         investment.setAssociatedPortfolio(portfolio);
@@ -107,17 +106,17 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public RestCodes updateAllPortfolio() throws IOException, NoSuchFieldException {
+    public RestCodes updateAllPortfolio() throws IOException, NoSuchFieldException, CloneNotSupportedException {
         for (String portfolioName : listAllPortfolios()) {
             updatePortfolio(portfolioName);
         }
         return RestCodes.SUCCESS;
     }
 
-    private Price getCurrentInstrumentPrice(String symbolName) throws NoSuchFieldException {
+    private Price getCurrentInstrumentPrice(String symbolName) throws NoSuchFieldException, CloneNotSupportedException {
         Price price = instrumentService.retrieveInstrument(symbolName).getCurrentPrice();
         logger.fatal("Current Price is :" + price.getClosePrice());
-        return price;
+        return (Price) price.clone();
     }
 
 

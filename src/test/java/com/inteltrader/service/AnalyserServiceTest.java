@@ -32,7 +32,7 @@ public class AnalyserServiceTest {
     @Test
     public void shouldGetAdvice(){
         try {
-            Advice advice=analyserService.getAnalysis("SBIN","MACD","BBAND","RSI");
+            Advice advice=analyserService.getAnalysis("SBIN","MACD-BBAND-RSI");
             Assert.assertNotNull(advice);
             System.out.println(advice);
         } catch (NoSuchFieldException e) {
@@ -45,17 +45,17 @@ public class AnalyserServiceTest {
         try {
             Calendar cal=new GregorianCalendar(2013,06,01);
             global.setCalendar(cal);
-            Advice advice=analyserService.getAnalysis("SBIN","MACD","BBAND","RSI");
+            Advice advice=analyserService.getAnalysis("SBIN","MACD-BBAND-RSI");
             Assert.assertNotNull(advice);
             System.out.println(advice);
             cal.set(2013,06,02);
-            advice=analyserService.getAnalysis("SBIN","MACD","BBAND","RSI");
+            advice=analyserService.getAnalysis("SBIN","MACD-BBAND-RSI");
             Assert.assertNotNull(advice);
             System.out.println(advice);
         } catch (NoSuchFieldException e) {
             Assert.assertTrue(e.getMessage(),false);
         } catch (OperationNotSupportedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 
     }
