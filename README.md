@@ -5,14 +5,17 @@ on selected stocks with a view of generating profits.
 
 
 As of now the application has the following functionalities:
-1.can download data from nse.com given date\n
-2.creates an instrument object which is stored on the db using orm.\n
-3.maintains a portfolio that contains the list of investments of the trader.\n
-4.generates advices based on an adaptation of the Watkins Q Learning algorithm*\n 
+1.can download data from nse.com given date
+2.creates an instrument object which is stored on the db using orm.
+3.maintains a portfolio that contains the list of investments of the trader.
+4.generates advices based on an adaptation of the Watkins Q Learning algorithm*
 
-Functionalities aimed for:\n
-1.Stop Losses\n
-2.Brokerage\n
-3.Keep track of the whole market* and generating the best bet of the day.\n
+Functionalities aimed for:
+1.Stop Losses
+2.Brokerage
+3.Keep track of the whole market* and generating the best bet of the day.
 
+Tecnhology Stack:
+Rest Web Services, JDk 1.6
+Frameworks : Spring, Spring MVC, Ta-Lib, Hibernate,GSON.
 
