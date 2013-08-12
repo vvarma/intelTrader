@@ -25,6 +25,7 @@ import java.io.IOException;
 public class AnalyserServiceImpl implements AnalyserService {
     @Autowired
     InstrumentService instrumentService;
+
     @Autowired
     private Advisor advisor;
     @Autowired
@@ -32,8 +33,8 @@ public class AnalyserServiceImpl implements AnalyserService {
     private Logger logger=Logger.getLogger(this.getClass());
 
     @Override
-    public Advice getAnalysis(String symbolName,String token) throws NoSuchFieldException {
-        States states=statesDao.retrieveStates(symbolName+"-"+token);
+    public Advice getAnalysis(String symbolName,String... token) throws NoSuchFieldException {
+        States states=statesDao.retrieveStates(symbolName);
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
         advisor.initAdvisor(instrument,states,token);
         states=advisor.getStates();
@@ -43,10 +44,10 @@ public class AnalyserServiceImpl implements AnalyserService {
     }
 
     @Override
-    public void createAnalyser(String symbolName, String tokens) throws IOException, NoSuchFieldException {
+    public void createAnalyser(String symbolName, String... tokens) throws IOException, NoSuchFieldException {
         logger.debug("Creating Analyser for symbol ");
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
-        States states=statesDao.retrieveStates(symbolName+"-"+tokens);
+        States states=statesDao.retrieveStates(symbolName);
         advisor.initAdvisor(instrument,states,tokens);
         logger.debug("Saving states to db..");
         logger.debug("Present State is :"+states.getPresentState() +'\n'+
@@ -57,16 +58,11 @@ public class AnalyserServiceImpl implements AnalyserService {
     }
 
     @Override
-    public States getStates(String symbolName) {
-        return statesDao.retrieveStates(symbolName);
-
-    }
-
-    @Override
     public InstrumentWrapper getWrapper(String symbolName,String... tokens) throws IOException, NoSuchFieldException {
         Instrument instrument=instrumentService.retrieveInstrument(symbolName);
+
         InstrumentWrapper taWrapper=TAWrapper.WrapMaker(instrument,tokens);
-        return taWrapper;
+        return taWrapper;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public InstrumentService getInstrumentService() {

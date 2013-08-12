@@ -70,7 +70,7 @@ public class GlobalServiceRest {
     @RequestMapping(value = "/roll/{rollDate}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> rollTodayTo(@PathVariable("rollDate") String rollDate, HttpServletRequest request) throws ParseException, OperationNotSupportedException, NoSuchFieldException, IOException, CloneNotSupportedException {
+    ResponseEntity<String> rollTodayTo(@PathVariable("rollDate") String rollDate, HttpServletRequest request) throws ParseException, OperationNotSupportedException, NoSuchFieldException, IOException {
         StringBuilder builder = new StringBuilder();
         Calendar cal = parseToday(rollDate);
         while(global.getCalendar().before(cal)||global.getCalendar().equals(cal)){

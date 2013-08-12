@@ -28,7 +28,9 @@ public class CalculatorRSI {
     public enum RSIState{
         ABOVE_THRESHOLD,BETWEEN_THRESHOLD,BELOW_THRESHOLD;
     }
-
+    public RetCode calcRSI(Instrument instrument,double rsi){
+       return null;
+    }
     public RetCode calcRSI(InstrumentAo instrumentAo,List<Double> resultList){
         noOutEle= instrumentAo.getPriceList().size();
         System.out.println("noutele rsi :"+noOutEle);

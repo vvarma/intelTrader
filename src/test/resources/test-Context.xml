@@ -57,7 +57,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
     <beans:bean id="analyserService" class="com.inteltrader.service.AnalyserServiceImpl">
     </beans:bean>
     <!-- Advisor-->
-    <beans:bean id="advisor" class="com.inteltrader.advisor.qlearning.QLearning" init-method="init">
+    <beans:bean id="advisor" class="com.inteltrader.advisor.qlearning.QLearning">
     </beans:bean>
     <beans:bean id="qLearning" class="com.inteltrader.advisor.qlearning.QLearning">
     </beans:bean>

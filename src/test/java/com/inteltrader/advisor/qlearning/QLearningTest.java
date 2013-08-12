@@ -85,7 +85,7 @@ public class QLearningTest {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         qLearning.initWrapper(instrument,token);
-        QLearning.Trainer trainer= qLearning.new Trainer(0.15,0.9999,40,0.15);
+        QLearning.Trainer trainer= qLearning.new Trainer(0.15,0.9999,40);
         Set<State> stateSet=trainer.initTrain();
         System.out.println(stateSet);
 

@@ -2,9 +2,7 @@ package com.inteltrader.rest;
 
 import com.google.gson.Gson;
 import com.inteltrader.advisor.InstrumentWrapper;
-import com.inteltrader.entity.States;
 import com.inteltrader.entity.view.InstrumentVo;
-import com.inteltrader.entity.view.StatesVo;
 import com.inteltrader.service.AnalyserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -55,16 +53,6 @@ public class AnalyserServiceRest {
         Map<String, String[]> indicatorMap = new HashMap<String, String[]>();
         indicatorMap.put("indicators", indicatorArr);
         return new ResponseEntity<String>(new Gson().toJson(indicatorMap),
-                new HttpHeaders(), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/states/{statesName}", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    ResponseEntity<String> getStates(@PathVariable("statesName") String statesName,HttpServletRequest request) throws NoSuchFieldException {
-        States states=analyserService.getStates(statesName);
-        StatesVo statesVo=new StatesVo(states);
-        return new ResponseEntity<String>(new Gson().toJson(statesVo),
                 new HttpHeaders(), HttpStatus.OK);
     }
 }

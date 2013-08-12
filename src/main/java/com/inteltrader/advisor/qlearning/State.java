@@ -162,18 +162,7 @@ public class State {
                 '}';
     }
 
-    public CalculatorMACD.MACDState getMacdState() {
-        return macdState;
-    }
-
-    public CalculatorRSI.RSIState getRsiState() {
-        return rsiState;
-    }
-
-    public CalculatorBollingerBands.BBandState getbBandState() {
-        return bBandState;
-    }
-
     public State() {
+
     }
 }

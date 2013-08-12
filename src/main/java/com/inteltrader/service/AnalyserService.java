@@ -2,7 +2,6 @@ package com.inteltrader.service;
 
 import com.inteltrader.advisor.Advice;
 import com.inteltrader.advisor.InstrumentWrapper;
-import com.inteltrader.entity.States;
 
 import java.io.IOException;
 
@@ -14,8 +13,7 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public interface AnalyserService {
-    Advice getAnalysis(String symbolName,String token) throws NoSuchFieldException;
+    Advice getAnalysis(String symbolName,String... token) throws NoSuchFieldException;
     InstrumentWrapper getWrapper(String symbolName,String... tokens) throws IOException, NoSuchFieldException;
-    void createAnalyser(String symbolName,String tokens) throws IOException, NoSuchFieldException;
-    States getStates(String symbolName);
+    void createAnalyser(String symbolName,String... tokens) throws IOException, NoSuchFieldException;
 }

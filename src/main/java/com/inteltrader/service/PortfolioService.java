@@ -15,13 +15,13 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface PortfolioService {
-    RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException, CloneNotSupportedException;
+    RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException;
     RestCodes createPortfolio(String portfolioName,String desc);
-    RestCodes addToPortfolio(String portfolioName, String symbolName) throws NoSuchFieldException, CloneNotSupportedException;
+    RestCodes addToPortfolio(String portfolioName, String symbolName) throws NoSuchFieldException;
     Portfolio retrievePortfolio(String portfolioName) throws NoSuchFieldException;
     Double calculatePnL(String portfolioName) throws NoSuchFieldException;
     List<String> listAllPortfolios();
     Calendar lastUpdatedOn(String portfolioName) throws NoSuchFieldException;
 
-    RestCodes updateAllPortfolio() throws IOException, NoSuchFieldException, CloneNotSupportedException;
+    RestCodes updateAllPortfolio() throws IOException, NoSuchFieldException;
 }
