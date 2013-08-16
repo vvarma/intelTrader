@@ -17,7 +17,7 @@ import java.io.IOException;
     Advice getAdvice();
     Advice updatePriceAndGetAdvice(Price price) throws IOException;
     States getStates();
-    void initAdvisor(Instrument instrument,States states, String... token);
+    void initAdvisor(Instrument instrument,States states, String token);
     InstrumentWrapper getWrapper();
     //no reward as of now... meaning no online trainingS
 }

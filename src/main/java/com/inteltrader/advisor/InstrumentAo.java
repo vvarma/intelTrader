@@ -1,8 +1,12 @@
 package com.inteltrader.advisor;
 
 
-import com.inteltrader.entity.Price;
 
+import com.inteltrader.entity.Price;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +26,7 @@ public class InstrumentAo implements Serializable {
     private List<Price> priceList;
 
 
+
   public void setPriceList(Collection<Price> priceList) {
 
         this.priceList = new ArrayList<Price>(priceList);
@@ -38,8 +43,10 @@ public class InstrumentAo implements Serializable {
         return priceList;
     }
 
+
     public InstrumentAo() {
     }
+
 
     public InstrumentAo(String symbolName) {
         this.symbolName = symbolName;
