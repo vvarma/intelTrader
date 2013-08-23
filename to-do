@@ -1,0 +1,8 @@
+global time should not be before the date of any portfolio
+training matrix for all states with greedy advices should be available as report
+add more indicators
+should have trading and non trading periods depending on market mood
+brokerage value should be added to all transactions and effect on state matrix to be seen
+delayed indicators and indicators with different parameters should be tried
+
+trend, momentum, volatility and volume
