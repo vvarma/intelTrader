@@ -68,6 +68,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
         <beans:property name="loadTimeWeaver">
             <beans:bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver"/>
         </beans:property>
+        <beans:property name="dataSource" ref="dbDataSource"/>
     </beans:bean>
 
     <beans:bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -110,5 +111,9 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
             <aop:around method="aroundMethod" pointcut-ref="analyserPointCutBefore"/>
         </aop:aspect>
     </aop:config>
+
+    <beans:bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <beans:property name="jndiName" value="java:comp/env/jdbc/mydb"/>
+    </beans:bean>
 
 </beans:beans>
