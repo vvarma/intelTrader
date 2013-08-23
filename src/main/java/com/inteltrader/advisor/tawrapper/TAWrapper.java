@@ -29,21 +29,23 @@ public abstract class TAWrapper implements InstrumentWrapper {
     public InstrumentAo getInstrument() {
         return instrumentWrapper.getInstrument();
     }
-    public InstrumentWrapper getWrapper(){
+
+    public InstrumentWrapper getWrapper() {
         return instrumentWrapper;
     }
-    public static InstrumentWrapper WrapMaker(Instrument instrument,String... tokens)  {
-        InstrumentWrapper instrumentWrapper=new InstrumentWrapperImpl(instrument);
-        List<String> tokenList= Arrays.asList(tokens);
-        if(tokenList.contains("MACD"))  {
-            instrumentWrapper=new MACDWrapper(instrumentWrapper,"MACD");
+
+    public static InstrumentWrapper WrapMaker(Instrument instrument, String... tokens) {
+        InstrumentWrapper instrumentWrapper = new InstrumentWrapperImpl(instrument);
+        List<String> tokenList = Arrays.asList(tokens);
+        if (tokenList.contains("MACD")) {
+            instrumentWrapper = new MACDWrapper(instrumentWrapper, "MACD");
         }
-        if (tokenList.contains("RSI")){
-            instrumentWrapper=new RSIWrapper(instrumentWrapper,"RSI");
+        if (tokenList.contains("RSI")) {
+            instrumentWrapper = new RSIWrapper(instrumentWrapper, "RSI");
         }
-        if (tokenList.contains("BBAND")){
+        if (tokenList.contains("BBAND")) {
             System.out.println("in");
-            instrumentWrapper=new BBandWrapper(instrumentWrapper,"BBAND");
+            instrumentWrapper = new BBandWrapper(instrumentWrapper, "BBAND");
         }
         return instrumentWrapper;
     }

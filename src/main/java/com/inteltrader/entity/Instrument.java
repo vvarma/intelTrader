@@ -17,19 +17,18 @@ import java.util.List;
  */
 @Repository
 @Entity
-@Table(name="INSTRUMENT")
+@Table(name = "INSTRUMENT")
 
 public class Instrument implements Serializable {
     @Id
     @Column(name = "SYMBOL_NAME")
     private String symbolName;
-    @ElementCollection(targetClass=com.inteltrader.entity.Price.class)
+    @ElementCollection(targetClass = com.inteltrader.entity.Price.class)
     @JoinTable(
-            name="INSTRUMENT_PRICE",
-            joinColumns=@JoinColumn(name="SYMBOL_NAME")
+            name = "INSTRUMENT_PRICE",
+            joinColumns = @JoinColumn(name = "SYMBOL_NAME")
     )
-    private List<Price> priceList=new ArrayList<Price>();
-
+    private List<Price> priceList = new ArrayList<Price>();
 
 
     public void setPriceList(List<Price> priceList) {
@@ -59,11 +58,12 @@ public class Instrument implements Serializable {
     @Override
     public String toString() {
         return "Instrument{" +
-               ", symbolName='" + symbolName + '\'' +
+                ", symbolName='" + symbolName + '\'' +
                 ", priceList=" + priceList +
                 '}';
     }
-    public Price getCurrentPrice(){
-        return priceList.get(priceList.size()-1);
+
+    public Price getCurrentPrice() {
+        return priceList.get(priceList.size() - 1);
     }
 }

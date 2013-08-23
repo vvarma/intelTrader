@@ -27,19 +27,20 @@ public class StatesDaoTest {
     IStatesDao statesDao;
 
     @Test
-    public void shouldReturnNullForRandomSymbolName(){
-        States states=statesDao.retrieveStates("ABCDS");
+    public void shouldReturnNullForRandomSymbolName() {
+        States states = statesDao.retrieveStates("ABCDS");
 
         Assert.assertNull(states);
     }
+
     @Test
-    public void shouldPersistTestStates(){
-        States test=new States();
+    public void shouldPersistTestStates() {
+        States test = new States();
         test.setSymbolNamme("test");
         test.setPresentAdvice(Advice.BUY);
         statesDao.createState(test);
-        States states=statesDao.retrieveStates("test");
+        States states = statesDao.retrieveStates("test");
 
-        Assert.assertEquals(states,test);
+        Assert.assertEquals(states, test);
     }
 }

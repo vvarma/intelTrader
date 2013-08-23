@@ -22,10 +22,10 @@ public class States {
     @Id
     @Column(name = "SYMBOL_NAME")
     private String symbolNamme;
-    @OneToMany (cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "states")
     private Set<State> stateSet;
-    @OneToOne (cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "presentState")
     private State presentState;
     @Enumerated(EnumType.STRING)
@@ -49,7 +49,7 @@ public class States {
     }
 
     public States() {
-        stateSet=new HashSet<State>();
+        stateSet = new HashSet<State>();
     }
 
     public String getSymbolNamme() {

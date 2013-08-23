@@ -8,6 +8,6 @@ package com.inteltrader.util;
  * To change this template use File | Settings | File Templates.
  */
 public interface IConstants {
-    String DATA_PATH="/data/";
-    String TEMP_PATH="/data/temp.zip";
+    String DATA_PATH = "/data/";
+    String TEMP_PATH = "/data/temp.zip";
 }

@@ -38,7 +38,7 @@ public class InstrumentServiceRest {
     @Autowired
     private InstrumentService instrumentService;
 
-   @RequestMapping(value = "/create/{symbol}", method = RequestMethod.GET)
+    @RequestMapping(value = "/create/{symbol}", method = RequestMethod.GET)
     public
     @ResponseBody
     ResponseEntity<String> createInstrument(@PathVariable("symbol") String symbolName, HttpServletRequest request) throws NoSuchFieldException {

@@ -34,59 +34,61 @@ public class QLearningTest {
     QLearning qLearning;
     @Autowired
     InstrumentService instrumentService;
-    String[] token={"MACD","RSI","BBAND"};
-    String symbolName="CIPLA";
+    String[] token = {"MACD", "RSI", "BBAND"};
+    String symbolName = "CIPLA";
 
     @Test
-    public void checkInitForQLearning(){
-        Instrument instrument= null;
+    public void checkInitForQLearning() {
+        Instrument instrument = null;
         try {
             instrument = instrumentService.retrieveInstrument(symbolName);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
         System.out.println("token" + token);
-        qLearning.initWrapper(instrument,token);
+        qLearning.initWrapper(instrument, token);
         Assert.assertEquals(qLearning.getWrapper().getInstrument().getSymbolName(), symbolName);
     }
+
     @Test
-    public void checkGetStateBuilderForIndex(){
-        Instrument instrument= null;
+    public void checkGetStateBuilderForIndex() {
+        Instrument instrument = null;
         try {
             instrument = instrumentService.retrieveInstrument(symbolName);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        qLearning.initWrapper(instrument,token);
-        int index=qLearning.getWrapper().getInstrument().getPriceList().size()-1;
-        Assert.assertEquals(qLearning.getWrapper().getStateBuilder(index).build().getClass(),State.class);
-        Assert.assertEquals(qLearning.getWrapper().getStateBuilder(0).build().getClass(),State.class);
+        qLearning.initWrapper(instrument, token);
+        int index = qLearning.getWrapper().getInstrument().getPriceList().size() - 1;
+        Assert.assertEquals(qLearning.getWrapper().getStateBuilder(index).build().getClass(), State.class);
+        Assert.assertEquals(qLearning.getWrapper().getStateBuilder(0).build().getClass(), State.class);
     }
+
     @Test(expected = IndexOutOfBoundsException.class)
 
-    public void checkGetStateBuilderForIndexOutOfBounds(){
-        Instrument instrument= null;
+    public void checkGetStateBuilderForIndexOutOfBounds() {
+        Instrument instrument = null;
         try {
             instrument = instrumentService.retrieveInstrument(symbolName);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        qLearning.initWrapper(instrument,token);
-        int index=qLearning.getWrapper().getInstrument().getPriceList().size()-1;
-        qLearning.getWrapper().getStateBuilder(index+1);
+        qLearning.initWrapper(instrument, token);
+        int index = qLearning.getWrapper().getInstrument().getPriceList().size() - 1;
+        qLearning.getWrapper().getStateBuilder(index + 1);
     }
 
     @Test
-    public void initTrainerAndTrain(){
-        Instrument instrument= null;
+    public void initTrainerAndTrain() {
+        Instrument instrument = null;
         try {
             instrument = instrumentService.retrieveInstrument(symbolName);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        qLearning.initWrapper(instrument,token);
-        QLearning.Trainer trainer= qLearning.new Trainer(0.15,0.9999,40,0.15);
-        Set<State> stateSet=trainer.initTrain();
+        qLearning.initWrapper(instrument, token);
+        QLearning.Trainer trainer = qLearning.new Trainer(0.15, 0.9999, 40, 0.15);
+        Set<State> stateSet = trainer.initTrain();
         System.out.println(stateSet);
 
     }

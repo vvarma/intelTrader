@@ -17,11 +17,12 @@ import java.util.zip.ZipInputStream;
  * Time: 5:59 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ExtractZipFile  {
-    Logger logger=Logger.getLogger(getClass());
+public class ExtractZipFile {
+    Logger logger = Logger.getLogger(getClass());
     Properties properties;
+
     public ExtractZipFile(Properties properties) {
-        this.properties=properties;
+        this.properties = properties;
     }
 
     public String extractTemp() throws IOException {
@@ -36,7 +37,7 @@ public class ExtractZipFile  {
         logger.debug(path);
         while (zentry != null) {
             entryName = zentry.getName();
-            FileOutputStream outstream = new FileOutputStream(path +'/'+ entryName);
+            FileOutputStream outstream = new FileOutputStream(path + '/' + entryName);
             int n;
 
             while ((n = zinstream.read(buf, 0, 1024)) > -1) {

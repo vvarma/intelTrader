@@ -1,7 +1,6 @@
 package com.inteltrader.advisor;
 
 
-
 import com.inteltrader.entity.Price;
 import org.springframework.stereotype.Repository;
 
@@ -26,8 +25,7 @@ public class InstrumentAo implements Serializable {
     private List<Price> priceList;
 
 
-
-  public void setPriceList(Collection<Price> priceList) {
+    public void setPriceList(Collection<Price> priceList) {
 
         this.priceList = new ArrayList<Price>(priceList);
     }
@@ -35,7 +33,8 @@ public class InstrumentAo implements Serializable {
     public void setSymbolName(String symbolName) {
         this.symbolName = symbolName;
     }
-       public String getSymbolName() {
+
+    public String getSymbolName() {
         return symbolName;
     }
 
@@ -51,8 +50,9 @@ public class InstrumentAo implements Serializable {
     public InstrumentAo(String symbolName) {
         this.symbolName = symbolName;
     }
-    public Price getCurrentPrice(){
-        int index=priceList.size()-1;
+
+    public Price getCurrentPrice() {
+        int index = priceList.size() - 1;
         return priceList.get(index);
     }
 }

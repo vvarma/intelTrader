@@ -16,11 +16,17 @@ import java.util.List;
  */
 public interface PortfolioService {
     RestCodes updatePortfolio(String portfolioName) throws IOException, NoSuchFieldException, CloneNotSupportedException;
-    RestCodes createPortfolio(String portfolioName,String desc);
+
+    RestCodes createPortfolio(String portfolioName, String desc);
+
     RestCodes addToPortfolio(String portfolioName, String symbolName) throws NoSuchFieldException, CloneNotSupportedException;
+
     Portfolio retrievePortfolio(String portfolioName) throws NoSuchFieldException;
+
     Double calculatePnL(String portfolioName) throws NoSuchFieldException;
+
     List<String> listAllPortfolios();
+
     Calendar lastUpdatedOn(String portfolioName) throws NoSuchFieldException;
 
     RestCodes updateAllPortfolio() throws IOException, NoSuchFieldException, CloneNotSupportedException;

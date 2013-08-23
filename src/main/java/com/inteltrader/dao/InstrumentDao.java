@@ -18,6 +18,7 @@ import javax.persistence.PersistenceContext;
 public class InstrumentDao implements IInstrumentDao {
     @PersistenceContext
     EntityManager entityManager;
+
     @Override
     public void createInstrument(Instrument instrument) {
         entityManager.persist(instrument);
@@ -25,8 +26,8 @@ public class InstrumentDao implements IInstrumentDao {
 
     @Override
     public Instrument retrieveInstrument(String symbolName) throws NoSuchFieldException {
-        Instrument instrument=entityManager.find(Instrument.class,symbolName);
-        if (instrument==null)
+        Instrument instrument = entityManager.find(Instrument.class, symbolName);
+        if (instrument == null)
             throw new NoSuchFieldException(symbolName + " not found");
         return instrument;
     }

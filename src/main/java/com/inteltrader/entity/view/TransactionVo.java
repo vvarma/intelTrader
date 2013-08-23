@@ -38,9 +38,9 @@ public class TransactionVo {
     }
 
     public TransactionVo(Transactions transaction) {
-        transactionId=transaction.getTransactionId();
-        quantity=transaction.getQuantity();
-        transactionPrice=new PriceVo(transaction.getTransactionPrice());
+        transactionId = transaction.getTransactionId();
+        quantity = transaction.getQuantity();
+        transactionPrice = new PriceVo(transaction.getTransactionPrice());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         transactionDate = sdf.format(transaction.getTransactionDate());
 

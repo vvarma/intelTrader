@@ -29,24 +29,25 @@ public class CalculatorMACD {
     double threshold;
     double result;
 
-    public CalculatorMACD(int noOutEle, double threshold){
-        fastPeriod=Integer.MIN_VALUE;
-        slowPeriod=Integer.MIN_VALUE;
-        signalPeriod=Integer.MIN_VALUE;
+    public CalculatorMACD(int noOutEle, double threshold) {
+        fastPeriod = Integer.MIN_VALUE;
+        slowPeriod = Integer.MIN_VALUE;
+        signalPeriod = Integer.MIN_VALUE;
         this.noOutEle = noOutEle;
         this.threshold = threshold;
     }
 
     public CalculatorMACD() throws IOException {
-        this(1,0.20);
+        this(1, 0.20);
 
     }
 
     public enum MACDState {
-        POSITIVE_ABOVE_THRESHOLD, POSITIVE_BELOW_THRESHOLD, NEGETIVE_ABOVE_THRESHOLD, NEGETIVE_BELOW_THRESHOLD,START;
+        POSITIVE_ABOVE_THRESHOLD, POSITIVE_BELOW_THRESHOLD, NEGETIVE_ABOVE_THRESHOLD, NEGETIVE_BELOW_THRESHOLD, START;
     }
-    public RetCode calcMACD(Instrument instrument, int index,double macd,double macdSignal,double macdHist){
-        int noOutEle=1;
+
+    public RetCode calcMACD(Instrument instrument, int index, double macd, double macdSignal, double macdHist) {
+        int noOutEle = 1;
         int endIndex = instrument.getPriceList().size() - 1;
         int startIndex = endIndex - noOutEle + 1;
         double[] macdResult = new double[endIndex + 1];
@@ -63,15 +64,16 @@ public class CalculatorMACD {
         }
         RetCode retCode = core.macd(startIndex, endIndex, closePriceInput, fastPeriod, slowPeriod, signalPeriod,
                 strtOutIndex, outNb, macdResult, macdSignalResult, macdHistResult);
-        macd=macdResult[0];
-        macdHist=macdHistResult[0];
-        macdSignal=macdSignalResult[0];
+        macd = macdResult[0];
+        macdHist = macdHistResult[0];
+        macdSignal = macdSignalResult[0];
         return retCode;
     }
-    public RetCode calcMACD(InstrumentAo instrumentAo,List<Double> macdList,List<Double> macdSignalList,List<Double> macdHistList) {
+
+    public RetCode calcMACD(InstrumentAo instrumentAo, List<Double> macdList, List<Double> macdSignalList, List<Double> macdHistList) {
         //System.out.println("43232"+noOutEle);
-        if(noOutEle==Integer.MAX_VALUE){
-            noOutEle= instrumentAo.getPriceList().size();
+        if (noOutEle == Integer.MAX_VALUE) {
+            noOutEle = instrumentAo.getPriceList().size();
         }
 
         int endIndex = instrumentAo.getPriceList().size() - 1;
@@ -90,7 +92,7 @@ public class CalculatorMACD {
         }
         RetCode retCode = core.macd(startIndex, endIndex, closePriceInput, fastPeriod, slowPeriod, signalPeriod,
                 strtOutIndex, outNb, macdResult, macdSignal, macdHistResult);
-        for (int i=0;i<=endIndex;i++){
+        for (int i = 0; i <= endIndex; i++) {
             macdList.add(macdResult[i]);
             macdSignalList.add(macdSignal[i]);
             macdHistList.add(macdHistResult[i]);
@@ -99,19 +101,19 @@ public class CalculatorMACD {
         return retCode;
     }
 
-    public MACDState getMACDState(Double result){
+    public MACDState getMACDState(Double result) {
 
-       // RetCode retCode=calcMACD(instrumentVo);
-      //  if(retCode.equals(RetCode.Success)){
-            if(result>threshold){
-                return MACDState.POSITIVE_ABOVE_THRESHOLD;
-            }else if (result>0){
-                return MACDState.POSITIVE_BELOW_THRESHOLD;
-            }else if (result>-threshold){
-                return MACDState.NEGETIVE_ABOVE_THRESHOLD;
-            }else{
-                return MACDState.NEGETIVE_BELOW_THRESHOLD;
-            }
+        // RetCode retCode=calcMACD(instrumentVo);
+        //  if(retCode.equals(RetCode.Success)){
+        if (result > threshold) {
+            return MACDState.POSITIVE_ABOVE_THRESHOLD;
+        } else if (result > 0) {
+            return MACDState.POSITIVE_BELOW_THRESHOLD;
+        } else if (result > -threshold) {
+            return MACDState.NEGETIVE_ABOVE_THRESHOLD;
+        } else {
+            return MACDState.NEGETIVE_BELOW_THRESHOLD;
+        }
        /* }else{
             throw new RuntimeException(retCode.toString());
         }*/

@@ -13,8 +13,11 @@ import javax.persistence.EntityManager;
  */
 public interface IInstrumentDao {
     void createInstrument(Instrument instrument);
+
     Instrument retrieveInstrument(String symbolName) throws NoSuchFieldException;
+
     void updateInstrument(Instrument instrument);
+
     void deleteInstrument(Instrument instrument);
 
 }

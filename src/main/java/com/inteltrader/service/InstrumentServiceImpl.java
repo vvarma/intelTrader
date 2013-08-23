@@ -57,7 +57,6 @@ public class InstrumentServiceImpl implements InstrumentService {
         }
 
 
-
         return instrument;
     }
 
@@ -109,8 +108,8 @@ public class InstrumentServiceImpl implements InstrumentService {
             Calendar startDate, Calendar endDate, String symbol) throws NoSuchFieldException {
         Instrument instrument = new Instrument(symbol);
         String path = global.getProperties().getProperty("DATA_PATH");
-        do{
-            startDate.add(Calendar.DATE,1);
+        do {
+            startDate.add(Calendar.DATE, 1);
             String fileName = path;
             if (isWeekDay(startDate)) {
                 try {
@@ -133,7 +132,7 @@ public class InstrumentServiceImpl implements InstrumentService {
 
             }
 
-        }while (startDate.before(endDate)) ;
+        } while (startDate.before(endDate));
         return instrument;
     }
 

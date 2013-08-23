@@ -22,20 +22,21 @@ public class Investment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "INVESTMENT_ID")
-    private int investmentId=1;
+    private int investmentId = 1;
     @Column(name = "INVESTMENT_SYMBOL")
     private String symbolName;
-    private Integer quantity=0;
+    private Integer quantity = 0;
     private Price currentPrice;
-    @ManyToOne (cascade = CascadeType.ALL,fetch = FetchType.EAGER,targetEntity = com.inteltrader.entity.Portfolio.class)
-    @JoinColumn(name = "INVESTMENT_PORTFOLIO", nullable=false, updatable=false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = com.inteltrader.entity.Portfolio.class)
+    @JoinColumn(name = "INVESTMENT_PORTFOLIO", nullable = false, updatable = false)
     private Portfolio associatedPortfolio;
     @ElementCollection(targetClass = com.inteltrader.entity.Transactions.class)
     @JoinTable(
-            name="INVESTMENT_TRANSACTION",
-            joinColumns=@JoinColumn(name="INVESTMENT_ID")
+            name = "INVESTMENT_TRANSACTION",
+            joinColumns = @JoinColumn(name = "INVESTMENT_ID")
     )
-    private List<Transactions> transactionsList=new ArrayList<Transactions>();
+    private List<Transactions> transactionsList = new ArrayList<Transactions>();
+
     public Investment(String symbolName) {
         this.symbolName = symbolName;
     }
@@ -43,6 +44,7 @@ public class Investment implements Serializable {
     public Investment() {
 
     }
+
     @Override
     public String toString() {
         return "Investment{" +
@@ -74,22 +76,22 @@ public class Investment implements Serializable {
     }
 
     public Holdings.HoldingState setCurrentPrice(Price currentPrice) {
-        Holdings.HoldingState toBeReturned=null;
-        if(quantity==0){
+        Holdings.HoldingState toBeReturned = null;
+        if (quantity == 0) {
             this.currentPrice = currentPrice;
             return Holdings.HoldingState.NO_HOLDING;
         }
-        if (this.currentPrice.getClosePrice()<currentPrice.getClosePrice()){
-            if (quantity>0){
-                toBeReturned= Holdings.HoldingState.LONG_PROFIT;
-            }   else {
-                toBeReturned= Holdings.HoldingState.SHORT_LOSS;
+        if (this.currentPrice.getClosePrice() < currentPrice.getClosePrice()) {
+            if (quantity > 0) {
+                toBeReturned = Holdings.HoldingState.LONG_PROFIT;
+            } else {
+                toBeReturned = Holdings.HoldingState.SHORT_LOSS;
             }
-        }else{
-            if (quantity>0){
-                toBeReturned= Holdings.HoldingState.LONG_LOSS;
-            }   else {
-                toBeReturned= Holdings.HoldingState.SHORT_PROFIT;
+        } else {
+            if (quantity > 0) {
+                toBeReturned = Holdings.HoldingState.LONG_LOSS;
+            } else {
+                toBeReturned = Holdings.HoldingState.SHORT_PROFIT;
             }
 
         }
@@ -141,15 +143,16 @@ public class Investment implements Serializable {
         result = 31 * result + symbolName.hashCode();
         return result;
     }
-    public double calcPnl(){
-        double pnl=0.0;
+
+    public double calcPnl() {
+        double pnl = 0.0;
         double invested = 0.0;
-        double value=0.0;
+        double value = 0.0;
         for (Transactions transactions : this.getTransactionsList()) {
             invested += transactions.getQuantity() * transactions.getTransactionPrice().getClosePrice();
         }
-        value+=this.getQuantity()*this.getCurrentPrice().getClosePrice();
-        pnl+=(value-invested);
+        value += this.getQuantity() * this.getCurrentPrice().getClosePrice();
+        pnl += (value - invested);
         return pnl;
     }
 /*

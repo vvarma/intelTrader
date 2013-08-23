@@ -14,7 +14,9 @@ import java.io.IOException;
  */
 public interface InstrumentWrapper {
     public InstrumentAo getInstrument();
+
     public State.Builder getStateBuilder(int i) throws IndexOutOfBoundsException;
+
     public State.Builder updateWrapperAndGetStateBuilder(Price price) throws IOException;
 
 }

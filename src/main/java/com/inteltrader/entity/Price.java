@@ -11,13 +11,12 @@ import java.util.Calendar;
  * To change this template use File | Settings | File Templates.
  */
 @Embeddable
-public class Price implements Cloneable{
+public class Price implements Cloneable {
 
     private long priceId;
     private Calendar timeStamp;
-    private Double closePrice,openPrice,lowPrice,highPrice,lastClosePrice;
+    private Double closePrice, openPrice, lowPrice, highPrice, lastClosePrice;
     private long totalTradedQuantity;
-
 
 
     public Price(Calendar timeStamp, Double closePrice, Double openPrice, Double lowPrice, Double highPrice, Double lastClosePrice, long totalTradedQuantity) {

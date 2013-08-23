@@ -29,28 +29,28 @@ public class AnalyserServiceImpl implements AnalyserService {
     private Advisor advisor;
     @Autowired
     private IStatesDao statesDao;
-    private Logger logger=Logger.getLogger(this.getClass());
+    private Logger logger = Logger.getLogger(this.getClass());
 
     @Override
-    public Advice getAnalysis(String symbolName,String token) throws NoSuchFieldException {
-        States states=statesDao.retrieveStates(symbolName+"-"+token);
-        Instrument instrument=instrumentService.retrieveInstrument(symbolName);
-        advisor.initAdvisor(instrument,states,token);
-        states=advisor.getStates();
+    public Advice getAnalysis(String symbolName, String token) throws NoSuchFieldException {
+        States states = statesDao.retrieveStates(symbolName + "-" + token);
+        Instrument instrument = instrumentService.retrieveInstrument(symbolName);
+        advisor.initAdvisor(instrument, states, token);
+        states = advisor.getStates();
         statesDao.createState(states);
-        logger.debug("Get Analysis .. present Advice :" +states.getPresentAdvice());
+        logger.debug("Get Analysis .. present Advice :" + states.getPresentAdvice());
         return states.getPresentAdvice();
     }
 
     @Override
     public void createAnalyser(String symbolName, String tokens) throws IOException, NoSuchFieldException {
         logger.debug("Creating Analyser for symbol ");
-        Instrument instrument=instrumentService.retrieveInstrument(symbolName);
-        States states=statesDao.retrieveStates(symbolName+"-"+tokens);
-        advisor.initAdvisor(instrument,states,tokens);
+        Instrument instrument = instrumentService.retrieveInstrument(symbolName);
+        States states = statesDao.retrieveStates(symbolName + "-" + tokens);
+        advisor.initAdvisor(instrument, states, tokens);
         logger.debug("Saving states to db..");
-        logger.debug("Present State is :"+states.getPresentState() +'\n'+
-        "Present Advice is :"+states.getPresentAdvice() );
+        logger.debug("Present State is :" + states.getPresentState() + '\n' +
+                "Present Advice is :" + states.getPresentAdvice());
         //logger.debug(states);
         statesDao.createState(states);
 
@@ -63,9 +63,9 @@ public class AnalyserServiceImpl implements AnalyserService {
     }
 
     @Override
-    public InstrumentWrapper getWrapper(String symbolName,String... tokens) throws IOException, NoSuchFieldException {
-        Instrument instrument=instrumentService.retrieveInstrument(symbolName);
-        InstrumentWrapper taWrapper=TAWrapper.WrapMaker(instrument,tokens);
+    public InstrumentWrapper getWrapper(String symbolName, String... tokens) throws IOException, NoSuchFieldException {
+        Instrument instrument = instrumentService.retrieveInstrument(symbolName);
+        InstrumentWrapper taWrapper = TAWrapper.WrapMaker(instrument, tokens);
         return taWrapper;
     }
 

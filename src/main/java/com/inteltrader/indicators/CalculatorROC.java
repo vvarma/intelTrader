@@ -12,15 +12,17 @@ import com.tictactec.ta.lib.RetCode;
  * To change this template use File | Settings | File Templates.
  */
 public class CalculatorROC {
-    private Core core=new Core();
+    private Core core = new Core();
 
-    public enum ROCState{
+    public enum ROCState {
 
     }
-    public RetCode calcROC(InstrumentAo instrumentAo){
+
+    public RetCode calcROC(InstrumentAo instrumentAo) {
         return RetCode.Success;
     }
-    public ROCState getROCState(){
+
+    public ROCState getROCState() {
         return null;
     }
 }

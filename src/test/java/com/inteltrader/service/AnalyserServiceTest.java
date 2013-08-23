@@ -29,31 +29,33 @@ public class AnalyserServiceTest {
     AnalyserService analyserService;
     @Autowired
     Global global;
+
     @Test
-    public void shouldGetAdvice(){
+    public void shouldGetAdvice() {
         try {
-            Advice advice=analyserService.getAnalysis("SBIN","MACD-BBAND-RSI");
+            Advice advice = analyserService.getAnalysis("SBIN", "MACD-BBAND-RSI");
             Assert.assertNotNull(advice);
             System.out.println(advice);
         } catch (NoSuchFieldException e) {
-            Assert.assertTrue(e.getMessage(),false);
+            Assert.assertTrue(e.getMessage(), false);
         }
 
     }
+
     @Test
-    public void shouldGetAdviceUpdateAlso(){
+    public void shouldGetAdviceUpdateAlso() {
         try {
-            Calendar cal=new GregorianCalendar(2013,06,01);
+            Calendar cal = new GregorianCalendar(2013, 06, 01);
             global.setCalendar(cal);
-            Advice advice=analyserService.getAnalysis("SBIN","MACD-BBAND-RSI");
+            Advice advice = analyserService.getAnalysis("SBIN", "MACD-BBAND-RSI");
             Assert.assertNotNull(advice);
             System.out.println(advice);
-            cal.set(2013,06,02);
-            advice=analyserService.getAnalysis("SBIN","MACD-BBAND-RSI");
+            cal.set(2013, 06, 02);
+            advice = analyserService.getAnalysis("SBIN", "MACD-BBAND-RSI");
             Assert.assertNotNull(advice);
             System.out.println(advice);
         } catch (NoSuchFieldException e) {
-            Assert.assertTrue(e.getMessage(),false);
+            Assert.assertTrue(e.getMessage(), false);
         } catch (OperationNotSupportedException e) {
             e.printStackTrace();
         }

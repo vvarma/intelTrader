@@ -36,7 +36,7 @@ public class State {
     public static class Builder {
         private CalculatorMACD.MACDState macdState = null;
         private CalculatorRSI.RSIState rsiState = null;
-        private CalculatorBollingerBands.BBandState bBandState=null;
+        private CalculatorBollingerBands.BBandState bBandState = null;
 
         public Builder macd(CalculatorMACD.MACDState macdState) {
             this.macdState = macdState;
@@ -47,10 +47,12 @@ public class State {
             this.rsiState = rsiState;
             return this;
         }
-        public Builder bband (CalculatorBollingerBands.BBandState bBandState){
-            this.bBandState=bBandState;
+
+        public Builder bband(CalculatorBollingerBands.BBandState bBandState) {
+            this.bBandState = bBandState;
             return this;
         }
+
         public Builder() {
 
         }
@@ -65,7 +67,7 @@ public class State {
     private State(Builder builder) {
         macdState = builder.macdState;
         rsiState = builder.rsiState;
-        bBandState=builder.bBandState;
+        bBandState = builder.bBandState;
         actionRewardMap = new HashMap<Advice, Double>();
         actionRewardMap.put(Advice.BUY, 0.0);
         actionRewardMap.put(Advice.SELL, 0.0);
@@ -73,7 +75,7 @@ public class State {
     }
 
     public void updateReward(Advice advice, double reward) {
-         actionRewardMap.put(advice, reward);
+        actionRewardMap.put(advice, reward);
         //normaliseRewards();
     }
 
@@ -102,9 +104,10 @@ public class State {
         actionRewardMap.put(Advice.HOLD, 0.0);
     }
 
-    public double getRewardForAdvice(Advice advice){
+    public double getRewardForAdvice(Advice advice) {
         return actionRewardMap.get(advice);
     }
+
     public Advice getGreedyAdvice() {
         double maxReward = -Double.MAX_VALUE;
         Advice maxAdvice = null;
@@ -122,7 +125,7 @@ public class State {
         Advice[] arrAdvice = {Advice.BUY, Advice.HOLD, Advice.SELL};
         //int i = random.nextInt(3);
         //changeTo check
-        int i = ((int)(Math.random()*137 +17))%3;
+        int i = ((int) (Math.random() * 137 + 17)) % 3;
         Advice ret = arrAdvice[i];
 
         //System.out.println("1232321" + ret.toString() + " " + iter);

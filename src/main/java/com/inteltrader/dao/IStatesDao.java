@@ -11,5 +11,6 @@ import com.inteltrader.entity.States;
  */
 public interface IStatesDao {
     void createState(States states);
+
     States retrieveStates(String symbolName);
 }

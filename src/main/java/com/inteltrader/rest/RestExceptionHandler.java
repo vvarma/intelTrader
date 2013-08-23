@@ -26,32 +26,41 @@ import java.util.Map;
 public class RestExceptionHandler {
 
     @ExceptionHandler
-    public @ResponseBody ResponseEntity<String> handleIOExceptions(IOException e){
-        Map<String,String> errorMap=new HashMap<String, String>();
-        errorMap.put("message","Oops! Something went wrong.");
+    public
+    @ResponseBody
+    ResponseEntity<String> handleIOExceptions(IOException e) {
+        Map<String, String> errorMap = new HashMap<String, String>();
+        errorMap.put("message", "Oops! Something went wrong.");
         return new ResponseEntity<String>(new Gson().toJson(errorMap),
                 new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler
-    public @ResponseBody ResponseEntity<String> handleParseExceptions(ParserException e){
-        Map<String,String> errorMap=new HashMap<String, String>();
-        errorMap.put("message","Data Format Error");
+    public
+    @ResponseBody
+    ResponseEntity<String> handleParseExceptions(ParserException e) {
+        Map<String, String> errorMap = new HashMap<String, String>();
+        errorMap.put("message", "Data Format Error");
         return new ResponseEntity<String>(new Gson().toJson(errorMap),
                 new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public @ResponseBody ResponseEntity<String> handleOpNotSupportedExceptions(OperationNotSupportedException e){
-        Map<String,String> errorMap=new HashMap<String, String>();
-        errorMap.put("message",e.getMessage());
+    public
+    @ResponseBody
+    ResponseEntity<String> handleOpNotSupportedExceptions(OperationNotSupportedException e) {
+        Map<String, String> errorMap = new HashMap<String, String>();
+        errorMap.put("message", e.getMessage());
         return new ResponseEntity<String>(new Gson().toJson(errorMap),
                 new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler
-    public @ResponseBody ResponseEntity<String> handleNoSuchFieldExceptions(NoSuchFieldException e){
-        Map<String,String> errorMap=new HashMap<String, String>();
-        errorMap.put("message",e.getMessage());
+    public
+    @ResponseBody
+    ResponseEntity<String> handleNoSuchFieldExceptions(NoSuchFieldException e) {
+        Map<String, String> errorMap = new HashMap<String, String>();
+        errorMap.put("message", e.getMessage());
         return new ResponseEntity<String>(new Gson().toJson(errorMap),
                 new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }

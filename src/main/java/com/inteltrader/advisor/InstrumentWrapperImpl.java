@@ -34,7 +34,7 @@ public class InstrumentWrapperImpl implements InstrumentWrapper {
 
     @Override
     public State.Builder getStateBuilder(int i) throws IndexOutOfBoundsException {
-        if (i>=getInstrument().getPriceList().size())
+        if (i >= getInstrument().getPriceList().size())
             throw new IndexOutOfBoundsException();
         return new State.Builder();
     }

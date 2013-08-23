@@ -18,15 +18,16 @@ import javax.persistence.PersistenceContext;
 public class StatesDao implements IStatesDao {
     @PersistenceContext
     EntityManager entityManager;
+
     @Override
     public void createState(States states) {
-       entityManager.merge(states);
+        entityManager.merge(states);
 
     }
 
     @Override
     public States retrieveStates(String symbolName) {
         System.out.println("here1");
-        return entityManager.find(States.class,symbolName);
+        return entityManager.find(States.class, symbolName);
     }
 }

@@ -18,10 +18,11 @@ public class StateVo {
     CalculatorRSI.RSIState rsiState;
     CalculatorBollingerBands.BBandState bBandState;
     Advice greedyAdvice;
+
     public StateVo(State s) {
-        macdState=s.getMacdState();
-        rsiState=s.getRsiState();
-        bBandState=s.getbBandState();
-        greedyAdvice=s.getGreedyAdvice();
+        macdState = s.getMacdState();
+        rsiState = s.getRsiState();
+        bBandState = s.getbBandState();
+        greedyAdvice = s.getGreedyAdvice();
     }
 }

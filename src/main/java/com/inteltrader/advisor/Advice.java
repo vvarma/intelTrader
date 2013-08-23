@@ -10,7 +10,7 @@ package com.inteltrader.advisor;
 
 
 public enum Advice {
-    BUY,SELL,HOLD;
+    BUY, SELL, HOLD;
 
 
 }

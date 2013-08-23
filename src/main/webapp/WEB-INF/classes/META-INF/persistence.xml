@@ -13,5 +13,11 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
         <class>com.inteltrader.entity.States</class>
         <class>com.inteltrader.advisor.qlearning.State</class>
         <class>com.inteltrader.advisor.Advice</class>
+        <properties>
+            <property name="hibernate.dialect"
+                      value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto"
+                      value="update"/>
+        </properties>
     </persistence-unit>
 </persistence>

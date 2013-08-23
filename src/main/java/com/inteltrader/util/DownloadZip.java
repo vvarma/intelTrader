@@ -1,7 +1,6 @@
 package com.inteltrader.util;
 
 
-
 import org.apache.log4j.Logger;
 
 import java.io.FileInputStream;
@@ -19,12 +18,12 @@ import java.util.Properties;
  * To change this template use File | Settings | File Templates.
  */
 
-public class DownloadZip  {
-    Logger logger= Logger.getLogger(this.getClass());
+public class DownloadZip {
+    Logger logger = Logger.getLogger(this.getClass());
     Properties properties;
 
     public DownloadZip(Properties properties) {
-        this.properties=properties;
+        this.properties = properties;
     }
 
     public void downloadZip(String urlFormed) throws IOException {
@@ -42,10 +41,10 @@ public class DownloadZip  {
         InputStream reader = url.openStream();
 
 	        /*
-	         * Setup a buffered file writer to write
+             * Setup a buffered file writer to write
 	         * out what we read from the website.
 	         */
-        String path=properties.getProperty("TEMP_PATH");
+        String path = properties.getProperty("TEMP_PATH");
         FileOutputStream writer = new FileOutputStream(path);
         byte[] buffer = new byte[153600];
         int totalBytesRead = 0;

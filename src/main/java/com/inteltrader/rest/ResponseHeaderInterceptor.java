@@ -20,7 +20,7 @@ public class ResponseHeaderInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("Allowing Cross Origin Access");
-        response.setHeader("Access-Control-Allow-Origin","*");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return true;
     }
 

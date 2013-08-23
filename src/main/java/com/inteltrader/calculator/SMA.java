@@ -24,12 +24,12 @@ public class SMA {
 
 
     */
-    public static double calculateSMA(int period,List<Price> priceList){
-        int doubleListSize=priceList.size();
-        Double smaSum=0.0;
-        for(Price price:priceList.subList(doubleListSize-period,doubleListSize)){
-            smaSum+=price.getClosePrice();
+    public static double calculateSMA(int period, List<Price> priceList) {
+        int doubleListSize = priceList.size();
+        Double smaSum = 0.0;
+        for (Price price : priceList.subList(doubleListSize - period, doubleListSize)) {
+            smaSum += price.getClosePrice();
         }
-        return smaSum/period;
+        return smaSum / period;
     }
 }

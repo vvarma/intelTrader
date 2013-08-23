@@ -73,9 +73,9 @@ public class GlobalServiceRest {
     ResponseEntity<String> rollTodayTo(@PathVariable("rollDate") String rollDate, HttpServletRequest request) throws ParseException, OperationNotSupportedException, NoSuchFieldException, IOException, CloneNotSupportedException {
         StringBuilder builder = new StringBuilder();
         Calendar cal = parseToday(rollDate);
-        while(global.getCalendar().before(cal)||global.getCalendar().equals(cal)){
+        while (global.getCalendar().before(cal) || global.getCalendar().equals(cal)) {
             global.addCalendar();
-            Calendar c=global.getCalendar();
+            Calendar c = global.getCalendar();
             if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
                     || c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
                 continue;

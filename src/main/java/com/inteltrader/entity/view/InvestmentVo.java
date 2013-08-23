@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class InvestmentVo {
     private String symbolName;
-    private Integer quantity=0;
+    private Integer quantity = 0;
     private PriceVo currentPrice;
     private List<TransactionVo> transactionList;
     private double pnl;
@@ -41,12 +41,12 @@ public class InvestmentVo {
     }
 
     public InvestmentVo(Investment investment) {
-        pnl=investment.calcPnl();
-        transactionList=new ArrayList<TransactionVo>(investment.getTransactionsList().size());
-        symbolName=investment.getSymbolName();
-        quantity=investment.getQuantity();
-        currentPrice=new PriceVo(investment.getCurrentPrice());
-        for (Transactions transactions:investment.getTransactionsList()){
+        pnl = investment.calcPnl();
+        transactionList = new ArrayList<TransactionVo>(investment.getTransactionsList().size());
+        symbolName = investment.getSymbolName();
+        quantity = investment.getQuantity();
+        currentPrice = new PriceVo(investment.getCurrentPrice());
+        for (Transactions transactions : investment.getTransactionsList()) {
             transactionList.add(new TransactionVo(transactions));
         }
     }

@@ -11,7 +11,7 @@
     <url>/intelTrader</url>
     <packaging>war</packaging>
 
-     <build>
+    <build>
         <plugins>
             <plugin>
 
@@ -21,7 +21,7 @@
                 <configuration>
                     <path>/</path>
                     <port>8080</port>
-                    <warFile>${project.basedir}/intelTrader.war</warFile>
+                    <warFile>${project.basedir}/wesplit.war</warFile>
                 </configuration>
 
             </plugin>
@@ -45,7 +45,7 @@
             <artifactId>spring-webmvc</artifactId>
             <version>3.2.1.RELEASE</version>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>3.2.1.RELEASE</version>

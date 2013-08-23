@@ -18,12 +18,13 @@ public class StatesVo {
     Set<StateVo> stateVoSet;
     StateVo presentState;
     Advice presentAdvice;
+
     public StatesVo(States states) {
-        stateVoSet=new HashSet<StateVo>();
-        for (State s:states.getStateSet()){
+        stateVoSet = new HashSet<StateVo>();
+        for (State s : states.getStateSet()) {
             stateVoSet.add(new StateVo(s));
         }
-        presentState=new StateVo(states.getPresentState());
-        presentAdvice=states.getPresentAdvice();
+        presentState = new StateVo(states.getPresentState());
+        presentAdvice = states.getPresentAdvice();
     }
 }

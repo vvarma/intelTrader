@@ -19,6 +19,7 @@ import java.util.List;
 public class PortfolioDao implements IPortfolioDao {
     @PersistenceContext
     EntityManager entityManager;
+
     @Override
     public void createPortfolio(Portfolio portfolio) {
         entityManager.persist(portfolio);
@@ -37,8 +38,8 @@ public class PortfolioDao implements IPortfolioDao {
 
     @Override
     public Portfolio retrievePortfolio(String portfolioName) throws NoSuchFieldException {
-        Portfolio portfolio=entityManager.find(Portfolio.class,portfolioName);
-        if (portfolio==null){
+        Portfolio portfolio = entityManager.find(Portfolio.class, portfolioName);
+        if (portfolio == null) {
             throw new NoSuchFieldException(portfolioName + " not found");
         }
         return portfolio;
@@ -46,8 +47,8 @@ public class PortfolioDao implements IPortfolioDao {
 
     @Override
     public List<String> retrieveAllPortfolios() {
-        String query="select p.portfolioName from Portfolio p";
-        List<String> resultList=entityManager.createQuery(query).getResultList();
+        String query = "select p.portfolioName from Portfolio p";
+        List<String> resultList = entityManager.createQuery(query).getResultList();
         return resultList;
     }
 }

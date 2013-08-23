@@ -14,8 +14,12 @@ import java.util.List;
  */
 public interface IPortfolioDao {
     void createPortfolio(Portfolio portfolio);
+
     void updatePortfolio(Portfolio portfolio);
+
     void deletePortfolio(Portfolio portfolio);
+
     Portfolio retrievePortfolio(String portfolioName) throws NoSuchFieldException;
+
     List<String> retrieveAllPortfolios();
 }

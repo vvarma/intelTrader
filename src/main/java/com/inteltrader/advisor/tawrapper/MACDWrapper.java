@@ -21,11 +21,11 @@ public class MACDWrapper extends TAWrapper {
     private List<Double> macdList;
     private List<Double> macdSignalList;
     private List<Double> macdHistList;
-    private CalculatorMACD  calculator;
+    private CalculatorMACD calculator;
 
-    public MACDWrapper(InstrumentWrapper instrumentWrapper, String desc)  {
+    public MACDWrapper(InstrumentWrapper instrumentWrapper, String desc) {
         super(instrumentWrapper);
-        this.desc=desc;
+        this.desc = desc;
         macdHistList = new ArrayList<Double>();
         macdList = new ArrayList<Double>();
         macdSignalList = new ArrayList<Double>();

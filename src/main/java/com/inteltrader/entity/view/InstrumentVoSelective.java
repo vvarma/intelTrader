@@ -26,31 +26,33 @@ public class InstrumentVoSelective {
         this.endDate = endDate;
         this.priceList = priceList;
     }
-    public enum WhichPrice{
-        CLOSE,OPEN;
+
+    public enum WhichPrice {
+        CLOSE, OPEN;
     }
-    public static InstrumentVoSelective buildInstrumentVo(Instrument instrument, WhichPrice whichPrice){
-        List<Double> priceList=new ArrayList<Double>();
-        switch (whichPrice){
-             case CLOSE:
-                 for (Price price:instrument.getPriceList()){
-                     priceList.add(price.getClosePrice());
-                 }
-                 break;
-             case OPEN:
-                 for (Price price:instrument.getPriceList()){
-                     priceList.add(price.getOpenPrice());
-                 }
-                 break;
-             default:
-                 for (Price price:instrument.getPriceList()){
-                     priceList.add(price.getClosePrice());
-                 }
-         }
-        Date startDate=instrument.getPriceList().get(0).getTimeStamp().getTime();
-        int index=instrument.getPriceList().size()-1;
-        Date endDate=instrument.getPriceList().get(index).getTimeStamp().getTime();
-        return new InstrumentVoSelective(instrument.getSymbolName(),startDate,endDate,priceList);
+
+    public static InstrumentVoSelective buildInstrumentVo(Instrument instrument, WhichPrice whichPrice) {
+        List<Double> priceList = new ArrayList<Double>();
+        switch (whichPrice) {
+            case CLOSE:
+                for (Price price : instrument.getPriceList()) {
+                    priceList.add(price.getClosePrice());
+                }
+                break;
+            case OPEN:
+                for (Price price : instrument.getPriceList()) {
+                    priceList.add(price.getOpenPrice());
+                }
+                break;
+            default:
+                for (Price price : instrument.getPriceList()) {
+                    priceList.add(price.getClosePrice());
+                }
+        }
+        Date startDate = instrument.getPriceList().get(0).getTimeStamp().getTime();
+        int index = instrument.getPriceList().size() - 1;
+        Date endDate = instrument.getPriceList().get(index).getTimeStamp().getTime();
+        return new InstrumentVoSelective(instrument.getSymbolName(), startDate, endDate, priceList);
 
     }
 

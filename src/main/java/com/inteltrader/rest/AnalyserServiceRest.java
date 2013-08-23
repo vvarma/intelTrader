@@ -61,9 +61,9 @@ public class AnalyserServiceRest {
     @RequestMapping(value = "/states/{statesName}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> getStates(@PathVariable("statesName") String statesName,HttpServletRequest request) throws NoSuchFieldException {
-        States states=analyserService.getStates(statesName);
-        StatesVo statesVo=new StatesVo(states);
+    ResponseEntity<String> getStates(@PathVariable("statesName") String statesName, HttpServletRequest request) throws NoSuchFieldException {
+        States states = analyserService.getStates(statesName);
+        StatesVo statesVo = new StatesVo(states);
         return new ResponseEntity<String>(new Gson().toJson(statesVo),
                 new HttpHeaders(), HttpStatus.OK);
     }

@@ -23,7 +23,7 @@ public class RSIWrapper extends TAWrapper {
 
     public RSIWrapper(InstrumentWrapper instrumentWrapper, String desc) {
         super(instrumentWrapper);
-        this.desc=desc;
+        this.desc = desc;
         rsiList = new ArrayList<Double>();
         calculator = new CalculatorRSI(Integer.MAX_VALUE);
         calculator.calcRSI(getInstrument(), rsiList);
@@ -41,12 +41,13 @@ public class RSIWrapper extends TAWrapper {
         }
 
     }
+
     private void updateRsiWrapper() throws IOException {
         List<Double> tempRsiList = new ArrayList<Double>();
         calculator.setNoOutEle(1);
         calculator.calcRSI(getInstrument(), tempRsiList);
         rsiList.remove(0);
-       rsiList.add(tempRsiList.get(0));
+        rsiList.add(tempRsiList.get(0));
     }
 
     @Override
@@ -58,7 +59,7 @@ public class RSIWrapper extends TAWrapper {
         return calculator.getRSIState(rsiList.get(index));  //To change body of created methods use File | Settings | File Templates.
     }
 
-    private CalculatorRSI.RSIState updateWrapperAndReturnState() throws IOException{
+    private CalculatorRSI.RSIState updateWrapperAndReturnState() throws IOException {
         updateRsiWrapper();
         int index = rsiList.size() - 1;
         CalculatorRSI.RSIState rsiState = calculator.getRSIState(rsiList.get(index));

@@ -49,7 +49,7 @@ public class QLearning implements Advisor {
 
     public void initAdvisor(Instrument instrument, States states, String token) {
         initWrapper(instrument, token.split("-"));
-        initStates(states,token);
+        initStates(states, token);
     }
 
     public void initWrapper(Instrument instrument, String... token) {
@@ -57,12 +57,12 @@ public class QLearning implements Advisor {
         wrapper = TAWrapper.WrapMaker(instrument, token);
     }
 
-    private void initStates(States states,String token) {
+    private void initStates(States states, String token) {
         if (states == null) {
             System.out.println("states null");
             states = new States();
             states.setStateSet(trainer.initTrain());
-            states.setSymbolNamme(wrapper.getInstrument().getSymbolName()+"-"+token);
+            states.setSymbolNamme(wrapper.getInstrument().getSymbolName() + "-" + token);
         }
         int index = wrapper.getInstrument().getPriceList().size() - 1;
         State prState = wrapper.getStateBuilder(index).build();

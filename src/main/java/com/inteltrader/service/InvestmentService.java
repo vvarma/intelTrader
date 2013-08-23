@@ -11,6 +11,7 @@ import com.inteltrader.entity.Investment;
  * To change this template use File | Settings | File Templates.
  */
 public interface InvestmentService {
-    void makeInvestment(Advice advice,Investment investment);
+    void makeInvestment(Advice advice, Investment investment);
+
     double calcPnl();
 }

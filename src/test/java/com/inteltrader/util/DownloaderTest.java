@@ -20,26 +20,28 @@ import java.io.IOException;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/test/resources/test-Context.xml"})
-public class DownloaderTest implements IConstants{
+public class DownloaderTest implements IConstants {
     @Autowired
     Global global;
+
     @Test
-    public void downloadFileForGivenDate(){
-        String url="http://www.nseindia.com/content/historical/EQUITIES/2013/JAN/cm09JAN2013bhav.csv.zip";
+    public void downloadFileForGivenDate() {
+        String url = "http://www.nseindia.com/content/historical/EQUITIES/2013/JAN/cm09JAN2013bhav.csv.zip";
         try {
-            DownloadZip downloader=new DownloadZip(global.getProperties());
+            DownloadZip downloader = new DownloadZip(global.getProperties());
             downloader.downloadZip(url);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
     }
+
     @Test
-    public void downloadAndExtractFileForGivenDate(){
-        String url="http://www.nseindia.com/content/historical/EQUITIES/2013/JAN/cm09JAN2013bhav.csv.zip";
+    public void downloadAndExtractFileForGivenDate() {
+        String url = "http://www.nseindia.com/content/historical/EQUITIES/2013/JAN/cm09JAN2013bhav.csv.zip";
         try {
-            DownloadZip downloader=new DownloadZip(global.getProperties());
-            ExtractZipFile extractZipFile=new ExtractZipFile(global.getProperties());
+            DownloadZip downloader = new DownloadZip(global.getProperties());
+            ExtractZipFile extractZipFile = new ExtractZipFile(global.getProperties());
             downloader.downloadZip(url);
             extractZipFile.extractTemp();
         } catch (IOException e) {

@@ -14,7 +14,8 @@ import java.lang.reflect.Method;
  * To change this template use File | Settings | File Templates.
  */
 public class BeforeAndAfterLogger {
-    private Logger logger=Logger.getLogger(this.getClass());
+    private Logger logger = Logger.getLogger(this.getClass());
+
     public Object aroundMethod(ProceedingJoinPoint point) throws Throwable {
         Object retVal = null;
 
@@ -29,11 +30,11 @@ public class BeforeAndAfterLogger {
 
             long stopTime = System.currentTimeMillis();
 
-           logger.trace("Returning :" + method.getName() + "(" + signature + ")"
+            logger.trace("Returning :" + method.getName() + "(" + signature + ")"
                     + ". Took " + String.valueOf(stopTime - startTime) + " ms.");
         } catch (Throwable throwable) {
 
-            logger.error("Error :" + point.toString() + " threw exception = "+throwable.toString());
+            logger.error("Error :" + point.toString() + " threw exception = " + throwable.toString());
             throw throwable;
         }
 

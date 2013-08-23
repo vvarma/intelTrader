@@ -25,32 +25,34 @@ public class InvestmentServiceImpl implements InvestmentService {
     Global global;
     @Autowired
     private InstrumentService instrumentService;
-    private Logger logger=Logger.getLogger(this.getClass());
+    private Logger logger = Logger.getLogger(this.getClass());
+
     @Override
     public void makeInvestment(Advice advice, Investment investment) {
         logger.debug("Making Investment..");
-        int tradeQuantity=Integer.parseInt(global.getProperties().getProperty("TRADE_QUANTITY"));
-        int actTradeQuantity=0;
-         switch (advice){
+        int tradeQuantity = Integer.parseInt(global.getProperties().getProperty("TRADE_QUANTITY"));
+        int actTradeQuantity = 0;
+        switch (advice) {
             case BUY:
-                if (investment.getQuantity()<0)
-                    actTradeQuantity=tradeQuantity-investment.getQuantity();
+                if (investment.getQuantity() < 0)
+                    actTradeQuantity = tradeQuantity - investment.getQuantity();
                 else
-                    actTradeQuantity=tradeQuantity;
+                    actTradeQuantity = tradeQuantity;
 
                 break;
             case SELL:
-                if (investment.getQuantity()>0)
-                    actTradeQuantity=-tradeQuantity-investment.getQuantity();
+                if (investment.getQuantity() > 0)
+                    actTradeQuantity = -tradeQuantity - investment.getQuantity();
                 else
-                    actTradeQuantity=-tradeQuantity;
+                    actTradeQuantity = -tradeQuantity;
                 break;
-            default:break;
+            default:
+                break;
         }
-        investment.setQuantity(investment.getQuantity()+actTradeQuantity);
-        investment.getTransactionsList().add(new Transactions(actTradeQuantity,investment.getCurrentPrice(), global.getCalendar().getTime())) ;
-        logger.debug("Investment :"+investment.getSymbolName() +" advice :"+advice+
-                " present quantity :"+investment.getQuantity()+" present price :"+investment.getCurrentPrice().getClosePrice());
+        investment.setQuantity(investment.getQuantity() + actTradeQuantity);
+        investment.getTransactionsList().add(new Transactions(actTradeQuantity, investment.getCurrentPrice(), global.getCalendar().getTime()));
+        logger.debug("Investment :" + investment.getSymbolName() + " advice :" + advice +
+                " present quantity :" + investment.getQuantity() + " present price :" + investment.getCurrentPrice().getClosePrice());
     }
 
     @Override

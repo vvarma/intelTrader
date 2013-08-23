@@ -18,26 +18,27 @@ public class Aivehi implements IConstants {
         global = new Global();
     }
 
-    public String getFuckinPath(){
+    public String getFuckinPath() {
 
-        String url="http://www.nseindia.com/content/historical/EQUITIES/2013/JAN/cm09JAN2013bhav.csv.zip";
+        String url = "http://www.nseindia.com/content/historical/EQUITIES/2013/JAN/cm09JAN2013bhav.csv.zip";
         try {
-            DownloadZip downloader=new DownloadZip(global.getProperties());
-            ExtractZipFile extractZipFile=new ExtractZipFile(global.getProperties());
+            DownloadZip downloader = new DownloadZip(global.getProperties());
+            ExtractZipFile extractZipFile = new ExtractZipFile(global.getProperties());
             downloader.downloadZip(url);
             extractZipFile.extractTemp();
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        return"blah";
+        return "blah";
     }
-    public String getFuckinPathData(){
-        InputStream ip= getClass().getResourceAsStream("/intel.properties");
-        Properties properties=new Properties();
+
+    public String getFuckinPathData() {
+        InputStream ip = getClass().getResourceAsStream("/intel.properties");
+        Properties properties = new Properties();
         try {
             properties.load(ip);
-            String s=properties.getProperty("DATA_PATH")+"\\abc.txt" ;
-            BufferedWriter wr=new BufferedWriter(new FileWriter(s));
+            String s = properties.getProperty("DATA_PATH") + "\\abc.txt";
+            BufferedWriter wr = new BufferedWriter(new FileWriter(s));
             wr.write("fuck this shit yo123");
             wr.flush();
             wr.close();
