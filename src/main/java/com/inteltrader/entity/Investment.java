@@ -131,7 +131,7 @@ public class Investment implements Serializable {
 
         Investment that = (Investment) o;
 
-        if (investmentId != that.investmentId) return false;
+        if (!associatedPortfolio.equals(that.associatedPortfolio)) return false;
         if (!symbolName.equals(that.symbolName)) return false;
 
         return true;
@@ -139,8 +139,8 @@ public class Investment implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = investmentId;
-        result = 31 * result + symbolName.hashCode();
+        int result = symbolName.hashCode();
+        result = 31 * result + associatedPortfolio.hashCode();
         return result;
     }
 
