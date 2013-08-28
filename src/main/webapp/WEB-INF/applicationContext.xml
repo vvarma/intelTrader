@@ -75,18 +75,6 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
         <beans:property name="entityManagerFactory" ref="entityManagerFactory"/>
     </beans:bean>
 
-    <!--<aop:config>
-        <aop:pointcut id="allDaoMethods" expression="execution(* com.inteltrader.dao.*.*(..))"/>
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="allDaoMethods"/>
-    </aop:config>
-
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="*" propagation="SUPPORTS" read-only="true"/>
-        </tx:attributes>
-    </tx:advice>-->
-
-
     <context:component-scan base-package="com.inteltrader"/>
 
     <!--for logging before and after using AOP-->

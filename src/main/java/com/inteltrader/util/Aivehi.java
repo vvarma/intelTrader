@@ -36,7 +36,7 @@ public class Aivehi implements IConstants {
         Properties properties=new Properties();
         try {
             properties.load(ip);
-            String s=properties.getProperty("DATA_PATH")+"\\abc.txt" ;
+            String s=System.getProperty("java.io.tmpdir")+"/abc.txt" ;
             BufferedWriter wr=new BufferedWriter(new FileWriter(s));
             wr.write("fuck this shit yo123");
             wr.flush();

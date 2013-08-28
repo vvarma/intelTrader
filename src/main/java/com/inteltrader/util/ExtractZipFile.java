@@ -26,13 +26,13 @@ public class ExtractZipFile  {
 
     public String extractTemp() throws IOException {
 
-        String fName = properties.getProperty("TEMP_PATH");
+        String fName = System.getProperty("java.io.tmpdir")+properties.getProperty("TEMP_PATH");
         String entryName = "";
         byte[] buf = new byte[1024];
         ZipInputStream zinstream = new ZipInputStream(
                 new FileInputStream(fName));
         ZipEntry zentry = zinstream.getNextEntry();
-        String path = properties.getProperty("DATA_PATH");
+        String path = System.getProperty("java.io.tmpdir");
         logger.debug(path);
         while (zentry != null) {
             entryName = zentry.getName();

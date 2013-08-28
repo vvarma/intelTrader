@@ -45,7 +45,7 @@ public class DownloadZip  {
 	         * Setup a buffered file writer to write
 	         * out what we read from the website.
 	         */
-        String path=properties.getProperty("TEMP_PATH");
+        String path=System.getProperty("java.io.tmpdir")+properties.getProperty("TEMP_PATH");
         FileOutputStream writer = new FileOutputStream(path);
         byte[] buffer = new byte[153600];
         int totalBytesRead = 0;

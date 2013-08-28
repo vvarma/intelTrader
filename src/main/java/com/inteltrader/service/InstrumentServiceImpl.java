@@ -108,7 +108,7 @@ public class InstrumentServiceImpl implements InstrumentService {
     private Instrument getSingleInstrumentGivenDateAndName(
             Calendar startDate, Calendar endDate, String symbol) throws NoSuchFieldException {
         Instrument instrument = new Instrument(symbol);
-        String path = global.getProperties().getProperty("DATA_PATH");
+        String path = System.getProperty("java.io.tmpdir")+"/";
         do{
             startDate.add(Calendar.DATE,1);
             String fileName = path;
@@ -117,8 +117,10 @@ public class InstrumentServiceImpl implements InstrumentService {
                     String genFileName = createFilenamGivenDate(startDate);
                     File file = new File(fileName + genFileName);
                     if (file.exists()) {
+                        logger.debug("file exists" + file.getPath()+'\n');
                         fileName = fileName + genFileName;
                     } else {
+                        logger.debug("file does not exist" +file.getPath() +"...downloading\n");
                         fileName = fileName
                                 + createUrlDownloadAndExtractFileGivenDate(startDate);
                     }
