@@ -71,9 +71,9 @@ public class PortfolioServiceImpl implements PortfolioService {
         Investment investment = new Investment(symbolName);
         investment.setCurrentPrice(getCurrentInstrumentPrice(symbolName));
         investmentService.makeInvestment(analyserService.getAnalysis(symbolName, portfolio.getDesc()), investment);
+        investment.setAssociatedPortfolio(portfolio);
         if (!portfolio.getInvestmentList().contains(investment))
             portfolio.getInvestmentList().add(investment);
-        investment.setAssociatedPortfolio(portfolio);
         portfolio.setLastUpdatedOn(global.getCalendar());
         return RestCodes.SUCCESS;
     }
