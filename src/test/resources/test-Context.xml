@@ -46,7 +46,8 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
     </beans:bean>
     <beans:bean id="statesDao" class="com.inteltrader.dao.StatesDao">
     </beans:bean>
-
+    <beans:bean id="instrumentServiceImpl" class="com.inteltrader.service.InstrumentServiceImpl">
+    </beans:bean>
     <!-- Application Service Layer -->
     <beans:bean id="instrumentService" class="com.inteltrader.service.InstrumentServiceImpl">
     </beans:bean>

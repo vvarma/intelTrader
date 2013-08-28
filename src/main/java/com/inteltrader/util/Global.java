@@ -22,7 +22,7 @@ public class Global {
 
     public Global() throws IOException {
         calendar = new GregorianCalendar();
-        calendar.set(2013, 00, 01);
+        calendar.set(2013, 00, 01,00,00,00);
         properties = new Properties();
         properties.load(getClass().getResourceAsStream("/intel.properties"));
     }
@@ -32,7 +32,7 @@ public class Global {
     }
 
     public void setCalendar(Calendar calendar2) throws OperationNotSupportedException {
-        if (calendar2.before(calendar) || calendar2.after(new GregorianCalendar())) {
+        if (beforeDate(calendar2,calendar) || afterDate(calendar2,new GregorianCalendar())) {
             throw new OperationNotSupportedException("Not a valid date.");
         }
         calendar.setTime(calendar2.getTime());
@@ -47,5 +47,38 @@ public class Global {
 
     public Properties getProperties() {
         return properties;
+    }
+    public static boolean beforeDate(Calendar a, Calendar b) {
+        if (a.get(Calendar.YEAR) < b.get(Calendar.YEAR)) {
+            return true;
+        } else if (a.get(Calendar.MONTH) < b.get(Calendar.MONTH)) {
+            return true;
+        } else if (a.get(Calendar.DATE) < b.get(Calendar.DATE)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public static boolean afterDate(Calendar a, Calendar b) {
+        if (a.get(Calendar.YEAR) > b.get(Calendar.YEAR)) {
+            return true;
+        } else if (a.get(Calendar.MONTH) > b.get(Calendar.MONTH)) {
+            return true;
+        } else if (a.get(Calendar.DATE) > b.get(Calendar.DATE)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean setProperties(String brokerage, Double brokerage1) {
+        if (brokerage.equalsIgnoreCase("brokerage")){
+            if (brokerage1<0){
+                return false;
+            }
+            properties.setProperty("BROKERAGE",brokerage1.toString());
+
+        }
+        return true;
     }
 }

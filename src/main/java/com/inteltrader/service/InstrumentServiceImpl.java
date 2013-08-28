@@ -62,6 +62,7 @@ public class InstrumentServiceImpl implements InstrumentService {
 
 
     @Override
+
     public RestCodes updateInstruments(String symbolName) throws NoSuchFieldException {
         logger.debug("Updating Instruments..");
 
@@ -71,7 +72,7 @@ public class InstrumentServiceImpl implements InstrumentService {
         Calendar endDate = global.getCalendar();
         //from start to end start excluded end included
         Instrument temp = getSingleInstrumentGivenDateAndName(startDate, endDate, symbolName);
-        if (temp.getPriceList().size() > 0) {
+       if (temp.getPriceList().size() > 0) {
             instrument.getPriceList().addAll(temp.getPriceList());
             logger.trace("Writing instrument to Dao");
             instrumentDao.updateInstrument(instrument);
@@ -104,11 +105,12 @@ public class InstrumentServiceImpl implements InstrumentService {
         return RestCodes.SUCCESS;
     }
 
-    private Instrument getSingleInstrumentGivenDateAndName(
+    public Instrument getSingleInstrumentGivenDateAndName(
             Calendar startDate, Calendar endDate, String symbol) throws NoSuchFieldException {
         Instrument instrument = new Instrument(symbol);
         String path = global.getProperties().getProperty("DATA_PATH");
-        do {
+
+        while (Global.beforeDate(startDate,endDate)) {
             startDate.add(Calendar.DATE, 1);
             String fileName = path;
             if (isWeekDay(startDate)) {
@@ -132,7 +134,7 @@ public class InstrumentServiceImpl implements InstrumentService {
 
             }
 
-        } while (startDate.before(endDate));
+        }
         return instrument;
     }
 
@@ -219,4 +221,6 @@ public class InstrumentServiceImpl implements InstrumentService {
     public void setPortfolioService(PortfolioService portfolioService) {
         this.portfolioService = portfolioService;
     }
+
+
 }

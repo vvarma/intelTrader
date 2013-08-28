@@ -45,9 +45,11 @@ public class PortfolioServiceImpl implements PortfolioService {
         logger.debug("Updating Portfolio..");
         Portfolio portfolio = portfolioDao.retrievePortfolio(portfolioName);
         for (Investment investment : portfolio.getInvestmentList()) {
-            /*||instrumentService.retrieveInstrument(investment.getSymbolName()).getCurrentPrice().getTimeStamp().after(portfolio.getLastUpdatedOn())*/
-            if (instrumentService.updateInstruments(investment.getSymbolName()) == RestCodes.SUCCESS) {
-                investment.setCurrentPrice(getCurrentInstrumentPrice(investment.getSymbolName()));
+            instrumentService.updateInstruments(investment.getSymbolName());
+            /*||instrumentServiceImpl.retrieveInstrument(investment.getSymbolName()).getCurrentPrice().getTimeStamp().after(portfolio.getLastUpdatedOn())*/
+            Price price=getCurrentInstrumentPrice(investment.getSymbolName());
+            if (Global.afterDate(price.getTimeStamp(),portfolio.getLastUpdatedOn())) {
+                investment.setCurrentPrice(price);
                 logger.debug("Updating Investment :" + investment.getSymbolName() + investment.getCurrentPrice().getClosePrice());
                 investmentService.makeInvestment(analyserService.getAnalysis(investment.getSymbolName(), portfolio.getDesc()), investment);
             }
