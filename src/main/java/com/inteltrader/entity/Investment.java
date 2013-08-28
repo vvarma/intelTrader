@@ -125,11 +125,11 @@ public class Investment implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Investment)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Investment that = (Investment) o;
 
-        if (investmentId != that.investmentId) return false;
+        if (!associatedPortfolio.equals(that.associatedPortfolio)) return false;
         if (!symbolName.equals(that.symbolName)) return false;
 
         return true;
@@ -137,10 +137,11 @@ public class Investment implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = investmentId;
-        result = 31 * result + symbolName.hashCode();
+        int result = symbolName.hashCode();
+        result = 31 * result + associatedPortfolio.hashCode();
         return result;
     }
+
     public double calcPnl(){
         double pnl=0.0;
         double invested = 0.0;

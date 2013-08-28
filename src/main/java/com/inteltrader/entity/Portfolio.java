@@ -40,12 +40,10 @@ public class Portfolio implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Portfolio)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Portfolio portfolio = (Portfolio) o;
 
-        if (!desc.equals(portfolio.desc)) return false;
-        if (!investmentList.equals(portfolio.investmentList)) return false;
         if (!portfolioName.equals(portfolio.portfolioName)) return false;
 
         return true;
@@ -53,10 +51,7 @@ public class Portfolio implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = portfolioName.hashCode();
-        result = 31 * result + desc.hashCode();
-        result = 31 * result + investmentList.hashCode();
-        return result;
+        return portfolioName.hashCode();
     }
 
     public Calendar getLastUpdatedOn() {

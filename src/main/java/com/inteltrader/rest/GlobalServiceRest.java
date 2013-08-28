@@ -35,6 +35,31 @@ public class GlobalServiceRest {
     @Autowired
     PortfolioService portfolioService;
 
+    @RequestMapping(value = "/getBrokerage", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseEntity<String> getBrokerage(HttpServletRequest request) throws ParseException, OperationNotSupportedException {
+        double brokerage = Double.parseDouble(global.getProperties().getProperty("BROKERAGE"));
+        Map<String, Double> brokerageMap = new HashMap<String, Double>();
+        brokerageMap.put("BROKERAGE", brokerage);
+        return new ResponseEntity<String>(new Gson().toJson(brokerageMap),
+                new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/setBrokerage/{brokerage}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ResponseEntity<String> setBrokerage(@PathVariable("brokerage") String brokerage, HttpServletRequest request) throws ParseException, OperationNotSupportedException {
+        Double brokerageDouble = Double.parseDouble(brokerage);
+        if (global.setProperties("Brokerage", brokerageDouble))
+            return new ResponseEntity<String>("yo",
+                    new HttpHeaders(), HttpStatus.OK);
+        else{
+            return new ResponseEntity<String>("invalid",
+                    new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @RequestMapping(value = "/setTime/{today}", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -57,7 +82,13 @@ public class GlobalServiceRest {
     @RequestMapping(value = "/getTime", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseEntity<String> getGlobalTime(HttpServletRequest request) {
+    ResponseEntity<String> getGlobalTime(HttpServletRequest request) throws NoSuchFieldException, OperationNotSupportedException {
+        for (String s : portfolioService.listAllPortfolios()) {
+            Calendar lastUpdatedOn = portfolioService.retrievePortfolio(s).getLastUpdatedOn();
+            if (Global.beforeDate(global.getCalendar(), lastUpdatedOn)) {
+                global.setCalendar((Calendar) lastUpdatedOn.clone());
+            }
+        }
         Calendar today = global.getCalendar();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String todayString = sdf.format(today.getTime());
@@ -73,7 +104,7 @@ public class GlobalServiceRest {
     ResponseEntity<String> rollTodayTo(@PathVariable("rollDate") String rollDate, HttpServletRequest request) throws ParseException, OperationNotSupportedException, NoSuchFieldException, IOException, CloneNotSupportedException {
         StringBuilder builder = new StringBuilder();
         Calendar cal = parseToday(rollDate);
-        while(global.getCalendar().before(cal)||global.getCalendar().equals(cal)){
+        while(Global.beforeDate(global.getCalendar(), cal)){
             global.addCalendar();
             Calendar c=global.getCalendar();
             if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
